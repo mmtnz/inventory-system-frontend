@@ -1,0 +1,216 @@
+
+:root {
+    --color-form-border: hsl(0, 0%, 80%);
+    --color-form-background: hsl(0, 0%, 100%);
+    --color-tag-background: hsl(0, 0%, 90%);
+}
+
+/* @media (prefers-color-scheme: dark) {} */
+/* body.dark-mode change className */
+
+
+/* Apply box-sizing to all elements for better layout control */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    /* FUENTES */
+    font-family: 'Segoe UI', Roboto;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: antialiased;
+}
+
+#header {
+    background: hsl(231, 50%, 44%);
+    height: 50px;
+    width: 100%
+}
+
+.center {
+    width: 75%;
+    margin: 0px auto;
+}
+
+.list-item {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    text-align: left;
+}
+
+.list-item .image-wrap {
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    float: left;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+}
+
+.list-item .image-wrap img{
+    height: 100%;
+    text-align: center;
+}
+
+.list-item h2{
+    display: block;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 7px;
+}
+
+.clearfix {
+    clear: both; /* Para colocar los elementos debajo y no al lado */
+    float: none;
+}
+
+
+.item img {
+    width: 400px;
+    height: 300px;
+}
+
+
+/* FORM */
+
+/* .search-button {
+    width: 20px;
+    height: 20px;
+} */
+
+.new-form {
+    width: 50%;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+}
+
+.formGroup {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 4px;
+}
+
+input[type="text"], textarea, input[type="file"]{
+    width: 100%;
+    height: 30px;
+    border: 1px solid var(--color-form-border);
+    padding: 3px;
+    margin-bottom: 5px;
+    transition: 300ms all;
+}
+
+textarea {
+    height: 80px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 80px;
+    max-height: 300px;
+}
+
+.tags-input-container{
+    width: 100%;
+    height: 100%;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 4px;
+    margin: 6px 0px 6px;
+}
+
+.tags-input-container .button-container{
+    width:100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.tag-item {
+    /* background-color: blue; */
+    /* border: 0px solid blu/; */
+    border-radius: 2px;
+    background-color: var(--color-tag-background);
+    width: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 2px;
+    color: hsl(0, 0%, 20%);
+    font-size: 85%;
+    /* padding: 3px; */
+    padding-left: 6px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+}
+
+.close-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.close-button:hover{
+    background-color: rgb(255, 189, 173);
+    color: rgb(222, 53, 11);
+}
+
+.tag-item .close{
+    /* cursor: pointer; */
+    display: inline-block;
+    fill: currentColor;
+    line-height: 1;
+    stroke: currentColor;
+    stroke-width: 0;
+    margin-left: 4px;
+    margin-right: 4px;
+    /* height: 100%; */
+}
+
+
+.tag-item .tag{
+    padding: 3px;
+}
+
+/*tag selector*/
+.css-b62m3t-container{
+    width: 100%;
+}
+
+.css-13cymwt-control:hover, .css-13cymwt-control:active{
+    border-color: black;
+    box-shadow: 0 0 0 1px black !important;
+}
+
+.css-t3ipsp-control, .css-t3ipsp-control{
+    border-color: black !important;
+    box-shadow: 0 0 0 1px black !important;
+}
+
+.save-button-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/* validator messages */
+.srv-validation-message{
+    color: red;
+}
+
+
