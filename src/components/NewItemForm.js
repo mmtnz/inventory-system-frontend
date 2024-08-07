@@ -11,7 +11,8 @@ const NewItemForm = ({args}) => {
 
     const tagList = args.tagList;
     const locationObj = args.locationObj;
-    
+    const zonesList = locationObj != null ?  locationObj.zonesList : null;
+      
     const nameRef = React.createRef();
     const descriptionRef = React.createRef();
     const [otherNamesList, setOtherNamesList] = useState([]);
@@ -112,7 +113,7 @@ const NewItemForm = ({args}) => {
     }
 
     const changeLocation = (event) => {
-        setLocation(event.value)
+        setLocation(event.value);
     }
 
     return(
@@ -148,9 +149,9 @@ const NewItemForm = ({args}) => {
 
                 <div className="formGroup">
                     <label htmlFor='location'>Ubicación</label>
-                    <Select options={locationObj} onChange={changeLocation}/>
+                    <Select options={zonesList} onChange={changeLocation}/>
                     {location && 
-                        <Select options={locationObj}/>
+                        <Select options={locationObj.selfsObj[location]}/>
                     }
                     {validator.message('location', location, 'required')}
                 </div>
