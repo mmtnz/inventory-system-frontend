@@ -57,6 +57,7 @@ const NewItemForm = ({args}) => {
 
     const saveItem = async () => {
         try {
+            console.log(item)
             const itemResponse = await apiSaveItem(item);
             setItem(itemResponse);
             setError(null);
@@ -173,10 +174,10 @@ const NewItemForm = ({args}) => {
                 </div>
 
                 <div className="formGroup">
-                    <label htmlFor='description'  ref={descriptionRef}>
+                    <label htmlFor='description'>
                         Descripción
                     </label>
-                    <textarea maxLength={300}/>
+                    <textarea maxLength={300} ref={descriptionRef}/>
                 </div>
 
                 <div className='formGroup'>
