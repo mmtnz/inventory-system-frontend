@@ -32,27 +32,29 @@ const SearchPage = () => {
 
 
     return (
-        <div id="search-page">
-            <h1>Buscar</h1>
-            <SearchForm/>
-            {error && <p>{error}</p>}
-            {/* {results != null && results.length == 0 && 'no hay'} */}
-            <div className='center'>
-                <div id="content">
-                    {/* {results} */}
-                    {/* /<Articles searched={searched} /> */}
-                </div>
-                {(results != null && results.length == 0) ? 'no hay elementos' : 
-                (
-                    <ul>
-                        {results.map(result=> (
-                        <ItemWrap key={result.id} item={result}/>
-                        ))}
-                    </ul>
-                )}
+        <div id="search-page" className="center">
+            <section className="content">
+                <h1>Buscar</h1>
+                <SearchForm/>
+                {error && <p>{error}</p>}
+                {/* {results != null && results.length == 0 && 'no hay'} */}
+                <div className='center'>
+                    <div id="content">
+                        {/* {results} */}
+                        {/* /<Articles searched={searched} /> */}
+                    </div>
+                    {(results != null && results.length == 0) ? 'no hay elementos' : 
+                    (
+                        <ul>
+                            {results.map(result=> (
+                            <ItemWrap key={result.id} item={result}/>
+                            ))}
+                        </ul>
+                    )}
 
-                {/* <Sidebar /> */}
-            </div>
+                    {/* <Sidebar /> */}
+                </div>
+            </section>
 
         </div>
     )

@@ -18,7 +18,7 @@ const Router = () => {
                 <Route exact path ="/item/:id" element={<ItemPage/>}/>
                 <Route path= "/search" element={<SearchPage/>}/>
                 <Route path= "/new-item" element={<NewItemPage/>}/>
-                <Route path= "/edit-item" element={<EditItemPage/>}/>
+                <Route path= "/edit" element={<EditItemPage/>}/>
                 <Route path="*" element={
                     <React.Fragment>
                         <h1>Error</h1>

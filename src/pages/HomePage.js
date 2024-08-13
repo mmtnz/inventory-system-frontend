@@ -22,10 +22,10 @@ const HomePage = () => {
         <h1>Home Page</h1>
         <div className='option-button-container'>
           <div type="button">
-            <Link to="./search">Buscar</Link>
+            <Link to="/search">Buscar</Link>
           </div>
           <div type="button">
-            <Link to="./new-item">Nuevo elemento</Link>
+            <Link to="/new-item">Nuevo elemento</Link>
           </div>
         </div>
         

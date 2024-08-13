@@ -15,9 +15,11 @@ const NewItemForm = ({args}) => {
       
     const nameRef = React.createRef();
     const descriptionRef = React.createRef();
+    const [selectedTags, setSelectedTags] = useState([]);
     const [otherNamesList, setOtherNamesList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [location, setLocation] = useState(null);
+    const [sublocation, setSubLocation] = useState(null);
     const [item, setItem] = useState({});
 
     const [status, setStatus] = useState(null);
@@ -80,9 +82,7 @@ const NewItemForm = ({args}) => {
     }
 
     const uploadImage = async (itemId) => {
-        try {
-            console.log(item.id) //use state nos updating on time
-            
+        try {            
             const response = await apiUploadImage(selectedFile, itemId);
             Swal.fire({
                 title: 'Elemento creado',
@@ -101,12 +101,23 @@ const NewItemForm = ({args}) => {
     }
 
     const changeState = () => {
+        const auxLoc = `{location}`
         setItem({
             name: nameRef.current.value,
-            otherNamesList: otherNamesList, 
+            otherNamesList: otherNamesList,
+            tagsList: selectedTags,
+            location: location + "/" + sublocation,
             description: descriptionRef.current.value, 
         })
     };
+
+    const updateTagList = (tags) => {
+        const aux = [];
+        if (tags && tags.length > 0) {
+            tags.forEach(tag => aux.push(tag.value));
+        }
+        setSelectedTags(aux);
+    }
 
     const addFile = (event) => {
         setSelectedFile(event.target.files[0]); // Only one photo
@@ -114,6 +125,10 @@ const NewItemForm = ({args}) => {
 
     const changeLocation = (event) => {
         setLocation(event.value);
+    }
+
+    const changeSubLocation = (event) => {
+        setSubLocation(event.value);
     }
 
     return(
@@ -144,6 +159,7 @@ const NewItemForm = ({args}) => {
                     <Select
                         isMulti
                         options={tagList}
+                        onChange={updateTagList}
                     />
                 </div>
 
@@ -151,7 +167,7 @@ const NewItemForm = ({args}) => {
                     <label htmlFor='location'>Ubicación</label>
                     <Select options={zonesList} onChange={changeLocation}/>
                     {location && 
-                        <Select options={locationObj.selfsObj[location]}/>
+                        <Select options={locationObj.selfsObj[location]} onChange={changeSubLocation}/>
                     }
                     {validator.message('location', location, 'required')}
                 </div>

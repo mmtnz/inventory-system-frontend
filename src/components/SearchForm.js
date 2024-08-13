@@ -45,20 +45,30 @@ const SearchForm = () => {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder='Buscar'
-            />
-            <Select
-                isMulti
-                // value={selectedTags}
-                options={tagList}
-                onChange={onChangeTags}
-                placeholder="Seleccionar filtro" 
-            />
+        <form onSubmit={handleSubmit} className='search-form'>
+            <div className='formGroup'>
+                <label htmlFor="name">Nombre</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder='Buscar'
+                />
+            </div>
+            
+            <div className='formGroup'>
+                <label htmlFor="tags">Tags</label>
+                <Select
+                    isMulti
+                    // value={selectedTags}
+                    name="tags"
+                    options={tagList}
+                    onChange={onChangeTags}
+                    placeholder="Seleccionar filtro" 
+                />
+            </div>
+           
             <button
                 className="search-button"
                 type="submit"
@@ -66,7 +76,6 @@ const SearchForm = () => {
                 Buscar
             </button>
         </form>
-        
     );
 };
 export default SearchForm;

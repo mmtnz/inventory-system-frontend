@@ -87,7 +87,7 @@ body {
     height: 20px;
 } */
 
-.new-form {
+.new-form, .search-form {
     width: 50%;
     margin: 0px auto;
     display: flex;
