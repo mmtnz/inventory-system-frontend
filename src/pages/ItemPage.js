@@ -4,9 +4,11 @@ import Item from '../components/Item';
 
 const ItemPage = () => {
   return(
-    <div>
-        <Item/>
-    </div>
+    <div className='center'>
+      <section className='content'>
+        <Item/>                                    
+      </section>
+    </div>  
   );  
 };
 export default ItemPage;

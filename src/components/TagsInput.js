@@ -37,7 +37,9 @@ const TagsInput = ({tagList, setTagList}) => {
                     ))}
                 </div>
             }
+
             <input type="text" ref={tagRef}/>
+            
             <div className="button-container">
                 <button onClick={addTag}>Agregar</button>
             </div>

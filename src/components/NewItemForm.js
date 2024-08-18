@@ -5,7 +5,7 @@ import Select from 'react-select';
 import TagsInput from './TagsInput';
 import { apiGetTLoationsObj, apiGetTagsList, apiSaveItem, apiUploadImage } from '../services/api';
 import Swal from 'sweetalert2';
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 
 const NewItemForm = ({args}) => {
 

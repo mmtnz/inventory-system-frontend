@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
-import Header from './components/Header';
+
 import './assets/css/App.css'
 import Router from "./Router";
 
@@ -11,8 +11,8 @@ function App() {
     <div className="App">
 
       {/* <HomePage/> */}
-      <Header/>
       <Router/>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     </div>
   );
 }

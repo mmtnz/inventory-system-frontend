@@ -5,6 +5,7 @@ import ItemPage from "./pages/ItemPage";
 import HomePage from "./pages/HomePage";
 import NewItemPage from "./pages/NewItemPage";
 import EditItemPage from "./pages/EditItemPage";
+import Header from './components/Header';
 
 
 const Router = () => {
@@ -12,6 +13,7 @@ const Router = () => {
 
     return(
         <BrowserRouter>
+            <Header/>
             <Routes>
                 <Route exact path="/" element={<HomePage />} />
                 <Route exact path="/home" element={<HomePage />} />

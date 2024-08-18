@@ -14,18 +14,6 @@ const Item = () => {
 
     useEffect(() => {
         loadItem();
-        // axios.get(`${url}/item/${id}`)
-        //     .then(res => {
-        //         if(res.data){
-        //             setItem(res.data);
-        //             setStatus("sucess");
-        //             console.log(res.data);
-        //         }
-        //         else{
-        //             console.log('error')
-        //             console.log(res)
-        //         }
-        //     })
     }, [])
 
     const loadItem = async () => {
@@ -49,11 +37,12 @@ const Item = () => {
 
     return (
         <div id="item">
-            <section id="content">
+            <section className="content">
                 <div className = "item">
                     <h1>{item.name}</h1>
-                    <div>
-                        {item.image !== null ? (
+
+                    <div className="item-image">
+                        {item.image !== null && item.image !== ""? (
                             <img
                                 src={`${url}/image/${item.image}`}
                                 alt={item.name}
@@ -63,6 +52,39 @@ const Item = () => {
                             <img src={defaultImage} className="image-item"/>
                         )}
                     </div>
+
+                    <div className="item-data">
+                        <div className="item-data-group">
+                            <label>Nombre:</label>
+                            <p>{item.name}</p>
+                        </div>
+
+                        <div className="item-data-group">
+                            <label>Tags:</label>
+                            {(item.tagsList && item.tagsList.length > 0) && 
+                                <div className="tags-container">
+                                    {item.tagsList.map((tag, index) => (
+                                        <div className="tag-item" key={index}>
+                                            <span className='tag'>{tag}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            }
+                        </div>
+
+                        <div className="item-data-group">
+                            <label>Ubicación:</label>
+                            <p>{item.location}</p>
+                        </div>
+                        
+                        <div className="item-data-group">
+                            <label>Descripcion:</label>
+                            <p>{item.description}</p>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </section>
         </div>
