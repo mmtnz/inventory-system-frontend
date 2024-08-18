@@ -26,7 +26,6 @@ const Item = () => {
             console.log(err)
             setError('Error cargando elemento')
         }
-        
     }
 
     if (error) {

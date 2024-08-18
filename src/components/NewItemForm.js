@@ -102,7 +102,6 @@ const NewItemForm = ({args}) => {
     }
 
     const changeState = () => {
-        const auxLoc = `{location}`
         setItem({
             name: nameRef.current.value,
             otherNamesList: otherNamesList,
