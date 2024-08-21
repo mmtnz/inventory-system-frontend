@@ -6,6 +6,7 @@ import TagsInput from './TagsInput';
 import { apiGetTLoationsObj, apiGetTagsList, apiSaveItem, apiUploadImage } from '../services/api';
 import Swal from 'sweetalert2';
 // import { Navigate } from 'react-router-dom';
+import ItemModel from '../schemas/item';
 
 const NewItemForm = ({args}) => {
 
@@ -20,7 +21,7 @@ const NewItemForm = ({args}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [location, setLocation] = useState(null);
     const [sublocation, setSubLocation] = useState(null);
-    const [item, setItem] = useState({});
+    const [item, setItem] = useState(ItemModel);
 
     const [status, setStatus] = useState(null);
     const [error, setError] = useState(null);
@@ -57,7 +58,6 @@ const NewItemForm = ({args}) => {
 
     const saveItem = async () => {
         try {
-            console.log(item)
             const itemResponse = await apiSaveItem(item);
             setItem(itemResponse);
             setError(null);
@@ -102,33 +102,35 @@ const NewItemForm = ({args}) => {
     }
 
     const changeState = () => {
-        setItem({
+        setItem({...item,
             name: nameRef.current.value,
-            otherNamesList: otherNamesList,
-            tagsList: selectedTags,
-            location: location + "/" + sublocation,
-            description: descriptionRef.current.value, 
+            // otherNamesList: otherNamesList,
+            description: descriptionRef.current.value,
         })
     };
 
     const updateTagList = (tags) => {
-        const aux = [];
-        if (tags && tags.length > 0) {
-            tags.forEach(tag => aux.push(tag.value));
-        }
-        setSelectedTags(aux);
+        setSelectedTags(tags);
+        setItem({...item, tagsList: tags.map(tag => tag.value) });
     }
 
     const addFile = (event) => {
         setSelectedFile(event.target.files[0]); // Only one photo
     }
 
+    const changeOtherNamesList = (event) => {
+        setOtherNamesList(event);
+        setItem({...item, otherNamesList: event})
+    }
+
+
     const changeLocation = (event) => {
-        setLocation(event.value);
+        setLocation(event);
     }
 
     const changeSubLocation = (event) => {
-        setSubLocation(event.value);
+        setSubLocation(event);
+        setItem({...item, location: location.value + "/" + event.value})
     }
 
     return(
@@ -151,7 +153,7 @@ const NewItemForm = ({args}) => {
 
                 <div className="formGroup">
                     <label htmlFor='otherNames'>Otros nombres</label>
-                    <TagsInput tagList={otherNamesList} setTagList={setOtherNamesList}/>
+                    <TagsInput tagList={otherNamesList} setTagList={changeOtherNamesList}/>
                 </div>
 
                 <div className="formGroup">
@@ -166,10 +168,16 @@ const NewItemForm = ({args}) => {
                 <div className="formGroup">
                     <label htmlFor='location'>Ubicación</label>
                     <Select options={zonesList} onChange={changeLocation}/>
-                    {location && 
-                        <Select options={locationObj.selfsObj[location]} onChange={changeSubLocation}/>
-                    }
                     {validator.message('location', location, 'required')}
+                    {location && 
+                        <Select options={locationObj.selfsObj[location.value]} onChange={changeSubLocation}/>                   
+                    }
+                    {location && 
+                        <div>
+                            {validator.message('sublocation', sublocation, 'required')}
+                        </div>
+                    }
+                    
                 </div>
 
                 <div className="formGroup">

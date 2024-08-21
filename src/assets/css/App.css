@@ -256,3 +256,18 @@ textarea {
 }
 
 
+/*EDIT FORM*/
+
+.thumb {
+    height: 100px;
+    width: 100px;
+}
+
+/* .input: {
+    outline: 2px solid red;
+} */
+
+/* 
+.edit-form input, textarea, select, .css-1fdsijx-ValueContainer, .css-3w2yfm-ValueContainer{
+    background-color: rgb(212, 208, 208);
+} */

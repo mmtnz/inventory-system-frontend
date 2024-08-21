@@ -2,36 +2,46 @@ import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { apiGetItem } from '../services/api';
+import API_BASE_URL, { apiGetItem } from "../services/api";
+import defaultImage from "../assets/images/default.png"
 
 import Select from 'react-select';
 import TagsInput from './TagsInput';
-import { apiGetTLoationsObj, apiGetTagsList, apiSaveItem, apiUploadImage } from '../services/api';
+import { apiEditItem, apiUploadImage } from '../services/api';
 import Swal from 'sweetalert2';
 
 const EditItemForm = ({args, itemArg}) => {
  
     const itemId = useParams().id;
+    const [item, setItem] = useState(itemArg);
+
     const tagList = args.tagList;
     const locationObj = args.locationObj;
+    const zonesList = locationObj ?  locationObj.zonesList : [];
 
-    const zonesList = locationObj != null ?  locationObj.zonesList : null;
+    let auxLoc = item.location.split('/')[0];
+    // let auxSubLoc = item.location.split('/')[1];
+    // let auxLocOp = zonesList.filter(option => auxLoc.includes(option.value));
+    // const [location, setLocation] = useState(auxLocOp);
+    // const [sublocation, setSubLocation] = useState(locationObj.selfsObj[auxLoc].filter(option => auxSubLoc.includes(option.value)));
+    // const [subLocOptions,] = useState(locationObj.selfsObj[auxLocOp.value]);
+    // console.log(locationObj.selfsObj[location.value])
+    // console.log(location.value)
+    // console.log(locationObj.selfsObj)
+    const [location, setLocation] = useState(null);
+    const [sublocation, setSubLocation] = useState(null);
       
     const nameRef = React.createRef();
     const descriptionRef = React.createRef();
     const [selectedTags, setSelectedTags] = useState([]);
     const [otherNamesList, setOtherNamesList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [location, setLocation] = useState(null);
-    const [sublocation, setSubLocation] = useState(null);
-    const [item, setItem] = useState(itemArg);
-
+    
     const [status, setStatus] = useState(null);
     const [error, setError] = useState(null);
 
-    const [loading ,setLoading] = useState(true);
-    
-    const [displayTags, setDisplayTags] = useState([]);
+    const [loading, setLoading] = useState(true);
+    let url = API_BASE_URL;
 
     const navigate = useNavigate();
     
@@ -48,33 +58,17 @@ const EditItemForm = ({args, itemArg}) => {
     const [validator] = useState(new SimpleReactValidator({ messages: customMessages }));
 
     useEffect(() => {
-        console.log(args)
-        console.log(item)
-        // getItem();
-        setSelectedTags(item.tagList);
-        console.log(item.tagsList)
-        console.log(tagList.filter(option => item.tagsList.includes(option.value)))
-        setDisplayTags(tagList.filter(option => item.tagsList.includes(option.value)))
-        setLoading(false);
-    }, [])
-
-    const getItem = async () => {
-        try {
-            const data = await apiGetItem(itemId);
-            setItem(data);
-            setError(null);
-
-            setSelectedTags(data.tagList);
-            if (tagList) {
-                setDisplayTags(tagList.filter(option => data.tagsList.includes(option.value)))
-            }
-            
-        } catch (err) {
-            setItem({})
-            console.log(err)
-            setError('Error cargando elemento')
+        if (tagList.length > 0) {
+            setSelectedTags(tagList.filter(option => item.tagsList.includes(option.value)));
         }
-    }
+                
+        setOtherNamesList(item.otherNamesList);
+
+        let [auxLoc, auxSubLoc] = item.location.split('/');
+        setLocation(zonesList.find(option => auxLoc.includes(option.value)));
+        setSubLocation(locationObj.selfsObj[auxLoc].find(option => auxSubLoc.includes(option.value)));
+        setLoading(false);
+    }, [item, tagList, locationObj, zonesList]);
     
     const handleSubmit = (e)  => {
         e.preventDefault();
@@ -88,19 +82,21 @@ const EditItemForm = ({args, itemArg}) => {
     };
 
     const changeState = () => {
+        const auxTags = selectedTags.map(tag => tag.value);
         setItem({
+            ...item,
             name: nameRef.current.value,
-            otherNamesList: otherNamesList,
-            tagsList: selectedTags,
-            location: location + "/" + sublocation,
+            // otherNamesList: otherNamesList,
+            // tagsList: auxTags,
+            // location: location.value + "/" + sublocation.value,
             description: descriptionRef.current.value, 
         })
+        console.log("entro")
     };
 
     const saveItem = async () => {
         try {
-            console.log(item)
-            const itemResponse = await apiSaveItem(item);
+            const itemResponse = await apiEditItem(item, itemId);
             setItem(itemResponse);
             setError(null);
             
@@ -124,6 +120,21 @@ const EditItemForm = ({args, itemArg}) => {
         } 
     }
 
+    const changeOtherNamesList = (event) => {
+        setOtherNamesList(event);
+        setItem({...item, otherNamesList: event})
+    }
+
+    const changeLocation = (e) => {
+        setLocation(e);
+        setSubLocation(null);
+    }
+
+    const changeSubLocation = (e) => {
+        setSubLocation(e);
+        setItem({...item, location: location.value + "/" + e.value})
+    }
+
     const uploadImage = async (itemId) => {
         try {            
             const response = await apiUploadImage(selectedFile, itemId);
@@ -144,28 +155,17 @@ const EditItemForm = ({args, itemArg}) => {
     }
 
     const updateTagList = (tags) => {
-        setDisplayTags(tags)
-        const aux = [];
-        if (tags && tags.length > 0) {
-            tags.forEach(tag => aux.push(tag.value));
-        }
-        setSelectedTags(aux);
+        setSelectedTags(tags);
+        setItem({...item, tagsList: tags.map(tag => tag.value) });
     }
 
     const addFile = (event) => {
         setSelectedFile(event.target.files[0]); // Only one photo
     }
 
-    const changeLocation = (event) => {
-        setLocation(event.value);
-    }
-
-    const changeSubLocation = (event) => {
-        setSubLocation(event.value);
-    }
-
-    if (loading && args.tagList !== null) {
-        <div>Loading..</div>
+    
+    if (loading) {
+        return <div>Loading..</div>
     }
     
     return(
@@ -190,7 +190,7 @@ const EditItemForm = ({args, itemArg}) => {
 
                     <div className="formGroup">
                         <label htmlFor='otherNames'>Otros nombres</label>
-                        <TagsInput tagList={otherNamesList} setTagList={setOtherNamesList}/>
+                        <TagsInput tagList={otherNamesList} setTagList={changeOtherNamesList}/>
                     </div>
 
                     <div className="formGroup">
@@ -200,19 +200,24 @@ const EditItemForm = ({args, itemArg}) => {
                             options={tagList}
                             onChange={updateTagList}
                             isLoading={!item.tagsList.length}
-                            // defaultValue={initialTags}
-                            value={displayTags}
+                            value={selectedTags}
 
                         />
                     </div>
 
                     <div className="formGroup">
                         <label htmlFor='location'>Ubicación</label>
-                        <Select options={zonesList} onChange={changeLocation}/>
-                        {location && 
-                            <Select options={locationObj.selfsObj[location]} onChange={changeSubLocation}/>
-                        }
+                        <Select options={zonesList} value={location} onChange={changeLocation}/>
                         {validator.message('location', location, 'required')}
+                        {(location) && 
+                            <Select options={locationObj.selfsObj[location.value]} value={sublocation} onChange={changeSubLocation}/>
+                        }
+                        {location && 
+                            <div>
+                                {validator.message('sublocation', sublocation, 'required')}
+                            </div>
+                        }
+                        
                     </div>
 
                     <div className="formGroup">
@@ -225,6 +230,11 @@ const EditItemForm = ({args, itemArg}) => {
                     <div className='formGroup'>
                         <label htmlFor='file0'>Imagen</label>
                         <input type='file' name='file0' onChange={addFile} accept='.jpg, .jpeg, .png'/>
+                        {item.image !== null && item.image !== "" ? (
+                            <img src={`${url}/image/${item.image}`} alt={item.name} className="thumb"/> 
+                        ):(
+                            <img src={defaultImage} className="thumb"/>
+                        )}
                     </div>
 
                     <div className='formGroup'>

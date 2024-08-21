@@ -81,7 +81,18 @@ export const apiUploadImage = async (itemFile, itemId) => {
 // POST save new item
 export const apiSaveItem = async (item) => {
     try {
-        const response = await api.post(`/save`, item)
+        const response = await api.post(`/article`, item)
+        return response.data
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+// PUT save item
+export const apiEditItem = async (item, itemId) => {
+    try {
+        const response = await api.put(`/article/${itemId}`, item)
         return response.data
     } catch (error) {
         throw error;
