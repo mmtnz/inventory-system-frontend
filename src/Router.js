@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import NewItemPage from "./pages/NewItemPage";
 import EditItemPage from "./pages/EditItemPage";
 import Header from './components/Header';
+import Footer from "./components/Footer";
 
 
 const Router = () => {
@@ -13,20 +14,25 @@ const Router = () => {
 
     return(
         <BrowserRouter>
-            <Header/>
-            <Routes>
-                <Route exact path="/" element={<HomePage />} />
-                <Route exact path="/home" element={<HomePage />} />
-                <Route exact path ="/item/:id" element={<ItemPage/>}/>
-                <Route path= "/search" element={<SearchPage/>}/>
-                <Route path= "/new-item" element={<NewItemPage/>}/>
-                <Route path= "/edit/:id" element={<EditItemPage/>}/>
-                <Route path="*" element={
-                    <React.Fragment>
-                        <h1>Error</h1>
-                    </React.Fragment>
-                } />
-            </Routes>
+            <div className="page-container">
+                <Header/>
+                <main>
+                    <Routes>
+                        <Route exact path="/" element={<HomePage />} />
+                        <Route exact path="/home" element={<HomePage />} />
+                        <Route exact path ="/item/:id" element={<ItemPage/>}/>
+                        <Route path= "/search" element={<SearchPage/>}/>
+                        <Route path= "/new-item" element={<NewItemPage/>}/>
+                        <Route path= "/edit/:id" element={<EditItemPage/>}/>
+                        <Route path="*" element={
+                            <React.Fragment>
+                                <h1>Error</h1>
+                            </React.Fragment>
+                        } />
+                    </Routes>
+                </main>
+                <Footer/>
+            </div>
         </BrowserRouter>
     )
 };

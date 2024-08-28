@@ -1,6 +1,6 @@
 // src/components/Item.js
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
 import API_BASE_URL, { apiGetItem } from "../services/api";
 import Moment from 'react-moment';
@@ -9,10 +9,14 @@ import 'moment/locale/es'; // Import Spanish locale
 const ItemWrap = ({item}) => {
 
   const url = API_BASE_URL;
-  console.log(item)
+  const navigate = useNavigate();
+
+  const goToItem = () => {
+    navigate(`/item/${item.id}`);
+  }
   
   return (
-    <div className="list-item">
+    <div className="list-item" onClick={goToItem}>
         <section>
             <div className="image-wrap">
                 {item.image !== null && item.image !== "" ? (
@@ -33,8 +37,8 @@ const ItemWrap = ({item}) => {
                   <Moment fromNow utc locale="es">{item.date}</Moment>
               </span>
 
-              <Link to={`/item/${item.id}`}>Ver más</Link>
-              <Link to={`/edit/${item.id}`}>Editar</Link>
+              {/* <Link to={`/item/${item.id}`}>Ver más</Link> */}
+              {/* <Link to={`/edit/${item.id}`}>Editar</Link> */}
             </div>
             
             

@@ -11,7 +11,7 @@ const Header = () => {
 
     return(
         <div id="header">
-            <div className='home-icon'>
+            <div className='home-icon-container'>
                 <span className="material-symbols-outlined" onClick={goHome}>
                     home
                 </span>

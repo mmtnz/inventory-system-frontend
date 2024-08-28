@@ -9,6 +9,7 @@ import Select from 'react-select';
 import TagsInput from './TagsInput';
 import { apiEditItem, apiUploadImage } from '../services/api';
 import Swal from 'sweetalert2';
+import messagesObj from '../schemas/messages';
 
 const EditItemForm = ({args, itemArg}) => {
  
@@ -17,17 +18,9 @@ const EditItemForm = ({args, itemArg}) => {
 
     const tagList = args.tagList;
     const locationObj = args.locationObj;
-    const zonesList = locationObj ?  locationObj.zonesList : [];
+    const placesList = locationObj != null ?  locationObj.placesList : null;
 
-    let auxLoc = item.location.split('/')[0];
-    // let auxSubLoc = item.location.split('/')[1];
-    // let auxLocOp = zonesList.filter(option => auxLoc.includes(option.value));
-    // const [location, setLocation] = useState(auxLocOp);
-    // const [sublocation, setSubLocation] = useState(locationObj.selfsObj[auxLoc].filter(option => auxSubLoc.includes(option.value)));
-    // const [subLocOptions,] = useState(locationObj.selfsObj[auxLocOp.value]);
-    // console.log(locationObj.selfsObj[location.value])
-    // console.log(location.value)
-    // console.log(locationObj.selfsObj)
+    const [place, setPlace] = useState(null);
     const [location, setLocation] = useState(null);
     const [sublocation, setSubLocation] = useState(null);
       
@@ -36,6 +29,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [otherNamesList, setOtherNamesList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [isFileChanged, setIsFileChanged] = useState(false);
     
     const [status, setStatus] = useState(null);
     const [error, setError] = useState(null);
@@ -64,11 +58,12 @@ const EditItemForm = ({args, itemArg}) => {
                 
         setOtherNamesList(item.otherNamesList);
 
-        let [auxLoc, auxSubLoc] = item.location.split('/');
-        setLocation(zonesList.find(option => auxLoc.includes(option.value)));
-        setSubLocation(locationObj.selfsObj[auxLoc].find(option => auxSubLoc.includes(option.value)));
+        let [auxPlace, auxLoc, auxSubLoc] = item.location.split('/');
+        setPlace(placesList.find(option => auxPlace.includes(option.value)));
+        setLocation(locationObj.placeObj[auxPlace].zonesList.find(option => auxLoc.includes(option.value)));
+        setSubLocation(locationObj.placeObj[auxPlace].selfsObj[auxLoc].find(option => auxSubLoc.includes(option.value)));
         setLoading(false);
-    }, [item, tagList, locationObj, zonesList]);
+    }, [item, tagList, locationObj, placesList]);
     
     const handleSubmit = (e)  => {
         e.preventDefault();
@@ -103,20 +98,12 @@ const EditItemForm = ({args, itemArg}) => {
             if (selectedFile){
                 await uploadImage(itemResponse.id);
             } else {
-                Swal.fire({
-                    title: 'Elemento creado',
-                    text: "El elemento se ha creado correctamente",
-                    icon: "success"
-                });
+                Swal.fire(messagesObj.editItemSuccess);
                 navigate('/home');
             }      
         } catch (err) {
             setError(err);
-            Swal.fire({
-                title: 'Error',
-                text: "Error creando elemento",
-                icon: "error"
-            })
+            Swal.fire(messagesObj.editItemError)
         } 
     }
 
@@ -125,32 +112,30 @@ const EditItemForm = ({args, itemArg}) => {
         setItem({...item, otherNamesList: event})
     }
 
+    const changePlace = (e) => {
+        setPlace(e);
+        setLocation(null);
+        setSubLocation(null);
+    }
+
     const changeLocation = (e) => {
         setLocation(e);
         setSubLocation(null);
     }
 
-    const changeSubLocation = (e) => {
+    const changeSublocation = (e) => {
         setSubLocation(e);
-        setItem({...item, location: location.value + "/" + e.value})
+        setItem({...item, location: place.value + "/" + location.value + "/" + e.value})
     }
 
     const uploadImage = async (itemId) => {
         try {            
             const response = await apiUploadImage(selectedFile, itemId);
-            Swal.fire({
-                title: 'Elemento creado',
-                text: "El elemento se ha creado correctamente",
-                icon: "success"
-            });
+            Swal.fire(messagesObj.editItemSuccess);
             navigate('/home')
         } catch (err) {
             setError(err);
-            Swal.fire({
-                title: 'Error',
-                text: "Error guardando imagen",
-                icon: "error"
-            });
+            Swal.fire(messagesObj.editItemImageError);
         }
     }
 
@@ -161,6 +146,7 @@ const EditItemForm = ({args, itemArg}) => {
 
     const addFile = (event) => {
         setSelectedFile(event.target.files[0]); // Only one photo
+        setIsFileChanged(true);
     }
 
     
@@ -174,7 +160,8 @@ const EditItemForm = ({args, itemArg}) => {
                 <form 
                     className="edit-form"
                     onSubmit={handleSubmit}
-                    onChange={changeState}
+                    onChange={() => {console.log('click')}}
+                    // onClick={() => {console.log('click')}}
                 >
                     <div className="formGroup">
                         <label htmlFor="name">Nombre</label>
@@ -207,17 +194,35 @@ const EditItemForm = ({args, itemArg}) => {
 
                     <div className="formGroup">
                         <label htmlFor='location'>Ubicación</label>
-                        <Select options={zonesList} value={location} onChange={changeLocation}/>
-                        {validator.message('location', location, 'required')}
-                        {(location) && 
-                            <Select options={locationObj.selfsObj[location.value]} value={sublocation} onChange={changeSubLocation}/>
+                        <Select options={placesList} onChange={changePlace} value={place}/>
+                    
+                        {place && 
+                            <Select
+                                options={locationObj.placeObj[place.value].zonesList}
+                                onChange={changeLocation}
+                                value={location}
+                            />
                         }
-                        {location && 
+                        {place &&
+                            <div>
+                                {validator.message('location', location, 'required')}
+                            </div>
+                        }
+                        
+                        
+                        {(location && place) && 
+                            <Select
+                                options={locationObj.placeObj[place.value].selfsObj[location.value]}
+                                onChange={changeSublocation}
+                                value={sublocation}  
+                            />                   
+                        }
+                        {(location && place) && 
                             <div>
                                 {validator.message('sublocation', sublocation, 'required')}
                             </div>
                         }
-                        
+                            
                     </div>
 
                     <div className="formGroup">
@@ -228,13 +233,20 @@ const EditItemForm = ({args, itemArg}) => {
                     </div>
 
                     <div className='formGroup'>
+                        {(!isFileChanged) && (
+                            <div className='thumb-image-container'>
+                                {item.image !== null && item.image !== "" ? (
+                                    <img src={`${url}/image/${item.image}`} alt={item.name} className="thumb"/> 
+                                ):(
+                                    <img src={defaultImage} className="thumb"/>
+                                )}
+                            </div>
+                        )}
+                        
+                        
                         <label htmlFor='file0'>Imagen</label>
                         <input type='file' name='file0' onChange={addFile} accept='.jpg, .jpeg, .png'/>
-                        {item.image !== null && item.image !== "" ? (
-                            <img src={`${url}/image/${item.image}`} alt={item.name} className="thumb"/> 
-                        ):(
-                            <img src={defaultImage} className="thumb"/>
-                        )}
+                        
                     </div>
 
                     <div className='formGroup'>

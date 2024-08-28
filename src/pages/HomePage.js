@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
 import SearchForm from '../components/SearchForm';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { getProducts } from '../services/api';
 
 const HomePage = () => {
@@ -15,21 +15,34 @@ const HomePage = () => {
 //     }
 //     fetchData();
 //   }, []);
+  const navigate = useNavigate();
+
+  const goToSearch = () => {
+    navigate('/search');
+  }
+
+  const goToNewItem = () => {
+    navigate('/new-item');
+  }
 
   return (
-    <div>
-      <main>
+    <div className='center'>
+      <section className='content'>
         <h1>Home Page</h1>
         <div className='option-button-container'>
-          <div type="button">
-            <Link to="/search">Buscar</Link>
-          </div>
-          <div type="button">
-            <Link to="/new-item">Nuevo elemento</Link>
-          </div>
+          
+          <button className="home-button" onClick={goToSearch}>
+            {/* <Link to="/search">Buscar</Link> */}
+            <p>Buscar</p>
+          </button>
+          
+          <button className="home-button" onClick={goToNewItem}>
+            {/* <Link to="/new-item">Nuevo elemento</Link> */}
+            <p>Nuevo elemento</p>
+          </button>
         </div>
         
-      </main>
+      </section>
       {/* <SearchForm />
       <Footer /> */}
     </div>

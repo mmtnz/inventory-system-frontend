@@ -7,20 +7,23 @@ import { apiGetTLoationsObj, apiGetTagsList, apiSaveItem, apiUploadImage } from 
 import Swal from 'sweetalert2';
 // import { Navigate } from 'react-router-dom';
 import ItemModel from '../schemas/item';
+import messagesObj from '../schemas/messages';
 
 const NewItemForm = ({args}) => {
 
     const tagList = args.tagList;
     const locationObj = args.locationObj;
-    const zonesList = locationObj != null ?  locationObj.zonesList : null;
+    const placesList = locationObj != null ?  locationObj.placesList : null;
+    // const zonesList = locationObj != null ?  locationObj.zonesList : null;
       
     const nameRef = React.createRef();
     const descriptionRef = React.createRef();
     const [selectedTags, setSelectedTags] = useState([]);
     const [otherNamesList, setOtherNamesList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [place, setPlace] = useState(null);
     const [location, setLocation] = useState(null);
-    const [sublocation, setSubLocation] = useState(null);
+    const [sublocation, setSublocation] = useState(null);
     const [item, setItem] = useState(ItemModel);
 
     const [status, setStatus] = useState(null);
@@ -65,39 +68,23 @@ const NewItemForm = ({args}) => {
             if (selectedFile){
                 await uploadImage(itemResponse.id);
             } else {
-                Swal.fire({
-                    title: 'Elemento creado',
-                    text: "El elemento se ha creado correctamente",
-                    icon: "success"
-                });
+                Swal.fire(messagesObj.newItemSuccess);
                 navigate('/home');
             }      
         } catch (err) {
             setError(err);
-            Swal.fire({
-                title: 'Error',
-                text: "Error creando elemento",
-                icon: "error"
-            })
+            Swal.fire(messagesObj.newItemError)
         } 
     }
 
     const uploadImage = async (itemId) => {
         try {            
             const response = await apiUploadImage(selectedFile, itemId);
-            Swal.fire({
-                title: 'Elemento creado',
-                text: "El elemento se ha creado correctamente",
-                icon: "success"
-            });
+            Swal.fire(messagesObj.newItemSuccess);
             navigate('/home')
         } catch (err) {
             setError(err);
-            Swal.fire({
-                title: 'Error',
-                text: "Error guardando imagen",
-                icon: "error"
-            });
+            Swal.fire(messagesObj.newItemImageError);
         }
     }
 
@@ -119,18 +106,27 @@ const NewItemForm = ({args}) => {
     }
 
     const changeOtherNamesList = (event) => {
-        setOtherNamesList(event);
-        setItem({...item, otherNamesList: event})
+        if (event != ''){
+            setOtherNamesList(event);
+            setItem({...item, otherNamesList: event})
+        }
     }
 
+    const changePlace = (event) => {
+        setPlace(event);
+        setLocation(null);
+        setSublocation(null);
+    }
 
     const changeLocation = (event) => {
         setLocation(event);
+        setSublocation(null);
+
     }
 
-    const changeSubLocation = (event) => {
-        setSubLocation(event);
-        setItem({...item, location: location.value + "/" + event.value})
+    const changeSublocation = (event) => {
+        setSublocation(event);
+        setItem({...item, location: place.value + "/" + location.value + "/" + event.value})
     }
 
     return(
@@ -167,12 +163,31 @@ const NewItemForm = ({args}) => {
 
                 <div className="formGroup">
                     <label htmlFor='location'>Ubicación</label>
-                    <Select options={zonesList} onChange={changeLocation}/>
-                    {validator.message('location', location, 'required')}
-                    {location && 
-                        <Select options={locationObj.selfsObj[location.value]} onChange={changeSubLocation}/>                   
+
+                    <Select options={placesList} onChange={changePlace}/>
+                    
+                    {place && 
+                        <Select
+                            options={locationObj.placeObj[place.value].zonesList}
+                            onChange={changeLocation}
+                            value={location}
+                        />
                     }
-                    {location && 
+                    {place &&
+                        <div>
+                            {validator.message('location', location, 'required')}
+                        </div>
+                    }
+                    
+                    
+                    {(location && place) && 
+                        <Select
+                            options={locationObj.placeObj[place.value].selfsObj[location.value]}
+                            onChange={changeSublocation}
+                            value={sublocation}  
+                        />                   
+                    }
+                    {(location && place) && 
                         <div>
                             {validator.message('sublocation', sublocation, 'required')}
                         </div>

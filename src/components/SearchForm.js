@@ -5,28 +5,31 @@ import { useSearchParams } from "react-router-dom";
 import { apiGetTagsList } from '../services/api';
 
 
-const SearchForm = () => {
+const SearchForm = ({tagList}) => {
 
     const [query, setQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState([]);
-    const [tagList, setTagList] = useState([]);
+    // const [tagList, setTagList] = useState([]);
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        getTagsList();
+        // getTagsList();
         const urlQuery = searchParams.get('q')
-        if (urlQuery) {setQuery(urlQuery);} 
-        const urlTagList = searchParams.getAll('tag');
-        const defaultValues = tagList.filter(option => urlTagList.includes(option.value));
-        if (selectedTags) {setSelectedTags(defaultValues)};
-        
-    }, []);
+        if (urlQuery) {setQuery(urlQuery);}
 
-    const getTagsList = async () => {
-        let response = await apiGetTagsList();
-        setTagList(response);
-    }
+        const urlTagList = searchParams.getAll('tag');
+        setSelectedTags(tagList.filter(option => urlTagList.includes(option.value)));
+        console.log(tagList.filter(option => urlTagList.includes(option.value)))
+        console.log(tagList)
+        // if (selectedTags) {setSelectedTags(defaultValues)};
+        
+    }, [searchParams, tagList]);
+
+    // const getTagsList = async () => {
+    //     let response = await apiGetTagsList();
+    //     setTagList(response);
+    // }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -61,7 +64,7 @@ const SearchForm = () => {
                 <label htmlFor="tags">Tags</label>
                 <Select
                     isMulti
-                    // value={selectedTags}
+                    value={selectedTags}
                     name="tags"
                     options={tagList}
                     onChange={onChangeTags}

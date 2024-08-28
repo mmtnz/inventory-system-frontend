@@ -15,9 +15,9 @@ const api = axios.create({
 
 
 // GET Functión to find items by name
-export const apiSearchItems = async (query) => {
+export const apiSearchItems = async (args) => {
     try {
-      const response = await api.get(`/search?q=${query}`);
+      const response = await api.get(`/search?${args}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -81,7 +81,7 @@ export const apiUploadImage = async (itemFile, itemId) => {
 // POST save new item
 export const apiSaveItem = async (item) => {
     try {
-        const response = await api.post(`/article`, item)
+        const response = await api.post(`/item`, item)
         return response.data
     } catch (error) {
         throw error;
@@ -92,12 +92,22 @@ export const apiSaveItem = async (item) => {
 // PUT save item
 export const apiEditItem = async (item, itemId) => {
     try {
-        const response = await api.put(`/article/${itemId}`, item)
+        const response = await api.put(`/item/${itemId}`, item)
         return response.data
     } catch (error) {
         throw error;
     }
 };
 
+
+// DELETE delete item
+export const apiDeleteItem = async (itemId) => {
+    try {
+        const response = await api.delete(`/item/${itemId}`)
+        return response
+    } catch (error) {
+        throw error;
+    }
+};
 
 
