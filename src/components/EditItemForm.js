@@ -15,6 +15,8 @@ const EditItemForm = ({args, itemArg}) => {
  
     const itemId = useParams().id;
     const [item, setItem] = useState(itemArg);
+    const oldItem = itemArg;
+    delete oldItem.date.lastEdited;
 
     const tagList = args.tagList;
     const locationObj = args.locationObj;
@@ -30,6 +32,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [otherNamesList, setOtherNamesList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isFileChanged, setIsFileChanged] = useState(false);
+    const [isDifferent, setIsDifferent] = useState(true);
     
     const [status, setStatus] = useState(null);
     const [error, setError] = useState(null);
@@ -52,6 +55,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [validator] = useState(new SimpleReactValidator({ messages: customMessages }));
 
     useEffect(() => {
+        console.log(item)
         if (tagList.length > 0) {
             setSelectedTags(tagList.filter(option => item.tagsList.includes(option.value)));
         }
@@ -77,15 +81,21 @@ const EditItemForm = ({args, itemArg}) => {
     };
 
     const changeState = () => {
-        const auxTags = selectedTags.map(tag => tag.value);
-        setItem({
+        console.log(item)
+        console.log(oldItem)
+        // const auxTags = selectedTags.map(tag => tag.value);
+        let auxItem = {
             ...item,
             name: nameRef.current.value,
             // otherNamesList: otherNamesList,
             // tagsList: auxTags,
             // location: location.value + "/" + sublocation.value,
-            description: descriptionRef.current.value, 
-        })
+            description: descriptionRef.current.value,
+            date: {created: item.date.created}
+        }
+        setItem(auxItem)
+        setIsDifferent(JSON.stringify(oldItem) === JSON.stringify(auxItem));
+        console.log(oldItem == auxItem)
         console.log("entro")
     };
 
@@ -109,23 +119,29 @@ const EditItemForm = ({args, itemArg}) => {
 
     const changeOtherNamesList = (event) => {
         setOtherNamesList(event);
-        setItem({...item, otherNamesList: event})
+        let auxItem = {...item, otherNamesList: event};
+        setItem(auxItem);
+        setIsDifferent(JSON.stringify(oldItem) === JSON.stringify(auxItem));
     }
 
     const changePlace = (e) => {
         setPlace(e);
         setLocation(null);
         setSubLocation(null);
+        setIsDifferent(true);
     }
 
     const changeLocation = (e) => {
         setLocation(e);
         setSubLocation(null);
+        setIsDifferent(true);
     }
 
     const changeSublocation = (e) => {
         setSubLocation(e);
-        setItem({...item, location: place.value + "/" + location.value + "/" + e.value})
+        let auxItem = {...item, location: place.value + "/" + location.value + "/" + e.value};
+        setItem(auxItem);
+        setIsDifferent(JSON.stringify(oldItem) === JSON.stringify(auxItem));
     }
 
     const uploadImage = async (itemId) => {
@@ -141,7 +157,9 @@ const EditItemForm = ({args, itemArg}) => {
 
     const updateTagList = (tags) => {
         setSelectedTags(tags);
-        setItem({...item, tagsList: tags.map(tag => tag.value) });
+        let auxItem = {...item, tagsList: tags.map(tag => tag.value) }
+        setItem(auxItem);
+        setIsDifferent(JSON.stringify(oldItem) === JSON.stringify(auxItem));
     }
 
     const addFile = (event) => {
@@ -160,8 +178,8 @@ const EditItemForm = ({args, itemArg}) => {
                 <form 
                     className="edit-form"
                     onSubmit={handleSubmit}
-                    onChange={() => {console.log('click')}}
-                    // onClick={() => {console.log('click')}}
+                    onChange={changeState}
+                    // onClick={() => {setIsDifferent(oldItem === item)}}
                 >
                     <div className="formGroup">
                         <label htmlFor="name">Nombre</label>
@@ -195,7 +213,7 @@ const EditItemForm = ({args, itemArg}) => {
                     <div className="formGroup">
                         <label htmlFor='location'>Ubicación</label>
                         <Select options={placesList} onChange={changePlace} value={place}/>
-                    
+                        {validator.message('place', place, 'required')}
                         {place && 
                             <Select
                                 options={locationObj.placeObj[place.value].zonesList}
@@ -251,7 +269,7 @@ const EditItemForm = ({args, itemArg}) => {
 
                     <div className='formGroup'>
                         <div className='save-button-container'>
-                            <button className='save-button' type='submit'>
+                            <button className='save-button' type='submit' disabled={isDifferent && !isFileChanged}>
                                 Guardar
                             </button>
                         </div>

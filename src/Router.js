@@ -16,7 +16,8 @@ const Router = () => {
         <BrowserRouter>
             <div className="page-container">
                 <Header/>
-                <main>
+                {/* <div className='Header'></div> */}
+                <div className='body-content'>
                     <Routes>
                         <Route exact path="/" element={<HomePage />} />
                         <Route exact path="/home" element={<HomePage />} />
@@ -30,7 +31,8 @@ const Router = () => {
                             </React.Fragment>
                         } />
                     </Routes>
-                </main>
+                </div>
+                {/* <div className='footer'></div> */}
                 <Footer/>
             </div>
         </BrowserRouter>

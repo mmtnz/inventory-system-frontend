@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import defaultImage from "../assets/images/default.png"
 import Swal from 'sweetalert2';
 import messagesObj from "../schemas/messages";
+import Moment from 'react-moment';
+import 'moment/locale/es'; // Import Spanish locale
 
 
 const Item = ({args}) => {
@@ -90,12 +92,10 @@ const Item = ({args}) => {
     }
 
     return (
-        <div id="item" className="center">
-            <section className="content">
-                <div className = "item">
-                    
-                    <h1>{item.name}</h1>
-
+        <div>
+            <h1>{item.name}</h1>
+            <div id="item">
+                <div className="item-container">
                     <div className="item-image-container">
                         {item.image !== null && item.image !== ""? (
                             <img
@@ -147,7 +147,7 @@ const Item = ({args}) => {
                         <div className="item-data-group">
                             <label>Ubicación:</label>
                             {/* <p>{item.location}</p> */}
-                            <p>{`${place.value} --> ${location.value} --> ${sublocation.value}`}</p>
+                            <p>{`${place.label} / ${location.label} / ${sublocation.label}`}</p>
                             
                         </div>
                         
@@ -160,18 +160,31 @@ const Item = ({args}) => {
                             )}
                         </div>
 
+                        <div className="item-data-group">
+                            <label>Última modificación:</label>
+                            <Moment format="DD/MM/YYYY HH:mm">{item.date.lastEdited}</Moment>
+                            <p>UTC</p>
+                        </div>
+
+                        <div className="item-data-group">
+                            <label>Fecha creación:</label>
+                            <Moment format="DD/MM/YYYY HH:mm">{item.date.created}</Moment>
+                            <p>UTC</p>
+                        </div>
+
                         
 
                     </div>
-
-                    <div className="item-button-container">
-                        <button className='edit-button' onClick={goToEdit}>Editar</button>
-                        <button className='delete-button' onClick={handleDelete}>Eliminar</button>
-                    </div>
-
-
                 </div>
-            </section>
+
+                <div className="item-button-container">
+                    <button className='edit-button' onClick={goToEdit}>Editar</button>
+                    <button className='delete-button' onClick={handleDelete}>Eliminar</button>
+                </div>
+            </div>
+            
+
+
         </div>
     );
 };

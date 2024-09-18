@@ -84,27 +84,27 @@ const SearchPage = () => {
                 
                 {error && <p>{error}</p>}
 
-                <div className='center'>
-                    <div id="content">
-                        
-                        {(results != null && results.length == 0 && isSearch) ? 'no hay elementos' : 
-                        (
-                            <ul>
-                                {results.slice(startIndex, startIndex + itemsPerPage - 1).map(result => (
-                                    <ItemWrap key={result.id} item={result}/>
-                                ))}
-                            </ul>
-                        )}
+                <div className='list-items-container'>
+                
+                    
+                    {(results != null && results.length == 0 && isSearch) ? 'no hay elementos' : 
+                    (
+                        <div className="aux">
+                            {results.slice(startIndex, startIndex + itemsPerPage - 1).map(result => (
+                                <ItemWrap key={result.id} item={result}/>
+                            ))}
+                        </div>
+                    )}
 
-                        {(results && results.length > itemsPerPage) && 
-                            
-                            <div className="paginating-container">
-                                <button onClick={decreasePage} disabled={currentPage == 1}>{'<'}</button>
-                                <p>{`${currentPage} / ${totalPages}`}</p>
-                                <button onClick={increasePage} disabled={currentPage == totalPages}>{'>'}</button>
-                            </div>
-                        }                             
-                    </div>
+                    {(results && results.length > itemsPerPage) && 
+                        
+                        <div className="paginating-container">
+                            <button onClick={decreasePage} disabled={currentPage == 1}>{'<'}</button>
+                            <p>{`${currentPage} / ${totalPages}`}</p>
+                            <button onClick={increasePage} disabled={currentPage == totalPages}>{'>'}</button>
+                        </div>
+                    }                             
+                
                 </div>
             </section>
 

@@ -17,34 +17,33 @@ const ItemWrap = ({item}) => {
   
   return (
     <div className="list-item" onClick={goToItem}>
-        <section>
-            <div className="image-wrap">
-                {item.image !== null && item.image !== "" ? (
-                  <img
-                    src={`${url}/image/${item.image}`}
-                    alt={item.name}
-                />
-                ) : (
-                  <img src={defaultImage}/>
-                )}
-                
-            </div>
-
-            <div className='item-wrap-container'>
-              <h2>{item.name}</h2>
-
-              <span className="date">
-                  <Moment fromNow utc locale="es">{item.date}</Moment>
-              </span>
-
-              {/* <Link to={`/item/${item.id}`}>Ver más</Link> */}
-              {/* <Link to={`/edit/${item.id}`}>Editar</Link> */}
-            </div>
+        
+        <div className="image-wrap">
+            {item.image !== null && item.image !== "" ? (
+              <img
+                src={`${url}/image/${item.image}`}
+                alt={item.name}
+            />
+            ) : (
+              <img src={defaultImage}/>
+            )}
             
-            
-            <div className="clearfix"></div>
+        </div>
 
-        </section>
+        <div className='item-wrap-container'>
+          <h2>{item.name}</h2>
+
+          <span className="date">
+              <p>Editado:</p>
+              <Moment fromNow utc locale="es">{item.date.lastEdited}</Moment>
+          </span>
+
+        </div>
+        
+        
+        {/* <div className="clearfix"></div> */}
+
+       
     </div>
   );
 };

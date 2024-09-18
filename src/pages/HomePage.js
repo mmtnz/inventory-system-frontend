@@ -28,7 +28,7 @@ const HomePage = () => {
   return (
     <div className='center'>
       <section className='content'>
-        <h1>Home Page</h1>
+        <h1>Organizador trastero</h1>
         <div className='option-button-container'>
           
           <button className="home-button" onClick={goToSearch}>

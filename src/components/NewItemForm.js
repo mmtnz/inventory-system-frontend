@@ -165,7 +165,7 @@ const NewItemForm = ({args}) => {
                     <label htmlFor='location'>Ubicación</label>
 
                     <Select options={placesList} onChange={changePlace}/>
-                    
+                    {validator.message('place', place, 'required')}
                     {place && 
                         <Select
                             options={locationObj.placeObj[place.value].zonesList}
