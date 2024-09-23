@@ -1,8 +1,12 @@
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../services/AuthContext';
+
 
 
 const Header = () => {
 
+    const { user } = useContext(AuthContext); // Access AuthContext
     const navigate = useNavigate();
 
     const goHome = () => {
@@ -11,11 +15,15 @@ const Header = () => {
 
     return(
         <div id="header">
-            <div className='home-icon-container'>
-                <span className="material-symbols-outlined" onClick={goHome}>
-                    home
-                </span>
-            </div>  
+            {user && 
+                <div className='home-icon-container'>
+                    <span className="material-symbols-outlined" onClick={goHome}>
+                        home
+                    </span>
+                </div>
+            }  
+            
+            
         </div>
     )
 };

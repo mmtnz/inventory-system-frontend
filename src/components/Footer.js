@@ -6,7 +6,6 @@ import config from '../config';
 const Footer = () => {
   
   const { SW_VERSION } = config;
-  console.log(SW_VERSION)
 
   return (
     <div className='footer'>
