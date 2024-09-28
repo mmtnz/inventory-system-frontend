@@ -3,20 +3,18 @@ import EditItemForm from '../components/EditItemForm';
 import { apiGetTagsList, apiGetTLoationsObj } from '../services/api';
 import { apiGetItem } from '../services/api';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const EditItemPage = () => {
 
     const [args, setArgs] = useState({tagList: null, locationObj: null});
-    // const url = API_BASE_URL;
     const itemId = useParams().id;
     const [item, setItem] = useState({});
-    const [error, setError] = useState({});
     const [loading, setLoading] = useState(true);
+    const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     useEffect(() => {
-        getArgs();
-        
-       
+        getArgs();       
     }, [])
 
     const getData = ()  => {
@@ -42,19 +40,10 @@ const EditItemPage = () => {
         try {
             const data = await apiGetItem(itemId);
             setItem(data);
-            setError(null);
-
-            // setSelectedTags(data.tagList);
-            // console.log(data)
-            // if (tagList) {
-            //     setInitialTags(tagList.filter(option => data.tagsList.includes(option.value)))
-            // }
             setLoading(false);
             
         } catch (err) {
             setItem({})
-            console.log(err)
-            setError('Error cargando elemento')
         }
     }
 
@@ -70,7 +59,7 @@ const EditItemPage = () => {
     return(
         <div className='center'>
             <section className='content'>
-                <h1>Editar elemento</h1>
+                <h1>{t('titleEdit')}</h1>
                 <EditItemForm args={args} itemArg={item}/>
             </section>
         </div>

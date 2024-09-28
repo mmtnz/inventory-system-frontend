@@ -1,0 +1,10 @@
+{
+    "login": "Iniciar sesión",
+    "email": "Email",
+    "password": "Contraseña",
+    "showPassword": "Mostrar contraseña",
+    "createPassword": "Crear contraseña",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "signOut": "Cerrar sesión"
+}

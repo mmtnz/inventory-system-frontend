@@ -1,15 +1,22 @@
 import { useNavigate, useParams } from "react-router-dom";
-import API_BASE_URL, { apiDeleteItem, apiGetItem } from "../services/api";
+import API_BASE_URL, { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
 import { useEffect, useState } from "react";
 import defaultImage from "../assets/images/default.png"
 import Swal from 'sweetalert2';
 import messagesObj from "../schemas/messages";
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
+import { useTranslation } from 'react-i18next';
+
+import Modal from 'react-modal';
+import CustomModal from "./CustomModal";
+Modal.setAppElement('#root');  // Required for accessibility
+
 
 
 const Item = ({args}) => {
     
+
     const tagList = args.tagList;
     const locationObj = args.locationObj;
 
@@ -24,11 +31,14 @@ const Item = ({args}) => {
     const [sublocation, setSublocation] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [, forceUpdate] = useState();
+
     const navigate = useNavigate();
+    const { t } = useTranslation('item'); // Load translations from the 'item' namespace
 
     useEffect(() => {
         loadItem();
-        // console.log(locationObj.zonesList.find(option => location.includes(option.value).label))
     }, [])
 
     const loadItem = async () => {
@@ -48,7 +58,7 @@ const Item = ({args}) => {
         } catch (err) {
             setItem({})
             console.log(err)
-            setError('Error cargando elemento')
+            setError(t('error'))
         }
     }
 
@@ -58,7 +68,6 @@ const Item = ({args}) => {
         if (resultApi.status == 200) {
             Swal.fire(messagesObj.deleteItemSuccess);
             navigate('/home');
-            
         }
         else {
             Swal.fire(messagesObj.deleteItemError);
@@ -73,6 +82,12 @@ const Item = ({args}) => {
                 }
             }
         )
+    }
+
+    const handleReturnLent = async () => {
+        let utcDate = new Date().toISOString().split('T')[0];
+        let resultApi = await apiReturnLent(item, id, utcDate);
+        forceUpdate();
     }
 
     const goToEdit = () => {
@@ -110,12 +125,7 @@ const Item = ({args}) => {
 
                     <div className="item-data">
                         <div className="item-data-group">
-                            <label>Nombre:</label>
-                            <p>{item.name}</p>
-                        </div>
-
-                        <div className="item-data-group">
-                            <label>Otros nombres:</label>
+                            <label>{t('otherNames')}:</label>
                             {(item.otherNamesList && item.otherNamesList.length > 0) ? 
                                 (<div className="tags-container">
                                     {item.otherNamesList.map((tag, index) => (
@@ -130,7 +140,7 @@ const Item = ({args}) => {
                         </div>
 
                         <div className="item-data-group">
-                            <label>Tags:</label>
+                            <label>{t('tags')}:</label>
                             {(item.tagsList && item.tagsList.length > 0) ? 
                                 (<div className="tags-container">
                                     {item.tagsList.map((tag, index) => (
@@ -145,14 +155,12 @@ const Item = ({args}) => {
                         </div>
 
                         <div className="item-data-group">
-                            <label>Ubicación:</label>
-                            {/* <p>{item.location}</p> */}
-                            <p>{`${place.label} / ${location.label} / ${sublocation.label}`}</p>
-                            
+                            <label>{t('location')}:</label>
+                            <p>{`${place.label} / ${location.label} / ${sublocation.label}`}</p>  
                         </div>
                         
                         <div className="item-data-group">
-                            <label>Descripcion:</label>
+                            <label>{t('description')}:</label>
                             {(item.description != '') ? (
                                 <p>{item.description}</p>
                             ) : (
@@ -161,30 +169,53 @@ const Item = ({args}) => {
                         </div>
 
                         <div className="item-data-group">
-                            <label>Última modificación:</label>
+                            <label>{t('lent')}:</label>
+                            {(item.isLent != null) ? (
+                                <>
+                                    <p>{item.isLent.split('/')[0]}</p>
+                                    <Moment fromNow utc locale="es">{item.isLent.split('/')[1]}</Moment>
+                                </>
+                            ) : (
+                                '-'
+                            )}
+    
+                            <button
+                                className="history-container"
+                                onClick={() => setModalIsOpen(true)}
+                                disabled={!item.lentHistory}
+                            >
+                                <span className="material-symbols-outlined">
+                                    history
+                                </span>
+                            </button>
+                            
+                        </div>
+
+                        <CustomModal
+                            modalIsOpen={modalIsOpen}
+                            setModalIsOpen={setModalIsOpen}
+                            title={t('modalTitle')}
+                            content={item.lentHistory}
+                        />
+
+                        <div className="item-data-group">
+                            <label>{t('lastModification')}:</label>
                             <Moment format="DD/MM/YYYY HH:mm">{item.date.lastEdited}</Moment>
-                            <p>UTC</p>
                         </div>
 
                         <div className="item-data-group">
-                            <label>Fecha creación:</label>
+                            <label>{t('creationDate')}:</label>
                             <Moment format="DD/MM/YYYY HH:mm">{item.date.created}</Moment>
-                            <p>UTC</p>
                         </div>
-
-                        
-
                     </div>
                 </div>
 
                 <div className="item-button-container">
-                    <button className='edit-button' onClick={goToEdit}>Editar</button>
-                    <button className='delete-button' onClick={handleDelete}>Eliminar</button>
+                    <button className='edit-button' onClick={goToEdit}>{t('editButton')}</button>
+                    <button className='delete-button' onClick={handleDelete}>{t('deleteButton')}</button>
+                    <button className='retrun-button' onClick={handleReturnLent}>{"return"}</button>
                 </div>
             </div>
-            
-
-
         </div>
     );
 };

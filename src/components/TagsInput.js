@@ -1,8 +1,11 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
+
 
 const TagsInput = ({tagList, setTagList}) => {
 
     const tagRef = React.createRef();
+    const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     const addTag = (e) => {
         e.preventDefault();
@@ -41,7 +44,7 @@ const TagsInput = ({tagList, setTagList}) => {
             <input type="text" ref={tagRef}/>
             
             <div className="button-container">
-                <button onClick={addTag}>Agregar</button>
+                <button onClick={addTag}>{t('add')}</button>
             </div>
           
         </div>

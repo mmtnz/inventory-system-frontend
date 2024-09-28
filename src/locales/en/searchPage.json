@@ -1,0 +1,14 @@
+{
+    "title": "Search",
+    "name": "Name",
+    "tags": "Tags",
+    "select": "Select filter...",
+    "searchButton": "Search",
+    "isLent": "Is it lent?",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "lent": "Lent",
+    "notLent": "Not lent",
+    "lentLabel": "Filter by lent"    
+}

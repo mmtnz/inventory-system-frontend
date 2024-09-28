@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
 import SearchForm from '../components/SearchForm';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 // import { getProducts } from '../services/api';
 
 const HomePage = () => {
@@ -16,6 +18,7 @@ const HomePage = () => {
 //     fetchData();
 //   }, []);
   const navigate = useNavigate();
+  const { t } = useTranslation('homePage'); // Load translations from the 'home' namespace
 
   const goToSearch = () => {
     navigate('/search');
@@ -28,17 +31,17 @@ const HomePage = () => {
   return (
     <div className='center'>
       <section className='content'>
-        <h1>Organizador trastero</h1>
+        <h1>{t('title')}</h1>
         <div className='option-button-container'>
           
           <button className="home-button" onClick={goToSearch}>
             {/* <Link to="/search">Buscar</Link> */}
-            <p>Buscar</p>
+            <p>{t('searchButton')}</p>
           </button>
           
           <button className="home-button" onClick={goToNewItem}>
             {/* <Link to="/new-item">Nuevo elemento</Link> */}
-            <p>Nuevo elemento</p>
+            <p>{t('newItemButton')}</p>
           </button>
         </div>
         

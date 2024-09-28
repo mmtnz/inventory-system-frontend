@@ -4,8 +4,8 @@ import SearchForm from '../components/SearchForm';
 import { apiSearchItems } from "../services/api";
 import ItemWrap from "../components/ItemWrap"
 import {apiGetTagsList} from "../services/api";
-import DisplayPages from "../components/DisplayPages";
-import ReactPaginate from "react-paginate";
+
+import { useTranslation } from 'react-i18next';
 
 const SearchPage = () => {
 
@@ -20,33 +20,41 @@ const SearchPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [startIndex, setStartIndex] = useState(0);
 
+    const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
+
     useEffect(() => {
         getTagsList();
         const query = searchParams.get('q');
         const tagList = searchParams.getAll('tag');
+        const isLent = searchParams.get('lent');
 
         if (query || query === '' || tagList.length > 0) {
-            handleSearch(query, tagList);
+            handleSearch(query, tagList, isLent);
         }
         
     }, [searchParams]);
     
-    const handleSearch = async (query, tagList) => {
+    const handleSearch = async (query, tagList, isLent) => {
         try {
+            
             let args = {
                 q: query,
                 tag: tagList
             }
-            console.log('entro')
-            let urlArgs = new URLSearchParams(args)
-            console.log(urlArgs.toString())
+
+            console.log(`isLent: ${isLent}`)
+            // console
+            if(isLent != undefined){
+                args = {...args, lent: isLent}
+            }
+  
+            let urlArgs = new URLSearchParams(args)  // Get query and tags from url to search
 
             const data = await apiSearchItems(urlArgs.toString());
             setResults(data);
             setError(null);
             setIsSearch(true);
             setTotalPages(Math.ceil(data.length / itemsPerPage));
-            // setTotalPages(15);
 
         } catch (err) {
             setError('An error occurred while fetching data.');
@@ -59,11 +67,6 @@ const SearchPage = () => {
         let response = await apiGetTagsList();
         setTagList(response);
     }
-
-    // const changePage = (index) => {
-    //     setCurrentPage(index + 1);
-    //     setStartIndex(index * itemsPerPage) // +1 -1
-    // }
 
     const increasePage = () =>{
         setCurrentPage(currentPage + 1);
@@ -79,7 +82,7 @@ const SearchPage = () => {
     return (
         <div id="search-page" className="center">
             <section className="content">
-                <h1>Buscar</h1>
+                <h1>{t('title')}</h1>
                 <SearchForm tagList={tagList}/>
                 
                 {error && <p>{error}</p>}

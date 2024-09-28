@@ -4,6 +4,7 @@ import userPool from '../services/cognitoConfig';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator'
+import { useTranslation } from 'react-i18next';
 
 const ChangePasswordPage = () => {
 
@@ -13,7 +14,9 @@ const ChangePasswordPage = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [visible, setVisible] = useState(false);
     const [error, setError] = useState(null);
+    
     const [cognitoUser, setCognitoUser] = useState(null);  // State to store CognitoUser
+    const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     // Initialize simple-react-validator
     const [validator] = useState(new SimpleReactValidator({
@@ -44,14 +47,7 @@ const ChangePasswordPage = () => {
 
     useEffect(() => {
    
-        if (user) {
-            // Here you can use the cognitoUser object to complete the password change
-            setCognitoUser(new CognitoUser({
-                Username: user.username,
-                Pool: userPool,
-            }));
-        } else {
-            // Handle the case where there's no CognitoUser data (e.g., redirect back to login)
+        if(!user){
             navigate('/login');
         }
       }, []);
@@ -59,19 +55,14 @@ const ChangePasswordPage = () => {
 
       const handleChangePassword = (event) => {
         event.preventDefault();
-        console.log('entro aqui')
 
         if (validator.allValid()) {
-
-            console.log('entro')
-            console.log(user)
-            console.log(user.Session)
-            console.log(userAttributes)
 
             user.completeNewPasswordChallenge(newPassword, userAttributes, {
 
                 onSuccess: (result) => {
                     console.log('Password changed successfully!', result);
+                    setConfirmPassword(false);
                     navigate('/home'); // Redirect to home after success
                 },
                 onFailure: (err) => {
@@ -80,11 +71,6 @@ const ChangePasswordPage = () => {
                 },
             });
         } else {
-            console.log('entro al else')
-            console.log(validator.allValid())
-            console.log(validator.getErrorMessages())
-            console.log(newPassword)
-            console.log(confirmPassword)
             validator.showMessages(); // Show validation error messages
             forceUpdate(); // Force re-render to show validation messages
         }
@@ -97,13 +83,13 @@ const ChangePasswordPage = () => {
     return (
         <div id="search-page" className="center">
             <section className="content">
-                <h1>Create password</h1>
+                <h1>{t('createPassword')}</h1>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
             
                 <form onSubmit={handleChangePassword} className='repeat-password-form'>
                     <div className='formGroup'>
-                        <label htmlFor="new-password">New Password</label>
+                        <label htmlFor="new-password">{t('newPassword')}</label>
                         
                         <input
                             type={visible ? 'text' : 'password'}
@@ -116,25 +102,25 @@ const ChangePasswordPage = () => {
 
                         <div className='show-password-container'>
                             <input type='checkbox' onChange={togglePassword}/>
-                            <div>Show password</div>
+                            <div>{t('showPassword')}</div>
                         </div>
 
                         {validator.message('newPassword', newPassword, 'required|passwordStrength|min:8')}
                     </div>
         
                     <div className='formGroup'>
-                        <label htmlFor="confirmPassword">Confirm password</label>
+                        <label htmlFor="confirmPassword">{t('confirmPassword')}</label>
                         <input
                             type={visible ? 'text' : 'password'}
                             name="confirmPassword"
-                            placeholder="Confirm password"
+                            placeholder={t('confirmPassword')}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             onBlur={() => validator.showMessageFor('confirmPassword')}
                         />
                         {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${newPassword}`)}
                     </div>
-                    <button type="submit">Create password</button>
+                    <button type="submit">{t('Create password')}</button>
                 </form>
             </section>
         </div>

@@ -4,6 +4,8 @@ const Item = {
     tagList: [],
     location: "",
     description: "",
-    image: null
+    image: null,
+    isLent: null,
+    lentHistory: null
 }
 export default Item;

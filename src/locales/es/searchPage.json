@@ -1,0 +1,14 @@
+{
+    "title": "Buscar",
+    "name": "Nombre",
+    "tags": "Etiquetas",
+    "select": "Seleccionar filtro...",
+    "searchButton": "Buscar",
+    "isLent": "¿Esá prestado?",
+    "yes": "Sí",
+    "no": "No",
+    "all": "Todos",
+    "lent": "Prestado",
+    "notLent": "No prestado",
+    "lentLabel": "Filtrar por prestado"
+}

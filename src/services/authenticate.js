@@ -20,24 +20,23 @@ const signIn = async (email, password) => {
   return new Promise((resolve, reject) => {
     user.authenticateUser(authDetails, {
       onSuccess: (session) => {
+        
         console.log('Successfully signed in:', session);
         // Access tokens
-        console.log('Access token:', session.getAccessToken().getJwtToken());
-        console.log('ID token:', session.getIdToken().getJwtToken());
-        console.log('Refresh token:', session.getRefreshToken().getToken());
+        // console.log('Access token:', session.getAccessToken().getJwtToken());
+        // console.log('ID token:', session.getIdToken().getJwtToken());
+        // console.log('Refresh token:', session.getRefreshToken().getToken());
 
         // Handle successful authentication
-        sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
-        sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
-        sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
+        // sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
+        // sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
+        // sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
         
         resolve({session, cognitoUser: user}); // Return the session on success
       },
       newPasswordRequired: (userAttributes, requiredAttributes) => {
-        console.log('estoy en new pass')
-        console.log(userAttributes)
-        console.log(requiredAttributes)
-        console.log(user)
+        // console.log(userAttributes)
+        // console.log(requiredAttributes)
 
         // Filter out non-writable attributes
         // const writableAttributes = { ...userAttributes };

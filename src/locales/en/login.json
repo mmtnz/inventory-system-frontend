@@ -1,0 +1,10 @@
+{
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "showPassword": "Show password",
+    "createPassword": "Create password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm password",
+    "signOut": "Sign out"
+}

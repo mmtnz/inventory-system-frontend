@@ -2,24 +2,25 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {signIn} from '../services/authenticate';
 import AuthContext from '../services/AuthContext';
-import SimpleReactValidator from 'simple-react-validator'
+import SimpleReactValidator from 'simple-react-validator';
+import { useTranslation } from 'react-i18next';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const [step, setStep] = useState('login');
+  const [visible, setVisible] = useState(false);
+
 
   const { setUser } = useContext(AuthContext); // Use context to store the user
   const { setUserAttributes } = useContext(AuthContext); // Use context to store the user attributes
 
-  const [newPassword, setNewPassword] = useState('');
-  const [repeatNewPassword, setRepeatNewPassword] = useState('');
 
   // Initialize simple-react-validator
   const [validator] = useState(new SimpleReactValidator);
 
   const navigate = useNavigate();
+  const { t } = useTranslation('login'); // Load translations from the 'login' namespace
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -39,7 +40,7 @@ function LoginPage() {
         // Otherwise, redirect to the home page
         setUser(result.cognitoUser)
         setUserAttributes(result.userAttributes)
-        // console.log(result.userAttributes)
+        console.log(result.userAttributes)
         navigate('/home');
       }
     } catch (err) {
@@ -48,20 +49,24 @@ function LoginPage() {
     }
   };
 
+  const togglePassword = () => {
+    setVisible(!visible);
+  }
+
 
   return (
     <div id="search-page" className="center">
       <section className="content">
-        <h1>Login</h1>
+        <h1>{t('login')}</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             
             <form onSubmit={handleLogin} className='login-form'>
               <div className='formGroup'>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t('email')}</label>
                 <input
                   type="text"
                   name="email"
-                  placeholder="Email"
+                  placeholder={t('email')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={() => validator.showMessageFor('email')}
@@ -70,90 +75,25 @@ function LoginPage() {
               </div>
     
               <div className='formGroup'>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t('password')}</label>
                 <input
-                  type="password"
+                  type={visible ? 'text' : 'password'}
                   name="password"
-                  placeholder="Password"
+                  placeholder={t('password')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   onBlur={() => validator.showMessageFor('password')}
                 />
+                <div className='show-password-container'>
+                  <input type='checkbox' onChange={togglePassword}/>
+                  <div>{t('showPassword')}</div>
+                </div>
                 {validator.message('password', password, 'required')}
               </div>
               
     
-              <button type="submit">Login</button>
-            </form>
-        
-        {/* {step == 'login' ? (
-          <>
-            <h1>Login</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            
-            <form onSubmit={handleLogin} className='login-form'>
-              <div className='formGroup'>
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-    
-              <div className='formGroup'>
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-    
-              <button type="submit">Login</button>
-            </form>
-          </>
-        ) : (
-          <>
-            <h1>Create new password</h1>
-
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <form onSubmit={handleUpdatePassword} className='repeat-password-form'>
-                <div className='formGroup'>
-                    <label htmlFor="new-password">New Password</label>
-                    <input
-                        type="password"
-                        name="new-password"
-                        placeholder="New password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-
-                <div className='formGroup'>
-                    <label htmlFor="repeat-new-password">Repeat new password</label>
-                    <input
-                        type="password"
-                        name="repeat-new-password"
-                        placeholder="new password"
-                        value={repeatNewPassword}
-                        onChange={(e) => setRepeatNewPassword(e.target.value)}
-                        required
-                    />
-                    </div>
-                <button type="submit">Update password</button>
-            </form>
-          </>
-        )} */}
-        
+              <button type="submit">{t('login')}</button>
+            </form>        
         </section>
     </div>
   );
