@@ -9,5 +9,8 @@
     "lastModification": "Última modificación",
     "creationDate": "Fecha creación",
     "editButton": "Editar",
-    "deleteButton": "Eliminar"
+    "deleteButton": "Eliminar",
+    "isReturned": "Devolver",
+    "to": "a",
+    "locale": "es"
 }

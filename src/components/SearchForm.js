@@ -90,14 +90,19 @@ const SearchForm = ({tagList}) => {
                     options={options}
                     placeholder={t('select')}
                     value={selectedLent}
-                    onChange={setSelectedLent} 
+                    onChange={setSelectedLent}  
+                    classNamePrefix="react-select" // Apply custom prefix
                 />
             </div>
             
+            <div className='search-button-container'></div>
             <button
-                className="search-button"
+                className="custom-button"
                 type="submit"
             >
+                <span className="material-symbols-outlined">
+                    search
+                </span>
                 {t('searchButton')}
             </button>
         </form>

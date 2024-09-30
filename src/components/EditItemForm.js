@@ -17,7 +17,7 @@ const EditItemForm = ({args, itemArg}) => {
     const itemId = useParams().id;
     const [item, setItem] = useState(itemArg);
     const oldItem = itemArg;
-    delete oldItem.date.lastEdited;
+    delete oldItem.dateLastEdited;
 
     const tagList = args.tagList;
     const locationObj = args.locationObj;
@@ -35,6 +35,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [isFileChanged, setIsFileChanged] = useState(false);
     const [isDifferent, setIsDifferent] = useState(false);
     const [isLent, setIsLent] = useState(itemArg.isLent != null);
+    const initialIsLent = itemArg.isLent != null;
 
     const [isLentName, setIsLentName] = useState('');
     const [isLentDate, setIsLentDate] = useState('');
@@ -46,19 +47,15 @@ const EditItemForm = ({args, itemArg}) => {
     let url = API_BASE_URL;
 
     const navigate = useNavigate();
-    const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
+    const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
-    //Default messages in Spanish
-    const customMessages = {
-        default: 'Este campo no es válido.',
-        required: 'Este campo es obligatorio.',
-        name: "Este campo es obligatorio",
-        min: 'El valor debe ser mayor o igual a :min caracteres.',
-        max: 'El valor debe ser menor o igual a :max caracteres.',
-        email: 'El correo electrónico no es válido.',
-    };
-
-    const [validator] = useState(new SimpleReactValidator({ messages: customMessages }));
+    
+    const [validator, setValidator] = useState(new SimpleReactValidator(
+        { messages: {
+            default: t('defaultMessage'),
+            required: t('requiredMessage'),
+        }
+    }));
 
     // Get today's date in the format YYYY-MM-DD
     const today = new Date().toISOString().split('T')[0];
@@ -81,7 +78,17 @@ const EditItemForm = ({args, itemArg}) => {
             setIsLentName(auxLentName);
             setIsLentDate(auxLentDate);
         }
-    }, [item, tagList, locationObj, placesList]);
+
+        setValidator(
+            new SimpleReactValidator({
+                messages: {
+                    required: t('requiredMessage'),
+                    email: t('emailInvalid'),
+                },
+            })
+        );
+
+    }, [item, tagList, locationObj, placesList, i18n.language]);
     
     const handleSubmit = (e)  => {
         e.preventDefault();
@@ -101,7 +108,7 @@ const EditItemForm = ({args, itemArg}) => {
             ...item,
             name: nameRef.current.value,
             description: descriptionRef.current.value,
-            date: {created: item.date.created}
+            // date: {created: item.date.created}
         }
 
         setItem(auxItem)
@@ -119,12 +126,12 @@ const EditItemForm = ({args, itemArg}) => {
             if (selectedFile){
                 await uploadImage(itemResponse.id);
             } else {
-                Swal.fire(messagesObj.editItemSuccess);
+                Swal.fire(messagesObj[t('locale')].editItemSuccess);
                 navigate('/home');
             }      
         } catch (err) {
             setError(err);
-            Swal.fire(messagesObj.editItemError)
+            Swal.fire(messagesObj[t('locale')].editItemError)
         } 
     }
 
@@ -157,11 +164,11 @@ const EditItemForm = ({args, itemArg}) => {
     const uploadImage = async (itemId) => {
         try {            
             const response = await apiUploadImage(selectedFile, itemId);
-            Swal.fire(messagesObj.editItemSuccess);
+            Swal.fire(messagesObj[t('locale')].editItemSuccess);
             navigate('/home')
         } catch (err) {
             setError(err);
-            Swal.fire(messagesObj.editItemImageError);
+            Swal.fire(messagesObj[t('locale')].editItemImageError);
         }
     }
 
@@ -192,6 +199,22 @@ const EditItemForm = ({args, itemArg}) => {
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
         console.log(auxItem)
         console.log(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)))
+    }
+
+    const changeLentName = (event) => {
+        setIsLentName(event.target.value)
+        let auxIsLent = `${event.target.value}/${isLentDate}`;
+        let auxItem = {...item, isLent: auxIsLent};
+        setItem(auxItem);
+        setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
+    }
+
+    const changeLentDate = (event) => {
+        setIsLentDate(event.target.value)
+        let auxIsLent = `${isLentName}/${event.target.value}`;
+        let auxItem = {...item, isLent: auxIsLent};
+        setItem(auxItem);
+        setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
     }
 
     
@@ -329,7 +352,7 @@ const EditItemForm = ({args, itemArg}) => {
                         <div className='formGroup'>
                             <label htmlFor='isLentName'>{t('whom')}</label>
                             <input type='text' name='isLentName' placeholder={t('name')} value={isLentName}
-                                onChange={(e) => setIsLentName(e.target.value)}
+                                onChange={changeLentName}
                             />
                             {validator.message('isLentName', isLentName, isLent ? 'required|alpha_space' : '')}
                         </div>
@@ -337,7 +360,7 @@ const EditItemForm = ({args, itemArg}) => {
                         <div className='formGroup'>
                             <label htmlFor='isLentDate'>{t('when')}</label>
                             <input aria-label="Date" type="date" value={isLentDate} max={today}
-                                onChange={(e) => {setIsLentDate(e.target.value)}}
+                                onChange={changeLentDate}
                             />
                             {validator.message('isLentDate', isLentDate, isLent ? 'required' : '')}
                         </div>
@@ -347,7 +370,7 @@ const EditItemForm = ({args, itemArg}) => {
 
                     <div className='formGroup'>
                         <div className='save-button-container'>
-                            <button className='save-button' type='submit' disabled={!isDifferent && !isFileChanged}>
+                            <button className='custom-button' type='submit' disabled={!isDifferent && !isFileChanged}>
                                 {t('save')}
                             </button>
                         </div>

@@ -34,20 +34,22 @@ const HomePage = () => {
         <h1>{t('title')}</h1>
         <div className='option-button-container'>
           
-          <button className="home-button" onClick={goToSearch}>
-            {/* <Link to="/search">Buscar</Link> */}
-            <p>{t('searchButton')}</p>
+          <button className="custom-button" onClick={goToSearch}>
+            <span className="material-symbols-outlined">
+                search
+            </span>
+            {t('searchButton')}
           </button>
           
-          <button className="home-button" onClick={goToNewItem}>
-            {/* <Link to="/new-item">Nuevo elemento</Link> */}
-            <p>{t('newItemButton')}</p>
+          <button className="custom-button" onClick={goToNewItem}>
+            <span className="material-symbols-outlined">
+              add
+            </span>
+            {t('newItemButton')}
           </button>
         </div>
         
       </section>
-      {/* <SearchForm />
-      <Footer /> */}
     </div>
   );
 };

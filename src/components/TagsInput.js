@@ -44,7 +44,12 @@ const TagsInput = ({tagList, setTagList}) => {
             <input type="text" ref={tagRef}/>
             
             <div className="button-container">
-                <button onClick={addTag}>{t('add')}</button>
+                <button onClick={addTag} className="custom-button-small">
+                    <span className="material-symbols-outlined">
+                        add
+                    </span>
+                    {t('add')}
+                </button>
             </div>
           
         </div>

@@ -14,5 +14,8 @@
     "whom": "Whom?",
     "when": "When?",
     "save": "Save",
-    "titleEdit": "Edit item"
+    "titleEdit": "Edit item",
+    "requiredMessage": "This field is required.",
+    "defaultMessage": "This field is not valid.",
+    "locale": "en"
 }

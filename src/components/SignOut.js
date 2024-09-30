@@ -39,7 +39,7 @@ const SignOut = () => {
                 logout
             </span>
             <div className='hover-text'>
-                {t('s')}
+                {t('signOut')}
             </div>
         </div>
     )

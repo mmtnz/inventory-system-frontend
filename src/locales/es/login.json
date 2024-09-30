@@ -6,5 +6,7 @@
     "createPassword": "Crear contraseña",
     "newPassword": "Nueva contraseña",
     "confirmPassword": "Confirmar contraseña",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "requiredMessage": "Este campo es obligatorio.",
+    "emailInvalid": "Debe ser una dirección de correo válida."
 }

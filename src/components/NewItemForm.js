@@ -35,27 +35,30 @@ const NewItemForm = ({args}) => {
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
-    const { t } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
+    const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
     
-    //Default messages in Spanish
-    const customMessages = {
-        default: 'Este campo no es válido.',
-        required: 'Este campo es obligatorio.',
-        name: "Este campo es obligatorio",
-        min: 'El valor debe ser mayor o igual a :min caracteres.',
-        max: 'El valor debe ser menor o igual a :max caracteres.',
-        email: 'El correo electrónico no es válido.',
-    };
-
     // Get today's date in the format YYYY-MM-DD
     const today = new Date().toISOString().split('T')[0];
 
-    const [validator] = useState(new SimpleReactValidator({ messages: customMessages }));
+    const [validator, setValidator] = useState(new SimpleReactValidator(
+        { messages: {
+            default: t('defaultMessage'),
+            required: t('requiredMessage'),
+        }
+    }));
 
-    
+    // Change validator messages language
     useEffect(() => {
         changeState();
-    }, [])
+        setValidator(
+            new SimpleReactValidator({
+                messages: {
+                    required: t('requiredMessage'),
+                    email: t('emailInvalid'),
+                },
+            })
+        );
+    }, [i18n.language])
 
     const handleSubmit = (e)  => {
         e.preventDefault();
@@ -77,23 +80,24 @@ const NewItemForm = ({args}) => {
             if (selectedFile){
                 await uploadImage(itemResponse.id);
             } else {
-                Swal.fire(messagesObj.newItemSuccess);
+                console.log(messagesObj[t('locale')])
+                Swal.fire(messagesObj[t('locale')].newItemSuccess);
                 navigate('/home');
             }      
         } catch (err) {
             setError(err);
-            Swal.fire(messagesObj.newItemError)
+            Swal.fire(messagesObj[t('locale')].newItemError)
         } 
     }
 
     const uploadImage = async (itemId) => {
         try {            
             const response = await apiUploadImage(selectedFile, itemId);
-            Swal.fire(messagesObj.newItemSuccess);
+            Swal.fire(messagesObj[t('locale')].newItemSuccess);
             navigate('/home')
         } catch (err) {
             setError(err);
-            Swal.fire(messagesObj.newItemImageError);
+            Swal.fire(messagesObj[t('locale')].newItemImageError);
         }
     }
 
@@ -286,7 +290,7 @@ const NewItemForm = ({args}) => {
 
                 <div className='formGroup'>
                     <div className='save-button-container'>
-                        <button className='save-button' type='submit'>
+                        <button className='custom-button' type='submit'>
                             {t('save')}
                         </button>
                     </div>

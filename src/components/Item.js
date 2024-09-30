@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import messagesObj from "../schemas/messages";
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 
 import Modal from 'react-modal';
@@ -35,11 +36,20 @@ const Item = ({args}) => {
     const [, forceUpdate] = useState();
 
     const navigate = useNavigate();
-    const { t } = useTranslation('item'); // Load translations from the 'item' namespace
+    const { t, i18n } = useTranslation('item'); // Load translations from the 'item' namespace
 
+
+    // Update Moment's locale based on the current language from i18next
     useEffect(() => {
+        if (i18n.language === 'es') {
+            moment.locale('es'); // Set Moment to use Spanish locale
+        } else {
+            moment.locale('en'); // Use default locale (English) if language is not Spanish
+        }
         loadItem();
-    }, [])
+    }, [i18n.language]);  // Re-run whenever the language changes
+
+    
 
     const loadItem = async () => {
         try {
@@ -66,16 +76,16 @@ const Item = ({args}) => {
         let resultApi = await apiDeleteItem(id);
         console.log(resultApi);
         if (resultApi.status == 200) {
-            Swal.fire(messagesObj.deleteItemSuccess);
+            Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
             navigate('/home');
         }
         else {
-            Swal.fire(messagesObj.deleteItemError);
+            Swal.fire(messagesObj[t('locale')].deleteItemError);
         }
     }
 
     const handleDelete = async () => {
-        Swal.fire(messagesObj.deleteItemConfirmation
+        Swal.fire(messagesObj[t('locale')].deleteItemConfirmation
             ).then((result) => {
                 if (result.isConfirmed) {
                     deleteItem();      
@@ -171,16 +181,25 @@ const Item = ({args}) => {
                         <div className="item-data-group">
                             <label>{t('lent')}:</label>
                             {(item.isLent != null) ? (
-                                <>
-                                    <p>{item.isLent.split('/')[0]}</p>
+                                <div className="lent-data-container">
                                     <Moment fromNow utc locale="es">{item.isLent.split('/')[1]}</Moment>
-                                </>
+                                    <p>{t('to')} {item.isLent.split('/')[0]}</p>
+                                    <button
+                                        className='custom-button-small'
+                                        onClick={handleReturnLent}
+                                    >
+                                        <span className="material-symbols-outlined">
+                                            assignment_return                                            
+                                        </span>
+                                        {t('isReturned')}
+                                    </button>
+                                </div>
                             ) : (
                                 '-'
                             )}
     
                             <button
-                                className="history-container"
+                                className="custom-button-small"
                                 onClick={() => setModalIsOpen(true)}
                                 disabled={!item.lentHistory}
                             >
@@ -191,29 +210,41 @@ const Item = ({args}) => {
                             
                         </div>
 
+                        {item.lentHistory &&
                         <CustomModal
                             modalIsOpen={modalIsOpen}
                             setModalIsOpen={setModalIsOpen}
                             title={t('modalTitle')}
                             content={item.lentHistory}
-                        />
+                            />
+                        }
 
                         <div className="item-data-group">
                             <label>{t('lastModification')}:</label>
-                            <Moment format="DD/MM/YYYY HH:mm">{item.date.lastEdited}</Moment>
+                            <Moment format="DD/MM/YYYY HH:mm">{item.dateLastEdited}</Moment>
                         </div>
 
                         <div className="item-data-group">
                             <label>{t('creationDate')}:</label>
-                            <Moment format="DD/MM/YYYY HH:mm">{item.date.created}</Moment>
+                            <Moment format="DD/MM/YYYY HH:mm">{item.dateCreated}</Moment>
                         </div>
                     </div>
                 </div>
 
                 <div className="item-button-container">
-                    <button className='edit-button' onClick={goToEdit}>{t('editButton')}</button>
-                    <button className='delete-button' onClick={handleDelete}>{t('deleteButton')}</button>
-                    <button className='retrun-button' onClick={handleReturnLent}>{"return"}</button>
+                    <button className='custom-button' onClick={goToEdit}>
+                        <span className="material-symbols-outlined">
+                            edit
+                        </span>
+                        {t('editButton')}
+                    </button>
+                    <button className='custom-button' onClick={handleDelete}>
+                        <span className="material-symbols-outlined">
+                            delete
+                        </span>
+                        {t('deleteButton')}
+                    </button>
+                    {/* <button className='retrun-button' onClick={handleReturnLent}>{"return"}</button> */}
                 </div>
             </div>
         </div>

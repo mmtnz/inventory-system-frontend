@@ -1,4 +1,9 @@
 {
     "edited": "Edited",
-    "lent": "Lent"
+    "lent": "Lent",
+    "to": "to",
+    "delete": "Delete",
+    "return": "Return",
+    "locale": "en"
+
 }

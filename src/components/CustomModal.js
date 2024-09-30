@@ -1,4 +1,6 @@
 import Modal from 'react-modal';
+import Moment from 'react-moment'
+import moment from 'moment';
 Modal.setAppElement('#root');  // Required for accessibility
 
 
@@ -20,8 +22,23 @@ const CustomModal = ({modalIsOpen, setModalIsOpen, title, content}) => {
                 </div>
             </div>
             
-            <div className="modal-content">
-                {content}
+            <div className='modal-content-container'>
+                <div className="modal-content">
+                    <ul>
+                        {content.map(result => {
+                            let [lentName, lentDateInit, lentDateEnd] = result.split('/');
+                            return(
+                                <li>
+                                    <div className='modal-history-entry'>
+                                        {lentName}
+                                        <Moment format="DD/MM/YYYY ">{lentDateInit}</Moment>
+                                        <Moment format="DD/MM/YYYY ">{lentDateEnd}</Moment>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
             </div>
         </Modal>
     )

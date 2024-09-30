@@ -120,7 +120,9 @@ const ChangePasswordPage = () => {
                         />
                         {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${newPassword}`)}
                     </div>
-                    <button type="submit">{t('Create password')}</button>
+                    <button type="submit" className='custom-button'>
+                        {t('Create password')}
+                    </button>
                 </form>
             </section>
         </div>

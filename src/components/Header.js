@@ -30,13 +30,18 @@ const Header = () => {
 
     return(
         <div id="header">
-            {cognitoUser && 
+            {cognitoUser ? ( 
                 <>
                 <div className='header-icon-container'>
                     <span className="material-symbols-outlined" onClick={goHome}>
                         home
                     </span>
+                    {/* <div className='hover-text'>
+                        Home
+                    </div> */}
+                    
                 </div>
+                
                 <div className='header-icon-container'>
                     <select
                         id="language-select"
@@ -50,7 +55,18 @@ const Header = () => {
                 </div>
                 
                 </>
-            }  
+            ) : ( 
+                <div className='header-icon-container-language'>
+                    <select
+                        id="language-select"
+                        onChange={handleChangeLanguage}
+                        value={i18n.language}
+                    >
+                        <option value="en">EN</option>
+                        <option value="es">ES</option>
+                    </select>
+                </div>
+            )}
         </div>
     )
 };

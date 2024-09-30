@@ -14,5 +14,8 @@
     "whom": "¿A quién?",
     "when": "¿Cuándo?",
     "save": "Guardar",
-    "titleEdit": "Editar elemento"
+    "titleEdit": "Editar elemento",
+    "requiredMessage": "Este campo es obligatorio.",
+    "defaultMessage": "Este campo no es válido.",
+    "locale": "es"
 }
