@@ -20,7 +20,7 @@ const signIn = async (email, password) => {
   return new Promise((resolve, reject) => {
     user.authenticateUser(authDetails, {
       onSuccess: (session) => {
-        
+
         console.log('Successfully signed in:', session);
         // Access tokens
         // console.log('Access token:', session.getAccessToken().getJwtToken());
@@ -28,9 +28,9 @@ const signIn = async (email, password) => {
         // console.log('Refresh token:', session.getRefreshToken().getToken());
 
         // Handle successful authentication
-        // sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
-        // sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
-        // sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
+        sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
+        sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
+        sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
         
         resolve({session, cognitoUser: user}); // Return the session on success
       },

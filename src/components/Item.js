@@ -18,7 +18,7 @@ Modal.setAppElement('#root');  // Required for accessibility
 const Item = ({args}) => {
     
 
-    const tagList = args.tagList;
+    const tagsList = args.tagsList;
     const locationObj = args.locationObj;
 
     let id = useParams().id;
@@ -155,7 +155,7 @@ const Item = ({args}) => {
                                 (<div className="tags-container">
                                     {item.tagsList.map((tag, index) => (
                                         <div className="tag-item" key={index}>
-                                            <span className='tag'>{tagList.find(tagValue => tag.includes(tagValue.value)).label}</span>
+                                            <span className='tag'>{tagsList.find(tagValue => tag.includes(tagValue.value)).label}</span>
                                         </div>
                                     ))}
                                 </div>) : (

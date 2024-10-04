@@ -2,26 +2,27 @@ import React from "react";
 import { useTranslation } from 'react-i18next';
 
 
-const TagsInput = ({tagList, setTagList}) => {
+const TagsInput = ({tagsList, setTagsList}) => {
 
     const tagRef = React.createRef();
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     const addTag = (e) => {
         e.preventDefault();
-        setTagList([...tagList, tagRef.current.value])
+        setTagsList([...tagsList, tagRef.current.value])
         tagRef.current.value = ''
     };
 
     function removeTag(index){
-        setTagList(tagList.filter((el, i) => i !== index))
+        console.log(index)
+        setTagsList(tagsList.filter((label, i) => i !== index))
     }
 
     return(
         <div className="tags-input-container">
-            {tagList.length > 0 && 
+            {tagsList.length > 0 && 
                 <div className="tags-container">
-                    {tagList.map((tag, index) => (
+                    {tagsList.map((tag, index) => (
                         <div className="tag-item" key={index}>
                             <span className='tag'>{tag}</span>
                             {/* <span className="close" onClick={() => removeTag(index)}>&times;</span> */}

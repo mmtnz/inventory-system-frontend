@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import EditItemForm from '../components/EditItemForm';
-import { apiGetTagsList, apiGetTLoationsObj } from '../services/api';
 import { apiGetItem } from '../services/api';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { getStorageRoomInfo } from '../services/storageRoomInfoService';
 
 const EditItemPage = () => {
 
@@ -14,28 +14,37 @@ const EditItemPage = () => {
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     useEffect(() => {
-        getArgs();       
+        // getArgs();
+        getStorageRoomData();       
     }, [])
 
-    const getData = ()  => {
-        getArgs();
+    // Get storage room info
+    const getStorageRoomData = async () => {
+        let storageRoomInfo = await getStorageRoomInfo();
+        setArgs(storageRoomInfo.config);
         getItem();
-        setLoading(false);
-    }
-    
-    // Get options from the DB
-    const getArgs = async () => {
-        let tagList = await apiGetTagsList();
-        let locationObj = await apiGetTLoationsObj();
-        let aux = {
-            tagList: tagList,
-            locationObj: locationObj
-        };
-        setArgs(aux);
-        getItem();
-        // setLoading(false);
     }
 
+    // const getData = ()  => {
+    //     getArgs();
+    //     getItem();
+    //     setLoading(false);
+    // }
+    
+    // // Get options from the DB
+    // const getArgs = async () => {
+    //     let tagList = await apiGetTagsList();
+    //     let locationObj = await apiGetTLoationsObj();
+    //     let aux = {
+    //         tagList: tagList,
+    //         locationObj: locationObj
+    //     };
+    //     setArgs(aux);
+    //     getItem();
+    //     // setLoading(false);
+    // }
+
+    // GET item info
     const getItem = async () => {
         try {
             const data = await apiGetItem(itemId);

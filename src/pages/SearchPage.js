@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import SearchForm from '../components/SearchForm';
 import { apiSearchItems } from "../services/api";
 import ItemWrap from "../components/ItemWrap"
-import {apiGetTagsList} from "../services/api";
+import { getStorageRoomInfo } from '../services/storageRoomInfoService';
 
 import { useTranslation } from 'react-i18next';
 
@@ -23,7 +23,8 @@ const SearchPage = () => {
     const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
 
     useEffect(() => {
-        getTagsList();
+        // getTagsList();
+        getStorageRoomData();
         const query = searchParams.get('q');
         const tagList = searchParams.getAll('tag');
         const isLent = searchParams.get('lent');
@@ -33,6 +34,13 @@ const SearchPage = () => {
         }
         
     }, [searchParams]);
+
+    const getStorageRoomData = async () => {
+        let storageRoomInfo = await getStorageRoomInfo();
+        console.log(storageRoomInfo)
+        setTagList(storageRoomInfo.config.tagsList);
+    }
+
     
     const handleSearch = async (query, tagList, isLent) => {
         try {
@@ -63,10 +71,10 @@ const SearchPage = () => {
         }
     };
 
-    const getTagsList = async () => {
-        let response = await apiGetTagsList();
-        setTagList(response);
-    }
+    // const getTagsList = async () => {
+    //     let response = await apiGetTagsList();
+    //     setTagList(response);
+    // }
 
     const increasePage = () =>{
         setCurrentPage(currentPage + 1);

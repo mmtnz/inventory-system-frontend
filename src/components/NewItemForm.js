@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 const NewItemForm = ({args}) => {
 
-    const tagList = args.tagList;
+    const tagsList = args.tagsList;
     const locationObj = args.locationObj;
     const placesList = locationObj != null ?  locationObj.placesList : null;
       
@@ -36,7 +36,12 @@ const NewItemForm = ({args}) => {
 
     const navigate = useNavigate();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
-    
+
+    // Create refs for the file inputs
+    const uploadInputRef = useRef(null);
+    const captureInputRef = useRef(null);
+
+      
     // Get today's date in the format YYYY-MM-DD
     const today = new Date().toISOString().split('T')[0];
 
@@ -115,13 +120,26 @@ const NewItemForm = ({args}) => {
     
     };
 
-    const updateTagList = (tags) => {
+    const updateTagsList = (tags) => {
         setSelectedTags(tags);
         setItem({...item, tagsList: tags.map(tag => tag.value) });
     }
 
-    const addFile = (event) => {
-        setSelectedFile(event.target.files[0]); // Only one photo
+    // Trigger the file input click
+    const triggerUpload = () => {
+        uploadInputRef.current.click();
+    };
+
+    // Trigger the camera input click
+    const triggerCapture = () => {
+        captureInputRef.current.click();
+    };
+
+    const handleFileChange = (event) => {
+        let file = event.target.files[0] // Only one photo
+        if (file){
+            setSelectedFile(event.target.files[0]); 
+        }
     }
 
     const changeOtherNamesList = (event) => {
@@ -182,15 +200,15 @@ const NewItemForm = ({args}) => {
 
                 <div className="formGroup">
                     <label htmlFor='otherNames'>{t('otherNames')}</label>
-                    <TagsInput tagList={otherNamesList} setTagList={changeOtherNamesList}/>
+                    <TagsInput tagsList={otherNamesList} setTagsList={changeOtherNamesList}/>
                 </div>
 
                 <div className="formGroup">
                     <label htmlFor='tags'>{t('tags')}</label>
                     <Select
                         isMulti
-                        options={tagList}
-                        onChange={updateTagList}
+                        options={tagsList}
+                        onChange={updateTagsList}
                         placeholder={t('select')}
                     />
                 </div>
@@ -247,10 +265,13 @@ const NewItemForm = ({args}) => {
                     <input
                         type='file'
                         name='file0'
-                        onChange={addFile}
-                        accept='.jpg, .jpeg, .png'
+                        onChange={handleFileChange}
+                        // accept='.jpg, .jpeg, .png'
+                        accept="image/*"
+                        // capture="camera"
                     />
                 </div>
+
 
                 <div className='formGroup'>
                     <label htmlFor='isLent'>{t('isLent')}</label>

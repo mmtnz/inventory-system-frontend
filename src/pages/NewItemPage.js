@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import NewItemForm from '../components/NewItemForm';
-import { apiGetTLoationsObj, apiGetTagsList} from '../services/api';
 import { useTranslation } from 'react-i18next';
+import { getStorageRoomInfo } from '../services/storageRoomInfoService';
 
 const NewItemPage = () => {
 
     const [args, setArgs] = useState({tagList: null, locationObj: null});
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
-    
+
     useEffect(() => {
-        getArgs();
+        getStorageRoomData();        
     }, [])
     
-    // Get options from the DB
-    const getArgs = async () => {
-        let tagList = await apiGetTagsList();
-        let locationObj = await apiGetTLoationsObj();
-        let aux = {
-            tagList: tagList,
-            locationObj: locationObj
-        };
-        setArgs(aux);
+    // Get storage room info
+    const getStorageRoomData = async () => {
+        let storageRoomInfo = await getStorageRoomInfo();
+        setArgs(storageRoomInfo.config);
     }
 
     return(

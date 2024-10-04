@@ -27,16 +27,17 @@ const SearchForm = ({tagList}) => {
     const [selectedLent, setSelectedLent] = useState(options[0]);
 
     useEffect(() => {
-        // getTagsList();
+
         const urlQuery = searchParams.get('q')
         if (urlQuery) {setQuery(urlQuery);}
 
         const urlTagList = searchParams.getAll('tag');
+        console.log(tagList)
         setSelectedTags(tagList.filter(option => urlTagList.includes(option.value)));
         
     }, [searchParams, tagList]);
 
-
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         const params = new URLSearchParams();

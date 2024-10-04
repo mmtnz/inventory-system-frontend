@@ -19,7 +19,7 @@ const EditItemForm = ({args, itemArg}) => {
     const oldItem = itemArg;
     delete oldItem.dateLastEdited;
 
-    const tagList = args.tagList;
+    const tagsList = args.tagsList;
     const locationObj = args.locationObj;
     const placesList = locationObj != null ?  locationObj.placesList : null;
 
@@ -61,8 +61,8 @@ const EditItemForm = ({args, itemArg}) => {
     const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
-        if (tagList.length > 0) {
-            setSelectedTags(tagList.filter(option => item.tagsList.includes(option.value)));
+        if (tagsList.length > 0) {
+            setSelectedTags(tagsList.filter(option => item.tagsList.includes(option.value)));
         }
                 
         setOtherNamesList(item.otherNamesList);
@@ -88,7 +88,7 @@ const EditItemForm = ({args, itemArg}) => {
             })
         );
 
-    }, [item, tagList, locationObj, placesList, i18n.language]);
+    }, [item, tagsList, locationObj, placesList, i18n.language]);
     
     const handleSubmit = (e)  => {
         e.preventDefault();
@@ -172,7 +172,7 @@ const EditItemForm = ({args, itemArg}) => {
         }
     }
 
-    const updateTagList = (tags) => {
+    const updateTagsList = (tags) => {
         setSelectedTags(tags);
         let auxItem = {...item, tagsList: tags.map(tag => tag.value) }
         setItem(auxItem);
@@ -248,15 +248,15 @@ const EditItemForm = ({args, itemArg}) => {
 
                     <div className="formGroup">
                         <label htmlFor='otherNames'>{t('otherNames')}</label>
-                        <TagsInput tagList={otherNamesList} setTagList={changeOtherNamesList}/>
+                        <TagsInput tagsList={otherNamesList} setTagsList={changeOtherNamesList}/>
                     </div>
 
                     <div className="formGroup">
                         <label htmlFor='tags'>{t('tags')}</label>
                         <Select
                             isMulti
-                            options={tagList}
-                            onChange={updateTagList}
+                            options={tagsList}
+                            onChange={updateTagsList}
                             isLoading={!item.tagsList.length}
                             value={selectedTags}
                             placeholder={t('select')}

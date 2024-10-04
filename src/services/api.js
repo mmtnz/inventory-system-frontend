@@ -1,5 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
+import userPool from '../services/cognitoConfig'; // Your Cognito configuration
+import {jwtDecode} from "jwt-decode";
 
 // const API_BASE_URL = 'http://127.0.0.1:8000/api';
 const API_BASE_URL = 'http://192.168.1.46:8000/api';
@@ -15,7 +17,7 @@ const api = axios.create({
   });
 
 
-// GET Functión to find items by name
+// GET items by name and filters
 export const apiSearchItems = async (args) => {
     try {
       const response = await api.get(`/search?${args}`);
@@ -25,7 +27,7 @@ export const apiSearchItems = async (args) => {
     }
 };
 
-// GET Finf item by Id
+// GET item by Id
 export const apiGetItem = async (itemId) => {
     try {
         const response = await api.get(`/item/${itemId}`);
@@ -51,6 +53,24 @@ export const apiGetTLoationsObj = async () => {
         const response = await api.get('/location-obj');
         return response.data;
     } catch (error) {
+        throw error;
+    }
+}
+
+// GET storge room config
+export const apiGetStorageRoomInfo = async (storageRoomId) => {
+    try {
+
+        let token = sessionStorage.getItem('accessToken');
+        let userInfo = await api.get(`/user`,{
+            headers: {
+            'Authorization': `Bearer ${token}`,  // Add token to Authorization header
+          },
+        });
+        const response = await api.get(`/storage-room/${userInfo.data.storageRoomId}`);
+        return response.data;
+    } catch (error) {
+        console.log(error)
         throw error;
     }
 }
