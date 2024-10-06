@@ -25,7 +25,8 @@ const NewItemForm = ({args}) => {
     const [place, setPlace] = useState(null);
     const [location, setLocation] = useState(null);
     const [sublocation, setSublocation] = useState(null);
-    const [item, setItem] = useState(ItemModel);
+    const [item, setItem] = useState({});
+
     const [isLent, setIsLent] = useState(false);
 
     const [isLentName, setIsLentName] = useState('');
@@ -78,6 +79,7 @@ const NewItemForm = ({args}) => {
 
     const saveItem = async () => {
         try {
+            
             const itemResponse = await apiSaveItem(item);
             setItem(itemResponse);
             setError(null);
@@ -115,9 +117,7 @@ const NewItemForm = ({args}) => {
             name: nameRef.current.value,
             description: descriptionRef.current.value,
             // isLent: auxLent
-        })
-        console.log(item)
-    
+        })   
     };
 
     const updateTagsList = (tags) => {

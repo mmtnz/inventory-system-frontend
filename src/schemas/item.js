@@ -11,10 +11,7 @@ const itemSchema = Joi.object({
     image: Joi.string().optional(),
     isLent: Joi.string().allow(null).optional(),
 
-    // Date handled in backend
-    // createdAt: Joi.date().iso().default(() => new Date().toISOString()),
-    // updatedAt: Joi.date().iso().default(() => new Date().toISOString()),
-});
+}).options({ stripUnknown: true });  // Automatically remove any unknown fields like 'type'.
 
 export default itemSchema;
 

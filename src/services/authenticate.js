@@ -1,6 +1,7 @@
 import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import userPool from './cognitoConfig';
 import { useNavigate } from "react-router-dom";
+import { apiSendRefreshToken } from "./api";
 
 
 const signIn = async (email, password) => {
@@ -28,9 +29,13 @@ const signIn = async (email, password) => {
         // console.log('Refresh token:', session.getRefreshToken().getToken());
 
         // Handle successful authentication
-        sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
+        // sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
         sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
-        sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
+        // sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
+
+        // Store the access token in memory or session storage
+        sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
+        apiSendRefreshToken(session.getRefreshToken().getToken());
         
         resolve({session, cognitoUser: user}); // Return the session on success
       },

@@ -25,6 +25,7 @@ const SignOut = () => {
             // Clear any local application state related to user
             setUser(null);  // Clear the user from context or state
             setUserAttributes(null);
+            sessionStorage.removeItem('accessToken');
 
             // Redirect to login or home page after logout
             navigate('/login');
