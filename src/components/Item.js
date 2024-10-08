@@ -17,11 +17,11 @@ Modal.setAppElement('#root');  // Required for accessibility
 
 const Item = ({args}) => {
     
-
     const tagsList = args.tagsList;
     const locationObj = args.locationObj;
 
-    let id = useParams().id;
+    const itemId = useParams().itemId;
+    const storageRoomId = useParams().storageRoomId;
     let url = API_BASE_URL;
     const [item, setItem] = useState({});
     const [status, setStatus] = useState({});
@@ -53,7 +53,8 @@ const Item = ({args}) => {
 
     const loadItem = async () => {
         try {
-            const data = await apiGetItem(id);
+            const data = await apiGetItem(storageRoomId, itemId);
+            console.log(data)
             setItem(data);
             setError(null);
 
@@ -73,7 +74,7 @@ const Item = ({args}) => {
     }
 
     const deleteItem = async () => {
-        let resultApi = await apiDeleteItem(id);
+        let resultApi = await apiDeleteItem(storageRoomId, itemId);
         console.log(resultApi);
         if (resultApi.status == 200) {
             Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
@@ -96,12 +97,12 @@ const Item = ({args}) => {
 
     const handleReturnLent = async () => {
         let utcDate = new Date().toISOString().split('T')[0];
-        let resultApi = await apiReturnLent(item, id, utcDate);
+        let resultApi = await apiReturnLent(item, storageRoomId, itemId, utcDate);
         forceUpdate();
     }
 
     const goToEdit = () => {
-        navigate(`/edit/${id}`)
+        navigate(`/edit/${itemId}`)
     }
 
     if (error) {
@@ -122,7 +123,7 @@ const Item = ({args}) => {
             <div id="item">
                 <div className="item-container">
                     <div className="item-image-container">
-                        {item.image !== null && item.image !== ""? (
+                        {item.image && item.image !== null && item.image !== "" ? (
                             <img
                                 src={`${url}/image/${item.image}`}
                                 alt={item.name}

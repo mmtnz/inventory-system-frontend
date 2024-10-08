@@ -27,7 +27,7 @@ const Router = () => {
                             <Route exact path="/change-password" element={<PrivateRoute element={ChangePasswordPage} />} />
                             <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route exact path="/home" element={<PrivateRoute element={HomePage} />} />
-                            <Route exact path ="/item/:id" element={<PrivateRoute element={ItemPage} />} />
+                            <Route exact path ="/storageRoom/:storageRoomId/item/:itemId" element={<PrivateRoute element={ItemPage} />} />
                             <Route path= "/search" element={<PrivateRoute element={SearchPage} />} />
                             <Route path= "/new-item" element={<PrivateRoute element={NewItemPage} />} />
                             <Route path= "/edit/:id" element={<PrivateRoute element={EditItemPage} />} />

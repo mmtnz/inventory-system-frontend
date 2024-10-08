@@ -16,6 +16,7 @@ const ItemPage = () => {
   // Get storage room info
   const getStorageRoomData = async () => {
     let storageRoomInfo = await getStorageRoomInfo();
+    console.log(storageRoomInfo)
     setArgs(storageRoomInfo.config);
     setIsLoaded(true);
 }

@@ -102,7 +102,7 @@ const SearchPage = () => {
                     (
                         <div className="aux">
                             {results.slice(startIndex, startIndex + itemsPerPage - 1).map(result => (
-                                <ItemWrap key={result.id} item={result}/>
+                                <ItemWrap key={result.itemId} item={result}/>
                             ))}
                         </div>
                     )}

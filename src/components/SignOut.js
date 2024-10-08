@@ -4,6 +4,7 @@ import AuthContext from '../services/AuthContext';  // Assuming you have a conte
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
+import { apiDeleteRefreshToken } from '../services/api';
 
 
 const SignOut = () => {
@@ -14,7 +15,7 @@ const SignOut = () => {
     const { t } = useTranslation('login'); // Load translations from the 'login' namespace
     
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         const cognitoUser = userPool.getCurrentUser();
         console.log(cognitoUser)
 
@@ -22,10 +23,15 @@ const SignOut = () => {
             // Call Cognito's signOut method
             cognitoUser.signOut();
 
+            // Clear refresh token from http cookie
+            const accessToken = sessionStorage.getItem('accessToken')
+            await apiDeleteRefreshToken(accessToken);
+
             // Clear any local application state related to user
             setUser(null);  // Clear the user from context or state
             setUserAttributes(null);
             sessionStorage.removeItem('accessToken');
+            
 
             // Redirect to login or home page after logout
             navigate('/login');

@@ -65,9 +65,9 @@ const ItemWrap = ({item}) => {
     <div className="list-item">
         
         <div className="image-wrap" onClick={goToItem}>
-            {item.image !== null && item.image !== "" ? (
+            {item.imageUrl && item.imageUrl !== "" ? (
               <img
-                src={`${url}/image/${item.image}`}
+                src={item.imageUrl}
                 alt={item.name}
             />
             ) : (
@@ -75,6 +75,8 @@ const ItemWrap = ({item}) => {
             )}
             
         </div>
+
+        {/* {item.imageUrl} */}
 
         <div className='item-wrap-content-container' onClick={goToItem}>
           <h2>{item.name}</h2>

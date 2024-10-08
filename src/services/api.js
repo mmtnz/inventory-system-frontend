@@ -22,12 +22,12 @@ const api = axios.create({
 // Set up Axios interceptor to add the Authorization header
 api.interceptors.request.use(
     async (config) => {
-        console.log(config)
+        // console.log(config)
         const accessToken = sessionStorage.getItem('accessToken');  // Get the access token from storage
 
         if (isTokenExpired(accessToken)) {
             console.log('token expired')
-            const newToken = await refreshToken(); // If expired, refresh token (optional)
+            const newToken = await apiRefreshToken(); // If expired, refresh token (optional)
             sessionStorage.setItem('accessToken', newToken); // Store the new token
             accessToken = newToken
         } 
@@ -42,13 +42,46 @@ api.interceptors.request.use(
     }
 );
 
+const apiRefreshToken = async () => {
+    
+    try {
+        const result = await axios.post(`${API_BASE_URL}/auth/token/refresh`, null,
+        {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(result)
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const apiDeleteRefreshToken = async (accessToken) =>{
+    try {
+        const result = await api.delete('/auth/token', null,{
+            headers: {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,  // Add token to Authorization header
+                } 
+            }
+        });
+        console.log(result)
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+
 // POST to add refresh token to http cookie
 export const apiSendRefreshToken = async (refresToken) => {
     try {
         // await api.post('/auth/token', refresToken, {
         const result = await api.post(
             '/auth/token',
-            {"refresToken": refresToken},
+            refresToken,
             {
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,  // Add token to Authorization header
@@ -64,7 +97,7 @@ export const apiSendRefreshToken = async (refresToken) => {
 // GET items by name and filters
 export const apiSearchItems = async (args) => {
     try {
-      const response = await api.get(`/search?${args}`);
+      const response = await api.get(`/storageRoom/storageRoom1/search?${args}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -72,9 +105,9 @@ export const apiSearchItems = async (args) => {
 };
 
 // GET item by Id
-export const apiGetItem = async (itemId) => {
+export const apiGetItem = async (storageRoomId, itemId) => {
     try {
-        const response = await api.get(`/item/${itemId}`);
+        const response = await api.get(`/storageRoom/${storageRoomId}/item/${itemId}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -105,15 +138,18 @@ export const apiGetTLoationsObj = async () => {
 export const apiGetStorageRoomInfo = async (storageRoomId) => {
     try {
 
-        let token = sessionStorage.getItem('accessToken');
-        let userInfo = await api.get(`/user`,{
-            withCredentials: true  // Ensures that cookies are sent along with the request
-            // headers: {
-            // 'Authorization': `Bearer ${token}`,  // Add token to Authorization header
-          },
-        );
-        const response = await api.get(`/storage-room/${userInfo.data.storageRoomId}`);
-        return response.data;
+        // let token = sessionStorage.getItem('accessToken');
+        // let userInfo = await api.get(`/user`,{
+        //     withCredentials: true  // Ensures that cookies are sent along with the request
+        //     // headers: {
+        //     // 'Authorization': `Bearer ${token}`,  // Add token to Authorization header
+        //   },
+        // );
+        // const response = await api.get(`/storageRoom/${userInfo.data.storageRoomId}`);
+        const response = await api.get(`/storageRoom/storageRoom1`);
+        let storageRoom = response.data
+        storageRoom.config = JSON.parse(storageRoom.config)
+        return storageRoom;
     } catch (error) {
         console.log(error)
         throw error;
@@ -168,7 +204,7 @@ export const apiEditItem = async (item, itemId) => {
 
 
 //PUT edit item when is not lent anymore
-export const apiReturnLent = async(item, itemId, returnedDate) => {
+export const apiReturnLent = async(item, storageRoomId, itemId, returnedDate) => {
     try {
         const entry = `${item.isLent}/${returnedDate}`;
         if (item.lentHistory){
@@ -178,7 +214,7 @@ export const apiReturnLent = async(item, itemId, returnedDate) => {
         }
         item.isLent = null;
         console.log(item)
-        const response = await api.put(`/item/${itemId}`, item)
+        const response = await api.put(`/storageRoom/${storageRoomId}/item/${itemId}`, item)
         return response.data
     } catch (error) {
         throw error;
