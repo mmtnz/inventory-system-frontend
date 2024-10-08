@@ -8,30 +8,34 @@ import { useTranslation } from 'react-i18next';
 // import { getProducts } from '../services/api';
 
 const HomePage = () => {
-//   const [products, setProducts] = useState([]);
 
-//   useEffect(() => {
-//     async function fetchData() {
-//       const products = await getProducts();
-//       setProducts(products);
-//     }
-//     fetchData();
-//   }, []);
   const navigate = useNavigate();
   const { t } = useTranslation('homePage'); // Load translations from the 'home' namespace
+  const storageRoomsList = sessionStorage.getItem('storageRoomsList');
+  const [storageRoom, setStorageRoom] = useState(null);
+
+  useEffect(() => {
+    if (typeof storageRoomsList == 'string' | storageRoomsList.length == 1){
+      let room = typeof storageRoomsList == 'string' ? storageRoomsList : storageRoomsList[0]
+      setStorageRoom(room);
+    } else {
+      console.log('contemplate multiple storage rooms')
+    }
+  }, []);
 
   const goToSearch = () => {
-    navigate('/search');
+    navigate(`/storageRoom/${storageRoom}/search`);
   }
 
   const goToNewItem = () => {
-    navigate('/new-item');
+    navigate(`/storageRoom/${storageRoom}/new-item`);
   }
 
   return (
     <div className='center'>
       <section className='content'>
         <h1>{t('title')}</h1>
+        <h2>{storageRoom}</h2>
         <div className='option-button-container'>
           
           <button className="custom-button" onClick={goToSearch}>

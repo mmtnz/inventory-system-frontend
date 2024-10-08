@@ -4,6 +4,7 @@ import {signIn} from '../services/authenticate';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
+import { apiGetUserInfo } from '../services/api';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -71,7 +72,10 @@ function LoginPage() {
           // Otherwise, redirect to the home page
           setUser(result.cognitoUser)
           setUserAttributes(result.userAttributes)
-          console.log(result.userAttributes)
+          
+          const userInfo = await apiGetUserInfo();
+          console.log(userInfo)
+          sessionStorage.setItem('storageRoomsList', userInfo.storageRoomId)
           navigate('/home');
         }
       } catch (err) {

@@ -28,8 +28,8 @@ const Router = () => {
                             <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route exact path="/home" element={<PrivateRoute element={HomePage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/item/:itemId" element={<PrivateRoute element={ItemPage} />} />
-                            <Route path= "/search" element={<PrivateRoute element={SearchPage} />} />
-                            <Route path= "/new-item" element={<PrivateRoute element={NewItemPage} />} />
+                            <Route path= "/storageRoom/:storageRoomId/search" element={<PrivateRoute element={SearchPage} />} />
+                            <Route path= "/storageRoom/:storageRoomId/new-item" element={<PrivateRoute element={NewItemPage} />} />
                             <Route path= "/edit/:id" element={<PrivateRoute element={EditItemPage} />} />
                             <Route path="*" element={
                                 <React.Fragment>
