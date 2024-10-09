@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import SearchForm from '../components/SearchForm';
 import { apiSearchItems } from "../services/api";
 import ItemWrap from "../components/ItemWrap"
@@ -21,6 +21,7 @@ const SearchPage = () => {
     const [startIndex, setStartIndex] = useState(0);
 
     const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
+    const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
     useEffect(() => {
         // getTagsList();
@@ -36,7 +37,7 @@ const SearchPage = () => {
     }, [searchParams]);
 
     const getStorageRoomData = async () => {
-        let storageRoomInfo = await getStorageRoomInfo();
+        let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
         console.log(storageRoomInfo)
         setTagList(storageRoomInfo.config.tagsList);
     }
@@ -51,14 +52,13 @@ const SearchPage = () => {
             }
 
             console.log(`isLent: ${isLent}`)
-            // console
             if(isLent != undefined){
                 args = {...args, lent: isLent}
             }
   
             let urlArgs = new URLSearchParams(args)  // Get query and tags from url to search
 
-            const data = await apiSearchItems(urlArgs.toString());
+            const data = await apiSearchItems(storageRoomId, urlArgs.toString());
             setResults(data);
             setError(null);
             setIsSearch(true);
@@ -70,11 +70,6 @@ const SearchPage = () => {
             setResults([]);
         }
     };
-
-    // const getTagsList = async () => {
-    //     let response = await apiGetTagsList();
-    //     setTagList(response);
-    // }
 
     const increasePage = () =>{
         setCurrentPage(currentPage + 1);

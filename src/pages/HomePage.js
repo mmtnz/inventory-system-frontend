@@ -12,10 +12,10 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('homePage'); // Load translations from the 'home' namespace
   const storageRoomsList = sessionStorage.getItem('storageRoomsList');
-  const [storageRoom, setStorageRoom] = useState(null);
+  const [storageRoom, setStorageRoom] = useState();
 
   useEffect(() => {
-    if (typeof storageRoomsList == 'string' | storageRoomsList.length == 1){
+    if (typeof storageRoomsList == 'string' || (storageRoomsList && storageRoomsList.length == 1)){
       let room = typeof storageRoomsList == 'string' ? storageRoomsList : storageRoomsList[0]
       setStorageRoom(room);
     } else {

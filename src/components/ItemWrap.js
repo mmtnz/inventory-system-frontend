@@ -1,6 +1,6 @@
 // src/components/Item.js
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
 import API_BASE_URL, { apiGetItem, apiReturnLent, apiDeleteItem } from "../services/api";
 import Moment from 'react-moment';
@@ -13,8 +13,10 @@ import { useTranslation } from 'react-i18next';
 
 const ItemWrap = ({item}) => {
 
+  console.log(item.imageUrl)
   const [lentName, lentDate] = item.isLent != null ? item.isLent.split('/') : [null, null]
   const url = API_BASE_URL;
+  const { storageRoomId } = useParams();
   const [,forceUpdate] = useState();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation('itemWrap'); // Load translations from the 'itemWrap' namespace
@@ -29,17 +31,17 @@ const ItemWrap = ({item}) => {
   }, [i18n.language]);  // Re-run whenever the language changes
   
   const goToItem = () => {
-    navigate(`/item/${item.id}`);
+    navigate(`/storageRoom/${storageRoomId}/item/${item.itemId}`);
   }
 
   const handleReturnLent = async () => {
     let utcDate = new Date().toISOString().split('T')[0];
-    let resultApi = await apiReturnLent(item, item.id, utcDate);
+    let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
     forceUpdate();
   }
 
   const deleteItem = async () => {
-    let resultApi = await apiDeleteItem(item.id);
+    let resultApi = await apiDeleteItem(storageRoomId, item.itemId);
     console.log(resultApi);
     if (resultApi.status == 200) {
         Swal.fire(messagesObj[t('locale')].deleteItemSuccess);

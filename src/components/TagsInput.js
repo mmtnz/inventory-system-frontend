@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 
 const TagsInput = ({tagsList, setTagsList}) => {
-
+    console.log(tagsList)
+    // console.log(tagsList)
     const tagRef = React.createRef();
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
@@ -20,7 +21,7 @@ const TagsInput = ({tagsList, setTagsList}) => {
 
     return(
         <div className="tags-input-container">
-            {tagsList.length > 0 && 
+            {(tagsList && tagsList.length > 0) && 
                 <div className="tags-container">
                     {tagsList.map((tag, index) => (
                         <div className="tag-item" key={index}>

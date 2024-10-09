@@ -5,7 +5,7 @@ import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 
 
 // export const getStorageRoomInfo = async (storageRoomId) => {
-export const getStorageRoomInfo = async () => {
+export const getStorageRoomInfo = async (storageRoomId) => {
     // Check if storageRoom info is already in sessionStorage
     const storedData = sessionStorage.getItem('storageRoom');
     
@@ -17,7 +17,7 @@ export const getStorageRoomInfo = async () => {
     // // If not in sessionStorage, fetch it from the API
     // const cognitoUser = userPool.getCurrentUser();
     // cognitoUser.
-    const storageRoom = await apiGetStorageRoomInfo();  // Assume this is your API call
+    const storageRoom = await apiGetStorageRoomInfo(storageRoomId);  // Assume this is your API call
     // const storageRoom = response.data;
     // console.log(response)
     console.log(storageRoom)

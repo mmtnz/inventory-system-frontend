@@ -95,9 +95,9 @@ export const apiSendRefreshToken = async (refresToken) => {
 
 
 // GET items by name and filters
-export const apiSearchItems = async (args) => {
+export const apiSearchItems = async (storageRoomId, args) => {
     try {
-      const response = await api.get(`/storageRoom/storageRoom1/search?${args}`);
+      const response = await api.get(`/storageRoom/${storageRoomId}/search?${args}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -137,16 +137,7 @@ export const apiGetTLoationsObj = async () => {
 // GET storge room config
 export const apiGetStorageRoomInfo = async (storageRoomId) => {
     try {
-
-        // let token = sessionStorage.getItem('accessToken');
-        // let userInfo = await api.get(`/user`,{
-        //     withCredentials: true  // Ensures that cookies are sent along with the request
-        //     // headers: {
-        //     // 'Authorization': `Bearer ${token}`,  // Add token to Authorization header
-        //   },
-        // );
-        // const response = await api.get(`/storageRoom/${userInfo.data.storageRoomId}`);
-        const response = await api.get(`/storageRoom/storageRoom1`);
+        const response = await api.get(`/storageRoom/${storageRoomId}`);
         let storageRoom = response.data
         storageRoom.config = JSON.parse(storageRoom.config)
         return storageRoom;
@@ -166,23 +157,29 @@ export const apiGetUserInfo = async () => {
 }
 
 // POST upload image
-export const apiUploadImage = async (itemFile, itemId) => {
+export const apiUploadImage = async (storageRoomId, itemId, fileExtension) => {
     
-    const formData = new FormData();
-    formData.append(
-        'file0',
-        itemFile,
-        itemFile.name
-    );
+    // const formData = new FormData();
+    // formData.append(
+    //     'file0',
+    //     itemFile,
+    //     itemFile.name
+    // );
 
     try {
         const response = await api.post(
-            `/upload-image/${itemId}`,
-            formData,
+            `/storageRoom/${storageRoomId}/item/${itemId}/image`,
             {
-                headers: {'Content-Type': 'multipart/form-data'},
+                fileExtension: fileExtension
             }
         );
+        // const response = await api.post(
+        //     `/storageRoom/${storageRoomId}/item/${itemId}/image`,
+        //     formData,
+        //     {
+        //         headers: {'Content-Type': 'multipart/form-data'},
+        //     }
+        // );
         return response
     } catch (error) {
         throw error;
@@ -202,9 +199,14 @@ export const apiSaveItem = async (item) => {
 
 
 // PUT edit item
-export const apiEditItem = async (item, itemId) => {
+export const apiEditItem = async (storageRoomId, item, itemId) => {
+    
     try {
-        const response = await api.put(`/item/${itemId}`, item)
+        // To avoid sending signedUrl. To update image endpoint /image
+        if (item.imageUrl) {
+            delete item.imageUrl  
+        }
+        const response = await api.put(`/storageRoom/${storageRoomId}/item/${itemId}`, item)
         return response.data
     } catch (error) {
         throw error;
@@ -213,8 +215,12 @@ export const apiEditItem = async (item, itemId) => {
 
 
 //PUT edit item when is not lent anymore
-export const apiReturnLent = async(item, storageRoomId, itemId, returnedDate) => {
+export const apiReturnLent = async(storageRoomId, item, returnedDate) => {
     try {
+        // To avoid sending signedUrl. To update image endpoint /image
+        if (item.imageUrl) {
+            delete item.imageUrl  
+        }
         const entry = `${item.isLent}/${returnedDate}`;
         if (item.lentHistory){
             item.lentHistory.push(entry);
@@ -223,7 +229,7 @@ export const apiReturnLent = async(item, storageRoomId, itemId, returnedDate) =>
         }
         item.isLent = null;
         console.log(item)
-        const response = await api.put(`/storageRoom/${storageRoomId}/item/${itemId}`, item)
+        const response = await api.put(`/storageRoom/${storageRoomId}/item/${item.itemId}`, item)
         return response.data
     } catch (error) {
         throw error;
@@ -232,9 +238,9 @@ export const apiReturnLent = async(item, storageRoomId, itemId, returnedDate) =>
 
 
 // DELETE delete item
-export const apiDeleteItem = async (itemId) => {
+export const apiDeleteItem = async (storageRoomId, itemId) => {
     try {
-        const response = await api.delete(`/item/${itemId}`)
+        const response = await api.delete(`/storageRoom/${storageRoomId}/item/${itemId}`)
         return response
     } catch (error) {
         throw error;

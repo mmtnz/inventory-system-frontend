@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import TagsInput from './TagsInput';
-import { apiGetTLoationsObj, apiGetTagsList, apiSaveItem, apiUploadImage } from '../services/api';
+import { apiSaveItem, apiUploadImage } from '../services/api';
 import Swal from 'sweetalert2';
 
 import ItemModel from '../schemas/item';
@@ -36,6 +36,7 @@ const NewItemForm = ({args}) => {
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
+    const { storageRoomId } = useParams();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
 
     // Create refs for the file inputs
@@ -85,7 +86,7 @@ const NewItemForm = ({args}) => {
             setError(null);
             
             if (selectedFile){
-                await uploadImage(itemResponse.id);
+                await uploadImage(itemResponse.itemId);
             } else {
                 console.log(messagesObj[t('locale')])
                 Swal.fire(messagesObj[t('locale')].newItemSuccess);
@@ -99,7 +100,22 @@ const NewItemForm = ({args}) => {
 
     const uploadImage = async (itemId) => {
         try {            
-            const response = await apiUploadImage(selectedFile, itemId);
+            console.log(selectedFile)
+            const fileExtension = `.${selectedFile.type.split('/')[1]}`;
+            console.log(fileExtension)
+            const response = await apiUploadImage(storageRoomId, itemId, fileExtension);
+            const uploadUrl = response.data.uploadUrl;
+            console.log(uploadUrl)
+
+            const responseImage = await fetch(uploadUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': selectedFile.type,  // Make sure to set the correct MIME type
+                },
+                body: selectedFile,  // The actual file goes here
+            });
+            console.log(responseImage)
+
             Swal.fire(messagesObj[t('locale')].newItemSuccess);
             navigate('/home')
         } catch (err) {
@@ -137,8 +153,9 @@ const NewItemForm = ({args}) => {
 
     const handleFileChange = (event) => {
         let file = event.target.files[0] // Only one photo
+        console.log(file)
         if (file){
-            setSelectedFile(event.target.files[0]); 
+            setSelectedFile(file); 
         }
     }
 

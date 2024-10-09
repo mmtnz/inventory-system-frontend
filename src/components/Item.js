@@ -46,7 +46,9 @@ const Item = ({args}) => {
         } else {
             moment.locale('en'); // Use default locale (English) if language is not Spanish
         }
+        console.log(locationObj)
         loadItem();
+        
     }, [i18n.language]);  // Re-run whenever the language changes
 
     
@@ -54,7 +56,6 @@ const Item = ({args}) => {
     const loadItem = async () => {
         try {
             const data = await apiGetItem(storageRoomId, itemId);
-            console.log(data)
             setItem(data);
             setError(null);
 
@@ -97,12 +98,12 @@ const Item = ({args}) => {
 
     const handleReturnLent = async () => {
         let utcDate = new Date().toISOString().split('T')[0];
-        let resultApi = await apiReturnLent(item, storageRoomId, itemId, utcDate);
+        let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
         forceUpdate();
     }
 
     const goToEdit = () => {
-        navigate(`/edit/${itemId}`)
+        navigate(`/storageRoom/${storageRoomId}/item/${itemId}/edit`)
     }
 
     if (error) {
@@ -123,9 +124,9 @@ const Item = ({args}) => {
             <div id="item">
                 <div className="item-container">
                     <div className="item-image-container">
-                        {item.image && item.image !== null && item.image !== "" ? (
+                        {item.imageUrl && item.imageUrl !== "" ? (
                             <img
-                                src={`${url}/image/${item.image}`}
+                                src={item.imageUrl}
                                 alt={item.name}
                                 className="image-item"
                             />
@@ -133,7 +134,7 @@ const Item = ({args}) => {
                             <img src={defaultImage} className="image-item"/>
                         )}
                     </div>
-
+                    
                     <div className="item-data">
                         <div className="item-data-group">
                             <label>{t('otherNames')}:</label>
@@ -222,12 +223,12 @@ const Item = ({args}) => {
 
                         <div className="item-data-group">
                             <label>{t('lastModification')}:</label>
-                            <Moment format="DD/MM/YYYY HH:mm">{item.dateLastEdited}</Moment>
+                            <Moment format="DD/MM/YYYY HH:mm">{item.updatedAt}</Moment>
                         </div>
 
                         <div className="item-data-group">
                             <label>{t('creationDate')}:</label>
-                            <Moment format="DD/MM/YYYY HH:mm">{item.dateCreated}</Moment>
+                            <Moment format="DD/MM/YYYY HH:mm">{item.createdAt}</Moment>
                         </div>
                     </div>
                 </div>

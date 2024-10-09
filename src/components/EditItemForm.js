@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 const EditItemForm = ({args, itemArg}) => {
  
-    const itemId = useParams().id;
+    const { storageRoomId, itemId} = useParams();
     const [item, setItem] = useState(itemArg);
     const oldItem = itemArg;
     delete oldItem.dateLastEdited;
@@ -61,11 +61,13 @@ const EditItemForm = ({args, itemArg}) => {
     const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
-        if (tagsList.length > 0) {
+        console.log('entro use')
+        console.log(item)
+        if (item.tagsList && item.tagsList.length > 0) {
             setSelectedTags(tagsList.filter(option => item.tagsList.includes(option.value)));
         }
                 
-        setOtherNamesList(item.otherNamesList);
+        setOtherNamesList(item.otherNamesList ? item.otherNamesList : []); // Just in case item has no otherNamesList as attribute
 
         let [auxPlace, auxLoc, auxSubLoc] = item.location.split('/');
         setPlace(placesList.find(option => auxPlace.includes(option.value)));
@@ -119,7 +121,7 @@ const EditItemForm = ({args, itemArg}) => {
 
     const saveItem = async () => {
         try {
-            const itemResponse = await apiEditItem(item, itemId);
+            const itemResponse = await apiEditItem(storageRoomId, item, itemId);
             setItem(itemResponse);
             setError(null);
             
@@ -163,7 +165,7 @@ const EditItemForm = ({args, itemArg}) => {
 
     const uploadImage = async (itemId) => {
         try {            
-            const response = await apiUploadImage(selectedFile, itemId);
+            const response = await apiUploadImage(storageRoomId, itemId, selectedFile);
             Swal.fire(messagesObj[t('locale')].editItemSuccess);
             navigate('/home')
         } catch (err) {
@@ -233,6 +235,7 @@ const EditItemForm = ({args, itemArg}) => {
                     // onChange={changeState}
                     // onClick={() => {setIsDifferent(oldItem === item)}}
                 >
+                    {/* NAME */}
                     <div className="formGroup">
                         <label htmlFor="name">{t('name')}</label>
                         <input
@@ -246,23 +249,26 @@ const EditItemForm = ({args, itemArg}) => {
                         {validator.message('name', item.name, 'required|alpha_num_space')}
                     </div>
 
+                    {/* OTHER NAMES */}
                     <div className="formGroup">
                         <label htmlFor='otherNames'>{t('otherNames')}</label>
                         <TagsInput tagsList={otherNamesList} setTagsList={changeOtherNamesList}/>
                     </div>
 
+                    {/* TAGS */}
                     <div className="formGroup">
                         <label htmlFor='tags'>{t('tags')}</label>
                         <Select
                             isMulti
                             options={tagsList}
                             onChange={updateTagsList}
-                            isLoading={!item.tagsList.length}
+                            isLoading={!tagsList}
                             value={selectedTags}
                             placeholder={t('select')}
                         />
                     </div>
 
+                    {/* LOCATION */}
                     <div className="formGroup">
                         <label htmlFor='location'>{t('location')}</label>
                         <Select
@@ -303,6 +309,7 @@ const EditItemForm = ({args, itemArg}) => {
                             
                     </div>
 
+                    {/* DESCRIPTION */}
                     <div className="formGroup">
                         <label htmlFor='description'>
                             {t('description')}
@@ -315,11 +322,12 @@ const EditItemForm = ({args, itemArg}) => {
                         />
                     </div>
 
+                    {/* IMAGE */}
                     <div className='formGroup'>
                         {(!isFileChanged) && (
                             <div className='thumb-image-container'>
-                                {item.image !== null && item.image !== "" ? (
-                                    <img src={`${url}/image/${item.image}`} alt={item.name} className="thumb"/> 
+                                {item.imageUrl && item.imageUrl !== "" ? (
+                                    <img src={item.imageUrl} alt={item.name} className="thumb"/> 
                                 ):(
                                     <img src={defaultImage} className="thumb"/>
                                 )}
@@ -331,6 +339,7 @@ const EditItemForm = ({args, itemArg}) => {
                         <input type='file' name='file0' onChange={addFile} accept='.jpg, .jpeg, .png'/>
                     </div>
 
+                    {/* IS LENT */}
                     <div className='formGroup'>
                         <label htmlFor='isLent'>{t('isLent')}</label>
                         <div className='radio-buttons-container'>

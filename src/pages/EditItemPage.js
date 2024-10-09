@@ -8,7 +8,7 @@ import { getStorageRoomInfo } from '../services/storageRoomInfoService';
 const EditItemPage = () => {
 
     const [args, setArgs] = useState({tagList: null, locationObj: null});
-    const itemId = useParams().id;
+    const {storageRoomId, itemId} = useParams();
     const [item, setItem] = useState({});
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
@@ -20,7 +20,7 @@ const EditItemPage = () => {
 
     // Get storage room info
     const getStorageRoomData = async () => {
-        let storageRoomInfo = await getStorageRoomInfo();
+        let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
         setArgs(storageRoomInfo.config);
         getItem();
     }
@@ -47,7 +47,7 @@ const EditItemPage = () => {
     // GET item info
     const getItem = async () => {
         try {
-            const data = await apiGetItem(itemId);
+            const data = await apiGetItem(storageRoomId, itemId);
             setItem(data);
             setLoading(false);
             

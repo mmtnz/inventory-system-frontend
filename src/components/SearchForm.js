@@ -1,8 +1,7 @@
 import Select from 'react-select';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSearchParams } from "react-router-dom";
-import { apiGetTagsList } from '../services/api';
+import { useSearchParams, useParams } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 
@@ -11,11 +10,8 @@ const SearchForm = ({tagList}) => {
     const [query, setQuery] = useState('');
     const [selectedTags, setSelectedTags] = useState([]);
     
-    const [isBorrowed, setIsBorrowed] = useState(false);
-
-    
-
     const [searchParams] = useSearchParams();
+    const { storageRoomId } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
 
@@ -51,7 +47,7 @@ const SearchForm = ({tagList}) => {
         if (selectedLent.value !== "all"){
             params.append('lent', selectedLent.value === "lent");
         }
-        navigate(`/search?${params.toString()}`);        
+        navigate(`/storageRoom/${storageRoomId}/search?${params.toString()}`);        
     };
 
     //To update tags
