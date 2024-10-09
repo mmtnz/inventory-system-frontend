@@ -219,9 +219,15 @@ const EditItemForm = ({args, itemArg}) => {
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
     }
 
-    
+    const removeImage = () => {
+        setIsFileChanged(true);
+        let auxItem = {...item, imageUrl: null};
+        setItem(auxItem);
+        setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
+    }
 
     
+
     if (loading) {
         return <div>Loading..</div>
     }
@@ -331,6 +337,12 @@ const EditItemForm = ({args, itemArg}) => {
                                 ):(
                                     <img src={defaultImage} className="thumb"/>
                                 )}
+
+                                <div className='delete-button' onClick={removeImage}>
+                                    <span className="material-symbols-outlined">
+                                        close
+                                    </span>
+                                </div>
                             </div>
                         )}
                         

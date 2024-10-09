@@ -713,6 +713,21 @@ textarea {
     align-items: center;
     justify-content: center;
     width: 100%;
+    position: relative; /* Allows positioning elements inside the container */
+}
+
+.delete-button {
+    position: absolute; /* Position it relative to the container */
+    top: 5px; /* Adjust the top distance */
+    right: 5px; /* Adjust the right distance */
+    background-color: #e32e36; /* Customize the button style */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0rem;
+
 }
 
 /* ###################################################### */
