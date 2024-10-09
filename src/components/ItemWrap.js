@@ -15,6 +15,7 @@ const ItemWrap = ({item}) => {
 
   console.log(item.imageUrl)
   const [lentName, lentDate] = item.isLent != null ? item.isLent.split('/') : [null, null]
+  const [isLent, setIsLent] = useState(item.isLent);
   const url = API_BASE_URL;
   const { storageRoomId } = useParams();
   const [,forceUpdate] = useState();
@@ -36,7 +37,18 @@ const ItemWrap = ({item}) => {
 
   const handleReturnLent = async () => {
     let utcDate = new Date().toISOString().split('T')[0];
-    let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
+    try {
+      let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
+      setIsLent(null);
+      Swal.fire({
+        title: 'Elemento actualizado',
+        text: "El elemento se ha creado correctamente",
+        icon: "success"
+    })
+    } catch (error) {
+      console.log('poner swal')
+    }
+    
     forceUpdate();
   }
 
@@ -66,7 +78,7 @@ const ItemWrap = ({item}) => {
   return (
     <div className="list-item">
         
-        <div className="image-wrap" onClick={goToItem}>
+        <div className="image-wrap-container" onClick={goToItem}>
             {item.imageUrl && item.imageUrl !== "" ? (
               <img
                 src={item.imageUrl}
@@ -78,40 +90,52 @@ const ItemWrap = ({item}) => {
             
         </div>
 
-        {/* {item.imageUrl} */}
+        <div className='list-item-wrapper'>
+          {/* <div className='item-wrap-content-container list-item-element' onClick={goToItem}> */}
+          <div className='item-wrap-content-container' onClick={goToItem}>
+            <h2>{item.name}</h2>
 
-        <div className='item-wrap-content-container' onClick={goToItem}>
-          <h2>{item.name}</h2>
+            <div className="list-item-date">
+                <div className='text-bold'>{t('edited')}:</div>
+                <div className='list-item-date-text'>
+                  <Moment fromNow utc locale={i18n.language}>{item.dateLastEdited}</Moment>
+                </div>
+            </div>
 
-          <span className="date">
-              <p>{t('edited')}:</p>
-              <Moment fromNow utc locale={i18n.language}>{item.dateLastEdited}</Moment>
-          </span>
+            {isLent &&
+              <div className="list-item-date">
+                <div className='text-bold'>{t('lent')}:</div>
+                
+                <div className='list-item-date-text'>
+                  <Moment fromNow utc locale={i18n.language}>{lentDate}</Moment>
+                  {t('to')} {lentName}
+                </div>
 
-          {(item.isLent != null) &&
-            <span className="date">
-              <p>{t('lent')}:</p>
-              <Moment fromNow utc locale={i18n.language}>{lentDate}</Moment>
-              <div>{t('to')} {lentName}</div>
-            </span>
-          }
-        </div>
+              </div>
+            }
+          </div>
 
-        <div className='item-wrap-buttons-container'>
-          <button className='custom-button-small' onClick={handleDelete}>
-            <span className="material-symbols-outlined">
-              delete
-            </span>
-            {t('delete')}
-          </button>
-          {item.isLent && 
-            <button className='custom-button-small' onClick={handleReturnLent}>
-                <span className="material-symbols-outlined">
-                  assignment_return                                            
-                </span>            
-              {t('return')}
+          {/* <div className='item-wrap-buttons-container list-item-element'> */}
+          <div className='item-wrap-buttons-container'>
+
+            
+
+            {item.isLent && 
+              <button className='custom-button-small' onClick={handleReturnLent}>
+                  <span className="material-symbols-outlined">
+                    assignment_return                                            
+                  </span>            
+                {t('return')}
+              </button>
+            }
+
+            <button className='custom-button-small' onClick={handleDelete}>
+              <span className="material-symbols-outlined">
+                delete
+              </span>
+              {t('delete')}
             </button>
-          }
+          </div>
         </div>
         
       

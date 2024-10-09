@@ -92,7 +92,7 @@ const SearchForm = ({tagList}) => {
                 />
             </div>
             
-            <div className='search-button-container'></div>
+            <div className='button-container'></div>
             <button
                 className="custom-button"
                 type="submit"

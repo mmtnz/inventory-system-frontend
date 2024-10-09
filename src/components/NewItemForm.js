@@ -327,7 +327,7 @@ const NewItemForm = ({args}) => {
                 }
 
                 <div className='formGroup'>
-                    <div className='save-button-container'>
+                    <div className='button-container'>
                         <button className='custom-button' type='submit'>
                             {t('save')}
                         </button>

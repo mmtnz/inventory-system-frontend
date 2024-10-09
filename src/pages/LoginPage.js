@@ -135,8 +135,9 @@ function LoginPage() {
                 {validator.message('password', password, 'required')}
               </div>
               
-    
-              <button className="custom-button" type="submit">{t('login')}</button>
+              <div className="button-container">
+                <button className="custom-button" type="submit">{t('login')}</button>
+              </div>
             </form>        
         </section>
     </div>

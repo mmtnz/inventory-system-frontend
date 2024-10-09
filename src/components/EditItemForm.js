@@ -390,7 +390,7 @@ const EditItemForm = ({args, itemArg}) => {
 
 
                     <div className='formGroup'>
-                        <div className='save-button-container'>
+                        <div className='button-container'>
                             <button className='custom-button' type='submit' disabled={!isDifferent && !isFileChanged}>
                                 {t('save')}
                             </button>

@@ -95,7 +95,7 @@ const SearchPage = () => {
                     
                     {(results != null && results.length == 0 && isSearch) ? 'no hay elementos' : 
                     (
-                        <div className="aux">
+                        <div className="list-items-container-content">
                             {results.slice(startIndex, startIndex + itemsPerPage - 1).map(result => (
                                 <ItemWrap key={result.itemId} item={result}/>
                             ))}

@@ -20,9 +20,9 @@ const Item = ({args}) => {
     const tagsList = args.tagsList;
     const locationObj = args.locationObj;
 
-    const itemId = useParams().itemId;
-    const storageRoomId = useParams().storageRoomId;
+    const {storageRoomId, itemId} = useParams();
     let url = API_BASE_URL;
+    
     const [item, setItem] = useState({});
     const [status, setStatus] = useState({});
     const [error, setError] = useState(null);
@@ -97,8 +97,19 @@ const Item = ({args}) => {
     }
 
     const handleReturnLent = async () => {
-        let utcDate = new Date().toISOString().split('T')[0];
-        let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
+        try {
+
+            let utcDate = new Date().toISOString().split('T')[0];
+            let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
+            Swal.fire({
+                title: 'Elemento actualizado',
+                text: "El elemento se ha creado correctamente",
+                icon: "success"
+            })
+            setItem({...item, isLent: null})
+        } catch (error) {
+            console.log('poner swal')
+        }
         forceUpdate();
     }
 
