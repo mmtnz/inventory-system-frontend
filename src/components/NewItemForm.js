@@ -114,7 +114,7 @@ const NewItemForm = ({args}) => {
                 },
                 body: selectedFile,  // The actual file goes here
             });
-            console.log(responseImage)
+            console.log(responseImage);
 
             Swal.fire(messagesObj[t('locale')].newItemSuccess);
             navigate('/home')

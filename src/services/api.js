@@ -159,13 +159,6 @@ export const apiGetUserInfo = async () => {
 // POST upload image
 export const apiUploadImage = async (storageRoomId, itemId, fileExtension) => {
     
-    // const formData = new FormData();
-    // formData.append(
-    //     'file0',
-    //     itemFile,
-    //     itemFile.name
-    // );
-
     try {
         const response = await api.post(
             `/storageRoom/${storageRoomId}/item/${itemId}/image`,
@@ -203,6 +196,7 @@ export const apiEditItem = async (storageRoomId, item, itemId) => {
     
     try {
         // To avoid sending signedUrl. To update image endpoint /image
+        // if imageUrl exist and it is null it will be sent to delete 
         if (item.imageUrl) {
             delete item.imageUrl  
         }

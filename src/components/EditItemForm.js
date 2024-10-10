@@ -126,7 +126,7 @@ const EditItemForm = ({args, itemArg}) => {
             setError(null);
             
             if (selectedFile){
-                await uploadImage(itemResponse.id);
+                await uploadImage(itemResponse.itemId);
             } else {
                 Swal.fire(messagesObj[t('locale')].editItemSuccess);
                 navigate('/home');
@@ -135,6 +135,28 @@ const EditItemForm = ({args, itemArg}) => {
             setError(err);
             Swal.fire(messagesObj[t('locale')].editItemError)
         } 
+    }
+
+    const uploadImage = async (itemId) => {
+        try {            
+            const fileExtension = `.${selectedFile.type.split('/')[1]}`;
+            const response = await apiUploadImage(storageRoomId, itemId, selectedFile);
+            const uploadUrl = response.data.uploadUrl;
+            const responseImage = await fetch(uploadUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': selectedFile.type,  // Make sure to set the correct MIME type
+                },
+                body: selectedFile,  // The actual file goes here
+            });
+
+            Swal.fire(messagesObj[t('locale')].editItemSuccess);
+            navigate('/home')
+        } catch (err) {
+            console.log(err)
+            setError(err);
+            Swal.fire(messagesObj[t('locale')].editItemImageError);
+        }
     }
 
     const changeOtherNamesList = (event) => {
@@ -163,16 +185,7 @@ const EditItemForm = ({args, itemArg}) => {
         console.log(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)))
     }
 
-    const uploadImage = async (itemId) => {
-        try {            
-            const response = await apiUploadImage(storageRoomId, itemId, selectedFile);
-            Swal.fire(messagesObj[t('locale')].editItemSuccess);
-            navigate('/home')
-        } catch (err) {
-            setError(err);
-            Swal.fire(messagesObj[t('locale')].editItemImageError);
-        }
-    }
+    
 
     const updateTagsList = (tags) => {
         setSelectedTags(tags);

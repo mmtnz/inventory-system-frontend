@@ -105,9 +105,17 @@ const SearchPage = () => {
                     {(results && results.length > itemsPerPage) && 
                         
                         <div className="paginating-container">
-                            <button onClick={decreasePage} disabled={currentPage == 1}>{'<'}</button>
+                            <button className="custom-button-icon" onClick={decreasePage} disabled={currentPage == 1}>
+                                <span className="material-symbols-outlined">
+                                    arrow_back
+                                </span>
+                            </button>
                             <p>{`${currentPage} / ${totalPages}`}</p>
-                            <button onClick={increasePage} disabled={currentPage == totalPages}>{'>'}</button>
+                            <button className="custom-button-icon" onClick={increasePage} disabled={currentPage == totalPages}>
+                                <span className="material-symbols-outlined">
+                                    arrow_forward
+                                </span>
+                            </button>
                         </div>
                     }                             
                 

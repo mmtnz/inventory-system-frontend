@@ -131,8 +131,9 @@ const Item = ({args}) => {
 
     return (
         <div>
-            <h1>{item.name}</h1>
+            {/* <h1>{item.name}</h1> */}
             <div id="item">
+                <h1>{item.name}</h1>
                 <div className="item-container">
                     <div className="item-image-container">
                         {item.imageUrl && item.imageUrl !== "" ? (

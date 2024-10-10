@@ -260,7 +260,10 @@ h1 {
     cursor: pointer;
     padding: 0.2rem 0.5rem 0.2rem 0.4rem;
     transition: transform 0.1s ease; /* Smooth transition */
+    font-size: 1rem;
 }
+
+
 
 .custom-button-small:disabled{
     opacity: 50%;
@@ -269,7 +272,39 @@ h1 {
 
 .custom-button-small:active {
     transform: scale(0.95); /* Shrink button slightly on click */
-  }
+}
+
+.custom-button-small .material-symbols-outlined{
+    font-size: 1rem;
+}
+
+.custom-button-icon {
+    background-color: var(--color-theme);
+    color: var(--color-theme-font);
+    border: 0;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.1rem 0.2rem 0.1rem 0.2rem;
+    transition: transform 0.1s ease; /* Smooth transition */
+}
+
+.custom-button-icon .material-symbols-outlined{
+    font-size: 1.2rem;
+}
+
+.custom-button-icon:disabled{
+    opacity: 50%;
+    cursor: auto;   
+}
+
+.custom-button-icon:active {
+    transform: scale(0.95); /* Shrink button slightly on click */
+}
 
 /* .search-button-container{
     margin-top: 1rem;
