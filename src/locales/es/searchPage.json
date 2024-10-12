@@ -11,5 +11,7 @@
     "lent": "Prestado",
     "notLent": "No prestado",
     "lentLabel": "Filtrar por prestado",
-    "locale": "es"
+    "locale": "es",
+    "noItemsFound": "No se han encontrado elementos",
+    "items": "elementos"    
 }

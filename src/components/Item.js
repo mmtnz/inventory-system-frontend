@@ -1,5 +1,6 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import API_BASE_URL, { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
+import { logout } from "../services/logout";
 import { useEffect, useState } from "react";
 import defaultImage from "../assets/images/default.png"
 import Swal from 'sweetalert2';
@@ -38,6 +39,7 @@ const Item = ({args}) => {
     const [, forceUpdate] = useState();
 
     const navigate = useNavigate();
+    const locationState = useLocation();
     const { t, i18n } = useTranslation('item'); // Load translations from the 'item' namespace
 
 
@@ -56,7 +58,13 @@ const Item = ({args}) => {
 
     const loadItem = async () => {
         try {
-            const data = await apiGetItem(storageRoomId, itemId);
+            let data;
+            if (locationState.state?.item) {
+                data = locationState.state?.item // Get item from state when clicking in item wrap
+            } else {
+                data = await apiGetItem(storageRoomId, itemId);
+            }
+            
             setItem(data);
             setError(null);
 
@@ -69,6 +77,18 @@ const Item = ({args}) => {
             // setSublocation(data.location.split('/')[1]);
             setIsLoaded(true);
         } catch (err) {
+            console.log(err)
+            if (err.response.status === 401) {
+                Swal.fire(messagesObj[t('locale')].sessionError)
+                await logout();
+                navigate('/login')
+            } else if ( err.response.status === 403) {  // Access denied
+                Swal.fire(messagesObj[t('locale')].accessDeniedError)
+                navigate('/home')
+            } else if (err.response.status === 404 ) { // Item not found
+                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+                navigate('/home')
+            }
             setItem({})
             console.log(err)
             setError(t('error'))
@@ -76,14 +96,22 @@ const Item = ({args}) => {
     }
 
     const deleteItem = async () => {
-        let resultApi = await apiDeleteItem(storageRoomId, itemId);
-        console.log(resultApi);
-        if (resultApi.status == 200) {
+        try {
+            await apiDeleteItem(storageRoomId, itemId);
             Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
             navigate('/home');
-        }
-        else {
-            Swal.fire(messagesObj[t('locale')].deleteItemError);
+        } catch (err) {
+            if (err.response.status === 401) {
+                Swal.fire(messagesObj[t('locale')].sessionError)
+                await logout();
+                navigate('/login')
+            } else if ( err.response.status === 403) {  // Access denied
+                Swal.fire(messagesObj[t('locale')].accessDeniedError)
+                navigate('/home')
+            } else if (err.response.status === 404 ) { // Item not found
+                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+                navigate('/home')
+            }
         }
     }
 
@@ -115,7 +143,8 @@ const Item = ({args}) => {
     }
 
     const goToEdit = () => {
-        navigate(`/storageRoom/${storageRoomId}/item/${itemId}/edit`)
+        navigate(`/storageRoom/${storageRoomId}/item/${itemId}/edit`, { state: { item: item } });
+        
     }
 
     if (error) {

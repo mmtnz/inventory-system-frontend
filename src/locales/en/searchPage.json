@@ -11,5 +11,7 @@
     "lent": "Lent",
     "notLent": "Not lent",
     "lentLabel": "Filter by lent",
-    "locale": "en"    
+    "locale": "en",
+    "noItemsFound": "No items found",
+    "items": "items"    
 }

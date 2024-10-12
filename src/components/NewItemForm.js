@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import TagsInput from './TagsInput';
 import { apiSaveItem, apiUploadImage } from '../services/api';
+import { logout } from "../services/logout";
 import Swal from 'sweetalert2';
 
 import ItemModel from '../schemas/item';
@@ -91,6 +92,14 @@ const NewItemForm = ({args}) => {
                 Swal.fire(messagesObj[t('locale')].newItemSuccess);
             }      
         } catch (err) {
+            if (err.response.status === 401) {
+                Swal.fire(messagesObj[t('locale')].sessionError)
+                await logout();
+                navigate('/login')
+            } else if ( err.response.status === 403) {  // Access denied
+                Swal.fire(messagesObj[t('locale')].accessDeniedError)
+                navigate('/home')
+            }
             setError(err);
             Swal.fire(messagesObj[t('locale')].newItemError);
         }

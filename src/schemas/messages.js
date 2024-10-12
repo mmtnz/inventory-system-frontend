@@ -55,6 +55,16 @@ const messagesObj = {
             title: 'Error',
             text: 'La sesión ha caducado',
             icon: "error"
+        },
+        accessDeniedError: {
+            title: 'Error',
+            text: 'Acceso denegado a este trastero',
+            icon: "error"
+        },
+        itemNotFoundError: {
+            title: 'Error',
+            text: 'Elemento no encontrado',
+            icon: "error"
         }
     },
     en: {
@@ -112,6 +122,16 @@ const messagesObj = {
         sessionError: {
             title: 'Error',
             text: 'The session has expired',
+            icon: "error"
+        },
+        accessDeniedError: {
+            title: 'Error',
+            text: 'Access denied to this storage room',
+            icon: "error"
+        },
+        itemNotFoundError: {
+            title: 'Error',
+            text: 'Item not found',
             icon: "error"
         }
     } 

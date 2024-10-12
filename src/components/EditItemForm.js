@@ -3,6 +3,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import API_BASE_URL, { apiGetItem } from "../services/api";
+import { logout } from "../services/logout";
 import { ClipLoader } from 'react-spinners';
 
 import Select from 'react-select';
@@ -61,7 +62,6 @@ const EditItemForm = ({args, itemArg}) => {
     const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
-        console.log('entro use')
         console.log(item)
         if (item.tagsList && item.tagsList.length > 0) {
             setSelectedTags(tagsList.filter(option => item.tagsList.includes(option.value)));
@@ -132,6 +132,14 @@ const EditItemForm = ({args, itemArg}) => {
                 navigate('/home');
             }      
         } catch (err) {
+            if (err.response.status === 401) {
+                Swal.fire(messagesObj[t('locale')].sessionError)
+                await logout();
+                navigate('/login')
+            } else if ( err.response.status === 403) {  // Access denied
+                Swal.fire(messagesObj[t('locale')].accessDeniedError)
+                navigate('/home')
+            }
             setError(err);
             Swal.fire(messagesObj[t('locale')].editItemError)
         } 

@@ -32,7 +32,7 @@ const ItemWrap = ({item}) => {
   }, [i18n.language]);  // Re-run whenever the language changes
   
   const goToItem = () => {
-    navigate(`/storageRoom/${storageRoomId}/item/${item.itemId}`);
+    navigate(`/storageRoom/${storageRoomId}/item/${item.itemId}`, { state: { item: item } });
   }
 
   const handleReturnLent = async () => {
@@ -116,9 +116,6 @@ const ItemWrap = ({item}) => {
 
           {/* <div className='item-wrap-buttons-container list-item-element'> */}
           <div className='item-wrap-buttons-container'>
-
-            
-
             {item.isLent && 
               <button className='custom-button-small' onClick={handleReturnLent}>
                   <span className="material-symbols-outlined">

@@ -78,7 +78,11 @@ const SearchPage = () => {
                 Swal.fire(messagesObj[t('locale')].sessionError)
                 await logout();
                 navigate('/login')
+            } else if ( err.response.status === 403) {  // Access denied
+                Swal.fire(messagesObj[t('locale')].accessDeniedError)
+                navigate('/home')
             }
+            
             setError('An error occurred while fetching data.');
             console.log(err)
             setResults([]);
@@ -104,22 +108,30 @@ const SearchPage = () => {
                 <h1>{t('title')}</h1>
                 <SearchForm tagList={tagList}/>
                 
-                <div className="loader-clip-container">
-                    <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-                </div>
+                {isLoading && (
+                    <div className="loader-clip-container">
+                        <ClipLoader className="custom-spinner-clip" loading={isLoading} />
+                    </div>
+                )}
                 
                 {error && <p>{error}</p>}
 
                 <div className='list-items-container'>
                 
                     
-                    {(results != null && results.length == 0 && isSearch) ? 'no hay elementos' : 
+                    {(results != null && results.length == 0 && isSearch) ? t('noItemsFound') : 
                     (
+                        <>
+                        {isSearch && (
+                            <h3 className="num-items-title">{results.length} {t('items')}</h3>
+                        )}
+                        
                         <div className="list-items-container-content">
                             {results.slice(startIndex, startIndex + itemsPerPage - 1).map(result => (
                                 <ItemWrap key={result.itemId} item={result}/>
                             ))}
                         </div>
+                        </>
                     )}
 
                     {(results && results.length > itemsPerPage) && 

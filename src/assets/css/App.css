@@ -363,6 +363,10 @@ h1 {
 
 } */
 
+.num-items-title {
+    margin-top: 2rem;
+}
+
 .list-items-container{
     width: 100%;
     display: flex;
@@ -387,6 +391,7 @@ h1 {
     padding-top: 20px;
     display: flex;
     flex-direction: row;
+    gap: 1rem;
     border: 2px 0 2px 0 solid rgb(87, 81, 81);
     font-size: 0.9rem;
 }
@@ -414,9 +419,11 @@ h1 {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
-    margin-left: 15px;
+    /* flex-basis: 9rem; */
+    /* margin-right: 15px; */
+    margin-left: 1.5rem;
     cursor: pointer;
+    flex-shrink: 0; /* Prevent the image from shrinking */
 }
 
 .image-wrap-container img{
