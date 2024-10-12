@@ -17,5 +17,9 @@
     "titleEdit": "Edit item",
     "requiredMessage": "This field is required.",
     "defaultMessage": "This field is not valid.",
-    "locale": "en"
+    "locale": "en",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "createPassword": "Create password",
+    "showPassword": "Show password"
 }

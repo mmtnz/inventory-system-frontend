@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useParams } from "react-router-dom";
+import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import SearchForm from '../components/SearchForm';
 import { apiSearchItems } from "../services/api";
 import ItemWrap from "../components/ItemWrap"
 import { getStorageRoomInfo } from '../services/storageRoomInfoService';
+import { logout } from "../services/logout";
 
 import { useTranslation } from 'react-i18next';
+import { ClipLoader } from 'react-spinners';
+import { BarLoader } from 'react-spinners';
+import Swal from "sweetalert2";
+import messagesObj from "../schemas/messages";
 
 const SearchPage = () => {
 
@@ -14,23 +19,26 @@ const SearchPage = () => {
     const [isSearch, setIsSearch] = useState(false);
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [startIndex, setStartIndex] = useState(0);
 
+    const navigate = useNavigate();
+
     const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
     const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
     useEffect(() => {
-        // getTagsList();
         getStorageRoomData();
         const query = searchParams.get('q');
         const tagList = searchParams.getAll('tag');
         const isLent = searchParams.get('lent');
 
         if (query || query === '' || tagList.length > 0) {
+            setIsLoading(true);
             handleSearch(query, tagList, isLent);
         }
         
@@ -38,7 +46,6 @@ const SearchPage = () => {
 
     const getStorageRoomData = async () => {
         let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-        console.log(storageRoomInfo)
         setTagList(storageRoomInfo.config.tagsList);
     }
 
@@ -51,7 +58,6 @@ const SearchPage = () => {
                 tag: tagList
             }
 
-            console.log(`isLent: ${isLent}`)
             if(isLent != undefined){
                 args = {...args, lent: isLent}
             }
@@ -59,12 +65,20 @@ const SearchPage = () => {
             let urlArgs = new URLSearchParams(args)  // Get query and tags from url to search
 
             const data = await apiSearchItems(storageRoomId, urlArgs.toString());
+
+            setIsLoading(false)
             setResults(data);
             setError(null);
             setIsSearch(true);
             setTotalPages(Math.ceil(data.length / itemsPerPage));
 
         } catch (err) {
+            console.log(err)
+            if (err.response.status === 401) {
+                Swal.fire(messagesObj[t('locale')].sessionError)
+                await logout();
+                navigate('/login')
+            }
             setError('An error occurred while fetching data.');
             console.log(err)
             setResults([]);
@@ -83,10 +97,16 @@ const SearchPage = () => {
 
 
     return (
+        <>
         <div id="search-page" className="center">
+            
             <section className="content">
                 <h1>{t('title')}</h1>
                 <SearchForm tagList={tagList}/>
+                
+                <div className="loader-clip-container">
+                    <ClipLoader className="custom-spinner-clip" loading={isLoading} />
+                </div>
                 
                 {error && <p>{error}</p>}
 
@@ -123,6 +143,7 @@ const SearchPage = () => {
             </section>
 
         </div>
+        </>
     )
 }
 

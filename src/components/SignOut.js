@@ -9,17 +9,26 @@ import { apiDeleteRefreshToken } from '../services/api';
 
 const SignOut = () => {
 
-    const { setUser } = useContext(AuthContext); // Assuming AuthContext manages user authentication state
-    const { setUserAttributes } = useContext(AuthContext);
     const navigate = useNavigate();
     const { t } = useTranslation('login'); // Load translations from the 'login' namespace
     
 
     const handleLogout = async () => {
         const cognitoUser = userPool.getCurrentUser();
-        console.log(cognitoUser)
 
         if (cognitoUser) {
+            await logOutAndDeleteCredentials(cognitoUser);
+        } else {
+            console.error('No user is currently signed in.');
+        }
+
+        // Redirect to login or home page after logout
+        navigate('/login');
+    };
+
+    const logOutAndDeleteCredentials = async (cognitoUser) => {
+        try {
+
             // Call Cognito's signOut method
             cognitoUser.signOut();
 
@@ -27,18 +36,13 @@ const SignOut = () => {
             const accessToken = sessionStorage.getItem('accessToken')
             await apiDeleteRefreshToken(accessToken);
 
-            // Clear any local application state related to user
-            setUser(null);  // Clear the user from context or state
-            setUserAttributes(null);
             // Clear session storage
             sessionStorage.clear();
 
-            // Redirect to login or home page after logout
-            navigate('/login');
-        } else {
-            console.error('No user is currently signed in.');
+        } catch (err) {
+            console.log(err.response.status);
         }
-    };
+    }
 
     return (
         <div onClick={handleLogout} className='header-icon-container hover-container'>

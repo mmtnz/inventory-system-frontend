@@ -8,5 +8,6 @@
     "confirmPassword": "Confirmar contraseña",
     "signOut": "Cerrar sesión",
     "requiredMessage": "Este campo es obligatorio.",
-    "emailInvalid": "Debe ser una dirección de correo válida."
+    "emailInvalid": "Debe ser una dirección de correo válida.",
+    "incorrectEmailPassword": "Email o contraseña incorrectos"
 }

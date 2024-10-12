@@ -3,7 +3,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import API_BASE_URL, { apiGetItem } from "../services/api";
-import defaultImage from "../assets/images/default.png"
+import { ClipLoader } from 'react-spinners';
 
 import Select from 'react-select';
 import TagsInput from './TagsInput';
@@ -242,7 +242,11 @@ const EditItemForm = ({args, itemArg}) => {
     
 
     if (loading) {
-        return <div>Loading..</div>
+        return (
+            <div className="loader-clip-container">
+                <ClipLoader className="custom-spinner-clip" loading={true} />
+            </div>
+        )
     }
     
     return(
@@ -345,10 +349,8 @@ const EditItemForm = ({args, itemArg}) => {
                     <div className='formGroup'>
                         {(!isFileChanged) && (
                             <div className='thumb-image-container'>
-                                {item.imageUrl && item.imageUrl !== "" ? (
+                                {(item.imageUrl && item.imageUrl !== "") && (
                                     <img src={item.imageUrl} alt={item.name} className="thumb"/> 
-                                ):(
-                                    <img src={defaultImage} className="thumb"/>
                                 )}
 
                                 <div className='delete-button' onClick={removeImage}>

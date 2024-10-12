@@ -50,6 +50,11 @@ const messagesObj = {
             title: 'Error',
             text: "Error eliminando elemento",
             icon: "error"
+        },
+        sessionError: {
+            title: 'Error',
+            text: 'La sesión ha caducado',
+            icon: "error"
         }
     },
     en: {
@@ -102,6 +107,11 @@ const messagesObj = {
         deleteItemError: {
             title: 'Error',
             text: "Error deleting item",
+            icon: "error"
+        },
+        sessionError: {
+            title: 'Error',
+            text: 'The session has expired',
             icon: "error"
         }
     } 

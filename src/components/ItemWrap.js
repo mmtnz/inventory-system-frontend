@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 const ItemWrap = ({item}) => {
 
-  console.log(item.imageUrl)
+  console.log(item)
   const [lentName, lentDate] = item.isLent != null ? item.isLent.split('/') : [null, null]
   const [isLent, setIsLent] = useState(item.isLent);
   const url = API_BASE_URL;
@@ -54,7 +54,6 @@ const ItemWrap = ({item}) => {
 
   const deleteItem = async () => {
     let resultApi = await apiDeleteItem(storageRoomId, item.itemId);
-    console.log(resultApi);
     if (resultApi.status == 200) {
         Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
         navigate('/home');
@@ -98,7 +97,7 @@ const ItemWrap = ({item}) => {
             <div className="list-item-date">
                 <div className='text-bold'>{t('edited')}:</div>
                 <div className='list-item-date-text'>
-                  <Moment fromNow utc locale={i18n.language}>{item.dateLastEdited}</Moment>
+                  <Moment fromNow utc locale={i18n.language}>{item.updatedAt}</Moment>
                 </div>
             </div>
 

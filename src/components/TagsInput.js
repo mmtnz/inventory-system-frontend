@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 
 const TagsInput = ({tagsList, setTagsList}) => {
-    console.log(tagsList)
     // console.log(tagsList)
     const tagRef = React.createRef();
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace

@@ -17,5 +17,9 @@
     "titleEdit": "Editar elemento",
     "requiredMessage": "Este campo es obligatorio.",
     "defaultMessage": "Este campo no es válido.",
-    "locale": "es"
+    "locale": "es",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "createPassword": "Crear contraseña",
+    "showPassword": "Mostrar contraseña"
 }

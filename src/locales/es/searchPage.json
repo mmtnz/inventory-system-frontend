@@ -10,5 +10,6 @@
     "all": "Todos",
     "lent": "Prestado",
     "notLent": "No prestado",
-    "lentLabel": "Filtrar por prestado"
+    "lentLabel": "Filtrar por prestado",
+    "locale": "es"
 }

@@ -5,12 +5,14 @@ import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
 import { apiGetUserInfo } from '../services/api';
+import { ClipLoader } from 'react-spinners';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const { setUser } = useContext(AuthContext); // Use context to store the user
@@ -57,39 +59,42 @@ function LoginPage() {
     event.preventDefault();
 
     if (validator.allValid()){
-      try {
-     
-        const result = await signIn(email, password);
-  
-  
-        if (result.newPasswordRequired) {
-          setUser(result.cognitoUser)
-          setUserAttributes(result.userAttributes)
-          console.log(result.userAttributes)
-          navigate('/change-password')
-          
-        } else {
-          // Otherwise, redirect to the home page
-          setUser(result.cognitoUser)
-          setUserAttributes(result.userAttributes)
-          
-          const userInfo = await apiGetUserInfo();
-          console.log(userInfo)
-          sessionStorage.setItem('storageRoomsList', userInfo.storageRoomId)
-          navigate('/home');
-        }
-      } catch (err) {
-        console.error('Error signing in:', err);
-        setError('Incorrect email or password')
-      }
+      setIsLoading(true);
+      await loginWithCognito();
+      
     } else {
-      console.log('invalid')
       validator.showMessages()
       forceUpdate(false)
     }
-
-    
   };
+
+  const loginWithCognito = async () => {
+    try {
+     
+      const result = await signIn(email, password);
+      console.log(result)
+
+      if (result.newPasswordRequired) {
+        setUser(result.cognitoUser)
+        setUserAttributes(result.userAttributes)
+        console.log(result.userAttributes)
+        navigate('/change-password')
+        
+      } else {
+        // Otherwise, redirect to the home page
+        setUser(result.cognitoUser)
+        setUserAttributes(result.userAttributes)
+        
+        const userInfo = await apiGetUserInfo();
+        sessionStorage.setItem('storageRoomsList', userInfo.storageRoomId)
+        navigate('/home');
+      }
+    } catch (err) {
+      console.error('Error signing in:', err);
+      setError(t('incorrectEmailPassword'))
+      setIsLoading(false);
+    }
+  }
 
   const togglePassword = () => {
     setVisible(!visible);
@@ -138,7 +143,12 @@ function LoginPage() {
               <div className="button-container">
                 <button className="custom-button" type="submit">{t('login')}</button>
               </div>
-            </form>        
+            </form>
+
+            <div className="loader-clip-container">
+              <ClipLoader className="custom-spinner-clip" loading={isLoading} />
+            </div>        
+            
         </section>
     </div>
   );

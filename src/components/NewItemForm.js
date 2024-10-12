@@ -88,14 +88,13 @@ const NewItemForm = ({args}) => {
             if (selectedFile){
                 await uploadImage(itemResponse.itemId);
             } else {
-                console.log(messagesObj[t('locale')])
                 Swal.fire(messagesObj[t('locale')].newItemSuccess);
-                navigate('/home');
             }      
         } catch (err) {
             setError(err);
-            Swal.fire(messagesObj[t('locale')].newItemError)
-        } 
+            Swal.fire(messagesObj[t('locale')].newItemError);
+        }
+        navigate('/home')
     }
 
     const uploadImage = async (itemId) => {
@@ -117,7 +116,6 @@ const NewItemForm = ({args}) => {
             console.log(responseImage);
 
             Swal.fire(messagesObj[t('locale')].newItemSuccess);
-            navigate('/home')
         } catch (err) {
             setError(err);
             Swal.fire(messagesObj[t('locale')].newItemImageError);

@@ -10,5 +10,6 @@
     "all": "All",
     "lent": "Lent",
     "notLent": "Not lent",
-    "lentLabel": "Filter by lent"    
+    "lentLabel": "Filter by lent",
+    "locale": "en"    
 }

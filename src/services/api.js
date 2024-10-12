@@ -193,7 +193,6 @@ export const apiSaveItem = async (item) => {
 
 // PUT edit item
 export const apiEditItem = async (storageRoomId, item, itemId) => {
-    
     try {
         // To avoid sending signedUrl. To update image endpoint /image
         // if imageUrl exist and it is null it will be sent to delete 

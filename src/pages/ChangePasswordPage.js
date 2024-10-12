@@ -5,15 +5,20 @@ import { CognitoUser } from 'amazon-cognito-identity-js';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator'
 import { useTranslation } from 'react-i18next';
+import { ClipLoader } from 'react-spinners';
 
 const ChangePasswordPage = () => {
 
     const { user } = useContext(AuthContext); // Retrieve cognitoUser from context
     const { userAttributes } = useContext(AuthContext); // Retrieve user attributes from context
+    const { setUser } = useContext(AuthContext);
+    const { setUserAttributes } = useContext(AuthContext);
+
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [visible, setVisible] = useState(false);
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     
     const [cognitoUser, setCognitoUser] = useState(null);  // State to store CognitoUser
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
@@ -53,28 +58,42 @@ const ChangePasswordPage = () => {
       }, []);
 
 
-      const handleChangePassword = (event) => {
+      const handleChangePassword = async (event) => {
         event.preventDefault();
 
         if (validator.allValid()) {
 
-            user.completeNewPasswordChallenge(newPassword, userAttributes, {
-
-                onSuccess: (result) => {
-                    console.log('Password changed successfully!', result);
-                    setConfirmPassword(false);
-                    navigate('/home'); // Redirect to home after success
-                },
-                onFailure: (err) => {
-                    console.log('Problem changing password!', err);
-                    setError(err.message || JSON.stringify(err));
-                },
-            });
+            try {
+                await changePassword();
+                // Clear any local application state related to user (only used for creating new password)
+                setUser(null);  
+                setUserAttributes(null);
+                navigate('/home'); // Redirect to home after success
+            } catch (err) {
+                console.log('Problem changing password!', err);
+                setError(err.message || JSON.stringify(err));
+            }
         } else {
             validator.showMessages(); // Show validation error messages
             forceUpdate(); // Force re-render to show validation messages
         }
     };
+
+
+    const changePassword = async () => {
+        return new Promise((resolve, reject) => {
+            user.completeNewPasswordChallenge(newPassword, userAttributes, {
+                onSuccess: (result) => {
+                    console.log('Password changed successfully!', result);
+                    setConfirmPassword(false);
+                },
+                onFailure: (err) => {
+                    reject(err)
+                },
+            });
+        });
+    }
+
 
     const togglePassword = () => {
         setVisible(!visible);
@@ -87,7 +106,7 @@ const ChangePasswordPage = () => {
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
             
-                <form onSubmit={handleChangePassword} className='repeat-password-form'>
+                <form onSubmit={handleChangePassword} className='change-password-form'>
                     <div className='formGroup'>
                         <label htmlFor="new-password">{t('newPassword')}</label>
                         
@@ -120,9 +139,16 @@ const ChangePasswordPage = () => {
                         />
                         {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${newPassword}`)}
                     </div>
-                    <button type="submit" className='custom-button'>
-                        {t('Create password')}
-                    </button>
+
+                    <div className='button-container'>
+                        <button type="submit" className='custom-button'>
+                            {t('Create password')}
+                        </button>
+                    </div>
+
+                    <div className="loader-clip-container">
+                        <ClipLoader className="custom-spinner-clip" loading={isLoading} />
+                    </div> 
                 </form>
             </section>
         </div>

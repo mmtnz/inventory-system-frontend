@@ -8,6 +8,8 @@ import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { ClipLoader } from 'react-spinners';
+import { BarLoader } from 'react-spinners';
 
 import Modal from 'react-modal';
 import CustomModal from "./CustomModal";
@@ -46,7 +48,6 @@ const Item = ({args}) => {
         } else {
             moment.locale('en'); // Use default locale (English) if language is not Spanish
         }
-        console.log(locationObj)
         loadItem();
         
     }, [i18n.language]);  // Re-run whenever the language changes
@@ -125,7 +126,9 @@ const Item = ({args}) => {
 
     if (!isLoaded) {
         return (
-            <div>Loading...</div>
+            <div className="loader-clip-container">
+                <ClipLoader className="custom-spinner-clip" loading={true} />
+            </div>
         )
     }
 
@@ -194,10 +197,45 @@ const Item = ({args}) => {
 
                         <div className="item-data-group">
                             <label>{t('lent')}:</label>
-                            {(item.isLent != null) ? (
+                            <div className="lent-data-container">
+                                {(item.isLent != null) && (
+                                    <div className="lent-data-info-container">
+                                        <Moment fromNow utc locale={i18n.language}>{item.isLent.split('/')[1]}</Moment>
+                                        {t('to')} {item.isLent.split('/')[0]}
+                                    </div>
+                                )}
+
+                            <div className="lent-data-button-container">
+                                {(item.isLent != null) && (
+                                    <button
+                                        className='custom-button-small'
+                                        onClick={handleReturnLent}
+                                    >
+                                        <span className="material-symbols-outlined">
+                                            assignment_return                                            
+                                        </span>
+                                        {t('isReturned')}
+                                    </button>
+                                )}
+
+                                <button
+                                    className="custom-button-small"
+                                    onClick={() => setModalIsOpen(true)}
+                                    disabled={!item.lentHistory}
+                                >
+                                    <span className="material-symbols-outlined">
+                                        history
+                                    </span>
+                                </button>
+                            </div>
+
+
+                            </div>
+                            {/* {(item.isLent != null) ? (
                                 <div className="lent-data-container">
-                                    <Moment fromNow utc locale="es">{item.isLent.split('/')[1]}</Moment>
+                                    <Moment fromNow utc locale={i18n.language}>{item.isLent.split('/')[1]}</Moment>
                                     <p>{t('to')} {item.isLent.split('/')[0]}</p>
+                                    {i18n.language}
                                     <button
                                         className='custom-button-small'
                                         onClick={handleReturnLent}
@@ -220,7 +258,7 @@ const Item = ({args}) => {
                                 <span className="material-symbols-outlined">
                                     history
                                 </span>
-                            </button>
+                            </button> */}
                             
                         </div>
 

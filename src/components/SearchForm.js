@@ -92,16 +92,17 @@ const SearchForm = ({tagList}) => {
                 />
             </div>
             
-            <div className='button-container'></div>
-            <button
-                className="custom-button"
-                type="submit"
-            >
-                <span className="material-symbols-outlined">
-                    search
-                </span>
-                {t('searchButton')}
-            </button>
+            <div className='button-container'>
+                <button
+                    className="custom-button"
+                    type="submit"
+                >
+                    <span className="material-symbols-outlined">
+                        search
+                    </span>
+                    {t('searchButton')}
+                </button>
+            </div>
         </form>
     );
 };

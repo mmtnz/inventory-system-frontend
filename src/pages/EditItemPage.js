@@ -4,6 +4,7 @@ import { apiGetItem } from '../services/api';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getStorageRoomInfo } from '../services/storageRoomInfoService';
+import { ClipLoader } from 'react-spinners';
 
 const EditItemPage = () => {
 
@@ -25,24 +26,6 @@ const EditItemPage = () => {
         getItem();
     }
 
-    // const getData = ()  => {
-    //     getArgs();
-    //     getItem();
-    //     setLoading(false);
-    // }
-    
-    // // Get options from the DB
-    // const getArgs = async () => {
-    //     let tagList = await apiGetTagsList();
-    //     let locationObj = await apiGetTLoationsObj();
-    //     let aux = {
-    //         tagList: tagList,
-    //         locationObj: locationObj
-    //     };
-    //     setArgs(aux);
-    //     getItem();
-    //     // setLoading(false);
-    // }
 
     // GET item info
     const getItem = async () => {
@@ -58,8 +41,8 @@ const EditItemPage = () => {
 
     if (loading) {
         return(
-            <div>
-                <h2>Cargando...</h2>
+            <div className="loader-clip-container">
+                <ClipLoader className="custom-spinner-clip" loading={true} />
             </div>
         )
         

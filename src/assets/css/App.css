@@ -264,7 +264,6 @@ h1 {
 }
 
 
-
 .custom-button-small:disabled{
     opacity: 50%;
     cursor: auto;   
@@ -314,6 +313,47 @@ h1 {
     width: 50%;
     margin: 0px auto;
 }
+
+.loader-bar-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0.4rem;
+    /* width: 50%; */
+    /* border: 1px solid red; */
+    /* margin-top: 3.5rem; */
+    margin-bottom: 2.5rem;
+}
+
+.custom-spinner-bar{
+    color: var(--color-theme);
+    margin: 0;
+    /* height: 1rem !important; */
+    /* width: 100% !important; */
+    border-width: 0.2rem !important;
+}
+
+
+.loader-clip-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0.4rem;
+    /* width: 50%; */
+    /* border: 1px solid red; */
+    margin-top: 5rem;
+    /* margin-bottom: 2.5rem; */
+}
+
+.custom-spinner-clip{
+    color: var(--color-theme);
+    margin: 0;
+    /* height: 1rem !important; */
+    /* width: 100% !important; */
+    border-width: 0.2rem !important;
+}
+
+
 
 /* ####################################### */
 /* ITEM WRAP */
@@ -509,17 +549,21 @@ h1 {
     background-color: #f2f5f8;
 }
 
+#item label, #item p, #item time{
+    font-size: 1rem;
+}
+
 .item-container {
     display: flex;
     flex-direction: row;
     margin-top: 50px;
-    width: 100%;
+    width: 90%;
     flex: 1;    
 }
 
-#item img {
+.item-image-container img {
     width: auto;
-    height: 300px;
+    height: 20rem;
 }
 
 .item-image-container {
@@ -534,28 +578,26 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    row-gap: 20px;
+    row-gap: 1rem;
     width: 50%;
     margin-top: 10px;
     margin-left: 20px
+}
+
+.item-data p{
+    text-align: left;
 }
 
 .item-data-group {
     display: flex;
     flex-direction: row;
     align-items: start;
-    gap: 10px;
+    gap: 0.6rem;
     width: 100%;
 }
 
-
-
 .item-data-group label{
     font-weight: bold;
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: flex-start; */
-    /* width: fit-content; */
     text-align: left;
     white-space: nowrap;
 }
@@ -570,26 +612,21 @@ h1 {
 
 .lent-data-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: start;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
-.return-button {
-    background-color: #0d1b2a;
-    color: white;
+.lent-data-button-container{
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     gap: 0.5rem;
-    border-radius: 3px;
-    padding: 0.1rem;
-    padding-left: 0.5rem;
-    cursor: pointer;
-    border: 0;
+}
 
+.lent-data-info-container{
+    text-align: left;
+    white-space: nowrap;
 }
 
 .history-container {
@@ -725,7 +762,7 @@ h1 {
 /* LOGIN */
 /* ############################################### */
 
-.login-form, .repeat-password-form{
+.login-form, .change-password-form{
     width: 50%;
     margin: 0px auto;
     display: flex;
@@ -767,9 +804,9 @@ h1 {
     row-gap: 1.5rem;
 }
 
-.search-form {
+/* .search-form {
     margin-bottom: 50px;
-}
+} */
 
 
 .paginating-container {
@@ -797,6 +834,11 @@ input[type="date"]{
     padding: 3px;
     
     transition: 300ms all;
+}
+
+input[type="date"], input[type="file"]{
+    color: black;
+    width: 100%
 }
 
 textarea {
@@ -1048,30 +1090,30 @@ textarea {
         width: 50%;
     }
 
-    
-
-    /* .aux {
-        padding-left: 8px;
-    } */
-
     .item-container {
         width: 100%;
     }
 
-    #item label, #item p, #item time{
-        font-size: 14px;
+    .item-data-group {
+        flex-direction: column;
+        gap: 0.2rem;
     }
 
-    #item img {
+
+    /* #item label, #item p, #item time{
+        font-size: 14px;
+    } */
+
+    .item-image-container img {
         width: auto;
-        height: 170px;
+        /* height: 170px; */
     }
 
     .item-data {
         margin-left: 0;
     }
 
-    .search-form, .new-form, .edit-form, .login-form{
+    .search-form, .new-form, .edit-form, .login-form, .change-password-form{
         width: 80%;
     }
 

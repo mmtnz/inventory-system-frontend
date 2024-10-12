@@ -7,11 +7,11 @@
     "lent": "Lent",
     "modalTitle": "History",
     "lastModification": "Last modification",
-    "creationDate": "Creation date",
+    "creationDate": "Creation",
     "editButton": "Edit",
     "deleteButton": "Delete",
     "isReturned": "Return",
-    "to": "to",
+    "to": " to",
     "locale": "en"
 
 }

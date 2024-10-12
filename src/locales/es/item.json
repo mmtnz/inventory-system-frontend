@@ -7,10 +7,10 @@
     "lent": "Prestado",
     "modalTitle": "Historial",
     "lastModification": "Última modificación",
-    "creationDate": "Fecha creación",
+    "creationDate": "Creación",
     "editButton": "Editar",
     "deleteButton": "Eliminar",
     "isReturned": "Devolver",
-    "to": "a",
+    "to": " a",
     "locale": "es"
 }
