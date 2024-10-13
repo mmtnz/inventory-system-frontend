@@ -26,7 +26,11 @@ const NewItemPage = () => {
             let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
             setArgs(storageRoomInfo.config);;
         } catch (err) {
-            if ( err.response.status === 403) {  // Access denied
+            
+            if (err.code === 'ERR_NETWORK') {
+                Swal.fire(messagesObj[t('locale')].networkError);
+                navigate('/login')
+            } else if ( err.response.status === 403) {  // Access denied
                 Swal.fire(messagesObj[t('locale')].accessDeniedError)
                 navigate('/home')
             } else if (err.response.status === 404 ) { // Item not found

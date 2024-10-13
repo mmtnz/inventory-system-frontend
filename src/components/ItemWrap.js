@@ -60,7 +60,11 @@ const ItemWrap = ({item}) => {
 
   // To handle error depending on http error code
   const handleError = async (err) => {
-    if (err.response.status === 401) {
+    console.log(err)
+    if (err.code === 'ERR_NETWORK') {
+      Swal.fire(messagesObj[t('locale')].networkError);
+      navigate('/login')
+    } else if (err.response.status === 401) {
       Swal.fire(messagesObj[t('locale')].sessionError)
       await logout();
       navigate('/login')
@@ -70,7 +74,7 @@ const ItemWrap = ({item}) => {
     } else if (err.response.status === 404 ) { // Item not found
       Swal.fire(messagesObj[t('locale')].itemNotFoundError)
       navigate('/home')
-    }
+    } 
   }
 
   const handleDelete = async () => {

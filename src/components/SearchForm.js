@@ -28,7 +28,6 @@ const SearchForm = ({tagList}) => {
         if (urlQuery) {setQuery(urlQuery);}
 
         const urlTagList = searchParams.getAll('tag');
-        console.log(tagList)
         setSelectedTags(tagList.filter(option => urlTagList.includes(option.value)));
         
     }, [searchParams, tagList]);
@@ -64,7 +63,6 @@ const SearchForm = ({tagList}) => {
                     name="name"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    // placeholder='Buscar'
                 />
             </div>
             

@@ -20,7 +20,7 @@ const ChangePasswordPage = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     
-    const [cognitoUser, setCognitoUser] = useState(null);  // State to store CognitoUser
+
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     // Initialize simple-react-validator
@@ -62,7 +62,7 @@ const ChangePasswordPage = () => {
         event.preventDefault();
 
         if (validator.allValid()) {
-
+            setIsLoading(true);
             try {
                 await changePassword();
                 // Clear any local application state related to user (only used for creating new password)
@@ -72,6 +72,7 @@ const ChangePasswordPage = () => {
             } catch (err) {
                 console.log('Problem changing password!', err);
                 setError(err.message || JSON.stringify(err));
+                setIsLoading(false)
             }
         } else {
             validator.showMessages(); // Show validation error messages

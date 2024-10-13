@@ -66,6 +66,11 @@ const messagesObj = {
             text: 'Elemento no encontrado',
             icon: "error"
         },
+        networkError: {
+            title: 'Error',
+            text: 'Error de conexión',
+            icon: "error"
+        }
     },
     en: {
         newItemSuccess: {
@@ -132,6 +137,11 @@ const messagesObj = {
         itemNotFoundError: {
             title: 'Error',
             text: 'Item not found',
+            icon: "error"
+        },
+        networkError: {
+            title: 'Error',
+            text: 'Network error',
             icon: "error"
         }
     } 

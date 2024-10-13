@@ -119,7 +119,8 @@ const Item = ({args}) => {
             let itemSaved = await apiReturnLent(storageRoomId, item, utcDate);
             console.log(itemSaved)
             Swal.fire(messagesObj[t('locale')].editItemSuccess)
-            setItem({...item, isLent: null, lentHistory: itemSaved.lentHistory})
+            // Navigate so it is also stored in location state just in case reload
+            navigate(`/storageRoom/${item.storageRoomId}/item/${item.itemId}`, {state: {...item, isLent: null, lentHistory: itemSaved.lentHistory}});
         } catch (err) {
             console.log('poner swal')
             handleError(err)

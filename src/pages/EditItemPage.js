@@ -30,6 +30,7 @@ const EditItemPage = () => {
         try {
             let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
             setArgs(storageRoomInfo.config);
+
             // Check if item is passed as state from Item page
             if (location.state?.item) {
                 setItem(location.state?.item);
@@ -39,18 +40,12 @@ const EditItemPage = () => {
             }
             
         } catch (err) {
-            if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            } else if (err.response.status === 404 ) { // Item not found
-                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-                navigate('/home')
-            }
+            await handleError(err);
         }
     }
 
 
-    // GET item info
+    // GET item info from backend
     const getItem = async () => {
         try {
             const data = await apiGetItem(storageRoomId, itemId);
@@ -58,19 +53,26 @@ const EditItemPage = () => {
             setLoading(false);
             
         } catch (err) {
-            if (err.response.status === 401) {
-                Swal.fire(messagesObj[t('locale')].sessionError)
-                await logout();
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            } else if (err.response.status === 404 ) { // Item not found
-                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-                navigate('/home')
-            }
-            setItem({})
+            await handleError(err);
         }
+    }
+
+    // To handle error depending on http error code
+    const handleError = async (err) => {
+        if (err.code === 'ERR_NETWORK') {
+            Swal.fire(messagesObj[t('locale')].networkError);
+            navigate('/login')
+        } else if (err.response.status === 401) {
+            Swal.fire(messagesObj[t('locale')].sessionError)
+            await logout();
+            navigate('/login')
+        } else if ( err.response.status === 403) {  // Access denied
+            Swal.fire(messagesObj[t('locale')].accessDeniedError)
+            navigate('/home')
+        } else if (err.response.status === 404 ) { // Item not found
+            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+            navigate('/home')
+        } 
     }
 
     if (loading) {

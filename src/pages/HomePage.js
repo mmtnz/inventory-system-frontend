@@ -1,11 +1,8 @@
 // src/pages/HomePage.js
 import React, { useEffect, useState } from 'react';
-import Footer from '../components/Footer';
-import SearchForm from '../components/SearchForm';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// import { getProducts } from '../services/api';
 
 const HomePage = () => {
 

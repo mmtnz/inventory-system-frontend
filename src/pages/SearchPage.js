@@ -89,7 +89,10 @@ const SearchPage = () => {
 
     // To handle error depending on http error code
     const handleError = async (err) => {
-        if (err.response.status === 401) {
+        if (err.code === 'ERR_NETWORK') {
+            Swal.fire(messagesObj[t('locale')].networkError);
+            navigate('/login')
+        } else if (err.response.status === 401) {
             Swal.fire(messagesObj[t('locale')].sessionError)
             await logout();
             navigate('/login')
@@ -103,11 +106,13 @@ const SearchPage = () => {
     }
 
 
+    // Display increase page
     const increasePage = () =>{
         setCurrentPage(currentPage + 1);
         setStartIndex(currentPage * itemsPerPage) // +1 -1
     }
 
+    // Display decrease page
     const decreasePage = () =>{
         setCurrentPage(currentPage - 1);
         setStartIndex((currentPage - 2) * itemsPerPage) // -1 -1
@@ -129,8 +134,8 @@ const SearchPage = () => {
                 )}
                 
                 <div className='list-items-container'>
-                
                     
+                    {/* RESULTS */}
                     {(results != null && results.length == 0 && isSearch) ? t('noItemsFound') : 
                     (
                         <>
@@ -146,6 +151,7 @@ const SearchPage = () => {
                         </>
                     )}
 
+                    {/* PAGINATION DISPLAY */}
                     {(results && results.length > itemsPerPage) && 
                         
                         <div className="paginating-container">
@@ -162,7 +168,6 @@ const SearchPage = () => {
                             </button>
                         </div>
                     }                             
-                
                 </div>
             </section>
 

@@ -95,7 +95,10 @@ const NewItemForm = ({args}) => {
 
     // To handle error depending on http error code
     const handleError = async (err) => {
-        if (err.response.status === 401) {
+        if (err.code === 'ERR_NETWORK') {
+            Swal.fire(messagesObj[t('locale')].networkError);
+            navigate('/login')
+        } else if (err.response.status === 401) {
             Swal.fire(messagesObj[t('locale')].sessionError)
             await logout();
             navigate('/login')
