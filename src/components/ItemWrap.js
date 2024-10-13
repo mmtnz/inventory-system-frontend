@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
 import API_BASE_URL, { apiGetItem, apiReturnLent, apiDeleteItem } from "../services/api";
+import { logout } from "../services/logout";
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
@@ -38,30 +39,39 @@ const ItemWrap = ({item}) => {
   const handleReturnLent = async () => {
     let utcDate = new Date().toISOString().split('T')[0];
     try {
-      let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
+      await apiReturnLent(storageRoomId, item, utcDate);
       setIsLent(null);
-      Swal.fire({
-        title: 'Elemento actualizado',
-        text: "El elemento se ha creado correctamente",
-        icon: "success"
-    })
-    } catch (error) {
-      console.log('poner swal')
+      Swal.fire(messagesObj[t('locale')].editItemSuccess)
+    } catch (err) {
+      await handleError(err);
     }
     
     forceUpdate();
   }
 
   const deleteItem = async () => {
-    let resultApi = await apiDeleteItem(storageRoomId, item.itemId);
-    if (resultApi.status == 200) {
-        Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
-        navigate('/home');
+    try {
+      await apiDeleteItem(storageRoomId, item.itemId);
+      Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
+    } catch (err) {
+      await handleError(err);
     }
-    else {
-        Swal.fire(messagesObj[t('locale')].deleteItemError);
+  }
+
+  // To handle error depending on http error code
+  const handleError = async (err) => {
+    if (err.response.status === 401) {
+      Swal.fire(messagesObj[t('locale')].sessionError)
+      await logout();
+      navigate('/login')
+    } else if ( err.response.status === 403) {  // Access denied
+      Swal.fire(messagesObj[t('locale')].accessDeniedError)
+      navigate('/home')
+    } else if (err.response.status === 404 ) { // Item not found
+      Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+      navigate('/home')
     }
-}
+  }
 
   const handleDelete = async () => {
       Swal.fire(messagesObj[t('locale')].deleteItemConfirmation)

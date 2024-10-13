@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import API_BASE_URL, { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
+import { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
 import { logout } from "../services/logout";
 import { useEffect, useState } from "react";
 import defaultImage from "../assets/images/default.png"
@@ -23,12 +23,8 @@ const Item = ({args}) => {
     const tagsList = args.tagsList;
     const locationObj = args.locationObj;
 
-    const {storageRoomId, itemId} = useParams();
-    let url = API_BASE_URL;
-    
+    const {storageRoomId, itemId} = useParams();    
     const [item, setItem] = useState({});
-    const [status, setStatus] = useState({});
-    const [error, setError] = useState(null);
 
     const [place, setPlace] = useState(null);
     const [location, setLocation] = useState(null);
@@ -66,55 +62,20 @@ const Item = ({args}) => {
             }
             
             setItem(data);
-            setError(null);
 
             let [auxPlace, auxLoc, auxSubLoc] = data.location.split('/');
             setPlace(locationObj.placesList.find(option => auxPlace.includes(option.value)));
             setLocation(locationObj.placeObj[auxPlace].zonesList.find(option => auxLoc.includes(option.value)));
             setSublocation(locationObj.placeObj[auxPlace].selfsObj[auxLoc].find(option => auxSubLoc.includes(option.value)));
-        
-            // setLocation(data.location.split('/')[0]);
-            // setSublocation(data.location.split('/')[1]);
+
             setIsLoaded(true);
         } catch (err) {
             console.log(err)
-            if (err.response.status === 401) {
-                Swal.fire(messagesObj[t('locale')].sessionError)
-                await logout();
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            } else if (err.response.status === 404 ) { // Item not found
-                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-                navigate('/home')
-            }
-            setItem({})
-            console.log(err)
-            setError(t('error'))
+            await handleError(err);
         }
     }
 
-    const deleteItem = async () => {
-        try {
-            await apiDeleteItem(storageRoomId, itemId);
-            Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
-            navigate('/home');
-        } catch (err) {
-            if (err.response.status === 401) {
-                Swal.fire(messagesObj[t('locale')].sessionError)
-                await logout();
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            } else if (err.response.status === 404 ) { // Item not found
-                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-                navigate('/home')
-            }
-        }
-    }
-
+    // Confirm qith user if they want to delete he item
     const handleDelete = async () => {
         Swal.fire(messagesObj[t('locale')].deleteItemConfirmation
             ).then((result) => {
@@ -124,33 +85,52 @@ const Item = ({args}) => {
             }
         )
     }
+    
+    // API call to delete item
+    const deleteItem = async () => {
+        try {
+            await apiDeleteItem(storageRoomId, itemId);
+            Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
+            navigate('/home');
+        } catch (err) {
+            await handleError(err);
+        }
+    }
+
+    // To handle error depending on http error code
+    const handleError = async (err) => {
+        if (err.response.status === 401) {
+            Swal.fire(messagesObj[t('locale')].sessionError)
+            await logout();
+            navigate('/login')
+        } else if ( err.response.status === 403) {  // Access denied
+            Swal.fire(messagesObj[t('locale')].accessDeniedError)
+            navigate('/home')
+        } else if (err.response.status === 404 ) { // Item not found
+            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+            navigate('/home')
+        }
+    }
+
 
     const handleReturnLent = async () => {
         try {
-
             let utcDate = new Date().toISOString().split('T')[0];
-            let resultApi = await apiReturnLent(storageRoomId, item, utcDate);
-            Swal.fire({
-                title: 'Elemento actualizado',
-                text: "El elemento se ha creado correctamente",
-                icon: "success"
-            })
-            setItem({...item, isLent: null})
-        } catch (error) {
+            let itemSaved = await apiReturnLent(storageRoomId, item, utcDate);
+            console.log(itemSaved)
+            Swal.fire(messagesObj[t('locale')].editItemSuccess)
+            setItem({...item, isLent: null, lentHistory: itemSaved.lentHistory})
+        } catch (err) {
             console.log('poner swal')
+            handleError(err)
         }
         forceUpdate();
     }
 
+    // Go to edit page to edit this item. Item is sent as state so it doesn't need to be query again
     const goToEdit = () => {
         navigate(`/storageRoom/${storageRoomId}/item/${itemId}/edit`, { state: { item: item } });
         
-    }
-
-    if (error) {
-        return(
-            <div>{error}</div>
-        )
     }
 
     if (!isLoaded) {
@@ -163,7 +143,6 @@ const Item = ({args}) => {
 
     return (
         <div>
-            {/* <h1>{item.name}</h1> */}
             <div id="item">
                 <h1>{item.name}</h1>
                 <div className="item-container">
@@ -259,36 +238,7 @@ const Item = ({args}) => {
                             </div>
 
 
-                            </div>
-                            {/* {(item.isLent != null) ? (
-                                <div className="lent-data-container">
-                                    <Moment fromNow utc locale={i18n.language}>{item.isLent.split('/')[1]}</Moment>
-                                    <p>{t('to')} {item.isLent.split('/')[0]}</p>
-                                    {i18n.language}
-                                    <button
-                                        className='custom-button-small'
-                                        onClick={handleReturnLent}
-                                    >
-                                        <span className="material-symbols-outlined">
-                                            assignment_return                                            
-                                        </span>
-                                        {t('isReturned')}
-                                    </button>
-                                </div>
-                            ) : (
-                                '-'
-                            )}
-    
-                            <button
-                                className="custom-button-small"
-                                onClick={() => setModalIsOpen(true)}
-                                disabled={!item.lentHistory}
-                            >
-                                <span className="material-symbols-outlined">
-                                    history
-                                </span>
-                            </button> */}
-                            
+                            </div>                            
                         </div>
 
                         {item.lentHistory &&

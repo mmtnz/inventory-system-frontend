@@ -41,9 +41,6 @@ const EditItemForm = ({args, itemArg}) => {
     const [isLentName, setIsLentName] = useState('');
     const [isLentDate, setIsLentDate] = useState('');
     
-    const [status, setStatus] = useState(null);
-    const [error, setError] = useState(null);
-
     const [loading, setLoading] = useState(true);
     let url = API_BASE_URL;
 
@@ -122,9 +119,7 @@ const EditItemForm = ({args, itemArg}) => {
     const saveItem = async () => {
         try {
             const itemResponse = await apiEditItem(storageRoomId, item, itemId);
-            setItem(itemResponse);
-            setError(null);
-            
+            setItem(itemResponse);            
             if (selectedFile){
                 await uploadImage(itemResponse.itemId);
             } else {
@@ -132,17 +127,23 @@ const EditItemForm = ({args, itemArg}) => {
                 navigate('/home');
             }      
         } catch (err) {
-            if (err.response.status === 401) {
-                Swal.fire(messagesObj[t('locale')].sessionError)
-                await logout();
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            }
-            setError(err);
-            Swal.fire(messagesObj[t('locale')].editItemError)
+            await handleError(err);
         } 
+    }
+
+    // To handle error depending on http error code
+    const handleError = async (err) => {
+        if (err.response.status === 401) {
+            Swal.fire(messagesObj[t('locale')].sessionError)
+            await logout();
+            navigate('/login')
+        } else if ( err.response.status === 403) {  // Access denied
+            Swal.fire(messagesObj[t('locale')].accessDeniedError)
+            navigate('/home')
+        } else if (err.response.status === 404 ) { // Item not found
+            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+            navigate('/home')
+        }
     }
 
     const uploadImage = async (itemId) => {
@@ -162,7 +163,6 @@ const EditItemForm = ({args, itemArg}) => {
             navigate('/home')
         } catch (err) {
             console.log(err)
-            setError(err);
             Swal.fire(messagesObj[t('locale')].editItemImageError);
         }
     }
@@ -192,8 +192,6 @@ const EditItemForm = ({args, itemArg}) => {
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
         console.log(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)))
     }
-
-    
 
     const updateTagsList = (tags) => {
         setSelectedTags(tags);

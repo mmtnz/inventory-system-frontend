@@ -33,9 +33,6 @@ const NewItemForm = ({args}) => {
     const [isLentName, setIsLentName] = useState('');
     const [isLentDate, setIsLentDate] = useState('');
 
-    const [status, setStatus] = useState(null);
-    const [error, setError] = useState(null);
-
     const navigate = useNavigate();
     const { storageRoomId } = useParams();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
@@ -84,7 +81,6 @@ const NewItemForm = ({args}) => {
             
             const itemResponse = await apiSaveItem(item);
             setItem(itemResponse);
-            setError(null);
             
             if (selectedFile){
                 await uploadImage(itemResponse.itemId);
@@ -92,18 +88,24 @@ const NewItemForm = ({args}) => {
                 Swal.fire(messagesObj[t('locale')].newItemSuccess);
             }      
         } catch (err) {
-            if (err.response.status === 401) {
-                Swal.fire(messagesObj[t('locale')].sessionError)
-                await logout();
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            }
-            setError(err);
-            Swal.fire(messagesObj[t('locale')].newItemError);
+            await handleError(err);
         }
-        navigate('/home')
+        navigate('/home')  // Go home when success
+    }
+
+    // To handle error depending on http error code
+    const handleError = async (err) => {
+        if (err.response.status === 401) {
+            Swal.fire(messagesObj[t('locale')].sessionError)
+            await logout();
+            navigate('/login')
+        } else if ( err.response.status === 403) {  // Access denied
+            Swal.fire(messagesObj[t('locale')].accessDeniedError)
+            navigate('/home')
+        } else if (err.response.status === 404 ) { // Item not found
+            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+            navigate('/home')
+        }
     }
 
     const uploadImage = async (itemId) => {
@@ -126,20 +128,14 @@ const NewItemForm = ({args}) => {
 
             Swal.fire(messagesObj[t('locale')].newItemSuccess);
         } catch (err) {
-            setError(err);
             Swal.fire(messagesObj[t('locale')].newItemImageError);
         }
     }
 
     const changeState = () => {
-        // let auxLent = isLent && isLentName && isLentDate
-        //     ? `${isLentName}/${isLentDate}`
-        //     : null;
-
         setItem({...item,
             name: nameRef.current.value,
             description: descriptionRef.current.value,
-            // isLent: auxLent
         })   
     };
 

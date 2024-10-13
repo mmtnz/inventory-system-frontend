@@ -65,7 +65,7 @@ const messagesObj = {
             title: 'Error',
             text: 'Elemento no encontrado',
             icon: "error"
-        }
+        },
     },
     en: {
         newItemSuccess: {

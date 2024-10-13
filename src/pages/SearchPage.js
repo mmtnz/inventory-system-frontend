@@ -18,13 +18,12 @@ const SearchPage = () => {
     const [tagList, setTagList] = useState([]);
     const [isSearch, setIsSearch] = useState(false);
     const [results, setResults] = useState([]);
-    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
-    const itemsPerPage = 6;
+ 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [startIndex, setStartIndex] = useState(0);
+    const itemsPerPage = 6;
 
     const navigate = useNavigate();
 
@@ -39,55 +38,70 @@ const SearchPage = () => {
 
         if (query || query === '' || tagList.length > 0) {
             setIsLoading(true);
-            handleSearch(query, tagList, isLent);
+            let args = getSearchArgs(query, tagList, isLent)
+            handleSearch(args);
         }
         
     }, [searchParams]);
 
+
+    // Get storage room info
     const getStorageRoomData = async () => {
-        let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-        setTagList(storageRoomInfo.config.tagsList);
+        
+        try {
+            let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
+            setTagList(storageRoomInfo.config.tagsList);
+        } catch (err) {
+            await handleError(err);
+        }
+    }
+
+    // Get query args so add to API call
+    const getSearchArgs = (query, tagList, isLent) =>{
+        let args = {
+            q: query,
+            tag: tagList
+        }
+
+        if(isLent != undefined){
+            args = {...args, lent: isLent}
+        }
+        return args
     }
 
     
-    const handleSearch = async (query, tagList, isLent) => {
+    const handleSearch = async (args) => {
         try {
-            
-            let args = {
-                q: query,
-                tag: tagList
-            }
 
-            if(isLent != undefined){
-                args = {...args, lent: isLent}
-            }
-  
             let urlArgs = new URLSearchParams(args)  // Get query and tags from url to search
-
             const data = await apiSearchItems(storageRoomId, urlArgs.toString());
 
             setIsLoading(false)
             setResults(data);
-            setError(null);
             setIsSearch(true);
             setTotalPages(Math.ceil(data.length / itemsPerPage));
 
         } catch (err) {
-            console.log(err)
-            if (err.response.status === 401) {
-                Swal.fire(messagesObj[t('locale')].sessionError)
-                await logout();
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            }
-            
-            setError('An error occurred while fetching data.');
-            console.log(err)
-            setResults([]);
+            console.log(err);
+            await handleError(err);
         }
     };
+
+    // To handle error depending on http error code
+    const handleError = async (err) => {
+        if (err.response.status === 401) {
+            Swal.fire(messagesObj[t('locale')].sessionError)
+            await logout();
+            navigate('/login')
+        } else if ( err.response.status === 403) {  // Access denied
+            Swal.fire(messagesObj[t('locale')].accessDeniedError)
+            navigate('/home')
+        } else if (err.response.status === 404 ) { // Item not found
+            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+            navigate('/home')
+        }
+    }
+
 
     const increasePage = () =>{
         setCurrentPage(currentPage + 1);
@@ -114,8 +128,6 @@ const SearchPage = () => {
                     </div>
                 )}
                 
-                {error && <p>{error}</p>}
-
                 <div className='list-items-container'>
                 
                     
