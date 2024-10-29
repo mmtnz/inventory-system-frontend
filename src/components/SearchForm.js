@@ -55,7 +55,7 @@ const SearchForm = ({tagList}) => {
     }
 
     return(
-        <form onSubmit={handleSubmit} className='search-form'>
+        <form onSubmit={handleSubmit} className='custom-form'>
             <div className='formGroup'>
                 <label htmlFor="name">{t('name')}</label>
                 <input

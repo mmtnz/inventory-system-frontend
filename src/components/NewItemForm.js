@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
@@ -6,6 +6,7 @@ import TagsInput from './TagsInput';
 import { apiSaveItem, apiUploadImage } from '../services/api';
 import { logout } from "../services/logout";
 import Swal from 'sweetalert2';
+import { ClipLoader } from 'react-spinners';
 
 import ItemModel from '../schemas/item';
 import messagesObj from '../schemas/messages';
@@ -33,13 +34,11 @@ const NewItemForm = ({args}) => {
     const [isLentName, setIsLentName] = useState('');
     const [isLentDate, setIsLentDate] = useState('');
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
     const { storageRoomId } = useParams();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
-
-    // Create refs for the file inputs
-    const uploadInputRef = useRef(null);
-    const captureInputRef = useRef(null);
 
       
     // Get today's date in the format YYYY-MM-DD
@@ -69,6 +68,7 @@ const NewItemForm = ({args}) => {
         e.preventDefault();
         changeState();
         if(validator.allValid()){
+            setIsLoading(true);
             saveItem();
         }
         else{
@@ -108,6 +108,10 @@ const NewItemForm = ({args}) => {
         } else if (err.response.status === 404 ) { // Item not found
             Swal.fire(messagesObj[t('locale')].itemNotFoundError)
             navigate('/home')
+        } else if (err.response.status === 500) {
+            Swal.fire(messagesObj[t('locale')].unexpectedError)
+            await logout();
+            navigate('/login')
         }
     }
 
@@ -147,19 +151,8 @@ const NewItemForm = ({args}) => {
         setItem({...item, tagsList: tags.map(tag => tag.value) });
     }
 
-    // Trigger the file input click
-    const triggerUpload = () => {
-        uploadInputRef.current.click();
-    };
-
-    // Trigger the camera input click
-    const triggerCapture = () => {
-        captureInputRef.current.click();
-    };
-
     const handleFileChange = (event) => {
         let file = event.target.files[0] // Only one photo
-        console.log(file)
         if (file){
             setSelectedFile(file); 
         }
@@ -196,7 +189,6 @@ const NewItemForm = ({args}) => {
     }
 
     const changeLentDate = (event) => {
-        console.log(event.target.value)
         setIsLentDate(event.target.value)
         let auxIsLent = `${isLentName}/${event.target.value}`;
         setItem({...item, isLent: auxIsLent})
@@ -205,7 +197,7 @@ const NewItemForm = ({args}) => {
     return(
         <div>
             <form 
-                className="new-form"
+                className="custom-form"
                 onSubmit={handleSubmit}
                 // onChange={changeState}
             >
@@ -216,7 +208,6 @@ const NewItemForm = ({args}) => {
                         name="name"
                         ref={nameRef}
                         onChange={changeState}
-                        // onBlur={() => validator.showMessageFor('name')}
                     />
                     {validator.message('name', item.name, 'required|alpha_num_space')}
                 </div>
@@ -253,10 +244,10 @@ const NewItemForm = ({args}) => {
                             placeholder={t('select')}
                         />
                     }
-                    {place &&
-                        <div>
+                    {place && 
+                        <>
                             {validator.message('location', location, 'required')}
-                        </div>
+                        </>
                     }
                     
                     
@@ -269,9 +260,9 @@ const NewItemForm = ({args}) => {
                         />                   
                     }
                     {(location && place) && 
-                        <div>
+                        <>
                             {validator.message('sublocation', sublocation, 'required')}
-                        </div>
+                        </>
                     }
                     
                 </div>
@@ -334,10 +325,14 @@ const NewItemForm = ({args}) => {
 
                 <div className='formGroup'>
                     <div className='button-container'>
-                        <button className='custom-button' type='submit'>
+                        <button className='custom-button' type='submit' disabled={isLoading}>
                             {t('save')}
                         </button>
                     </div>
+                </div>
+
+                <div className="loader-clip-container-small">
+                    <ClipLoader className="custom-spinner-clip" loading={isLoading} />
                 </div>
                 
 

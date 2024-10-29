@@ -1,8 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
-import HomePage from './pages/HomePage';
-import SearchPage from './pages/SearchPage';
-
 import './assets/css/App.css'
 import Router from "./Router";
 

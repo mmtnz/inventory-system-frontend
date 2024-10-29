@@ -1,8 +1,8 @@
 // src/services/api.js
 import axios from 'axios';
-import userPool from '../services/cognitoConfig'; // Your Cognito configuration
-import {jwtDecode} from "jwt-decode";
-import {isTokenExpired, getAccessToken, refreshToken} from './tokenService';
+// import userPool from '../services/cognitoConfig'; // Your Cognito configuration
+// import {jwtDecode} from "jwt-decode";
+import {isTokenExpired} from './tokenService';
 
 // const API_BASE_URL = 'http://127.0.0.1:8000/api';
 // const API_BASE_URL = 'http://192.168.1.46:8000/api';
@@ -23,7 +23,7 @@ const api = axios.create({
 api.interceptors.request.use(
     async (config) => {
         // console.log(config)
-        const accessToken = sessionStorage.getItem('accessToken');  // Get the access token from storage
+        let accessToken = sessionStorage.getItem('accessToken');  // Get the access token from storage
 
         if (isTokenExpired(accessToken)) {
             console.log('token expired')
@@ -98,7 +98,7 @@ export const apiSendRefreshToken = async (refresToken) => {
 export const apiSearchItems = async (storageRoomId, args) => {
     try {
       const response = await api.get(`/storageRoom/${storageRoomId}/search?${args}`);
-      return response.data;
+      return [response.data.items, response.data.totalCount];
     } catch (error) {
       throw error;
     }
@@ -210,19 +210,23 @@ export const apiEditItem = async (storageRoomId, item, itemId) => {
 //PUT edit item when is not lent anymore
 export const apiReturnLent = async(storageRoomId, item, returnedDate) => {
     try {
+
+        let itemAux = {...item}; // Copy to avoid changing item
+
         // To avoid sending signedUrl. To update image endpoint /image
-        if (item.imageUrl) {
-            delete item.imageUrl  
+        if (itemAux.imageUrl) {
+            delete itemAux.imageUrl  
         }
-        const entry = `${item.isLent}/${returnedDate}`;
-        if (item.lentHistory){
-            item.lentHistory.push(entry);
+
+        const entry = `${itemAux.isLent}/${returnedDate}`;
+        if (itemAux.lentHistory){
+            itemAux.lentHistory.push(entry);
         } else {
-            item = {...item, lentHistory: [entry]}  // if it is the first entry
+            itemAux = {...itemAux, lentHistory: [entry]}  // if it is the first entry
         }
-        item.isLent = null;
-        console.log(item)
-        const response = await api.put(`/storageRoom/${storageRoomId}/item/${item.itemId}`, item)
+        itemAux.isLent = null;
+        console.log(itemAux)
+        const response = await api.put(`/storageRoom/${storageRoomId}/item/${itemAux.itemId}`, itemAux)
         return response.data
     } catch (error) {
         throw error;

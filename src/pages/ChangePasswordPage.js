@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import userPool from '../services/cognitoConfig';
-import { CognitoUser } from 'amazon-cognito-identity-js';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import userPool from '../services/cognitoConfig';
+// import { CognitoUser } from 'amazon-cognito-identity-js';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator'
 import { useTranslation } from 'react-i18next';
@@ -142,7 +142,7 @@ const ChangePasswordPage = () => {
                     </div>
 
                     <div className='button-container'>
-                        <button type="submit" className='custom-button'>
+                        <button type="submit" className='custom-button' disabled={isLoading}>
                             {t('Create password')}
                         </button>
                     </div>

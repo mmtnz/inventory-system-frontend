@@ -30,6 +30,7 @@ const Item = ({args}) => {
     const [location, setLocation] = useState(null);
     const [sublocation, setSublocation] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [, forceUpdate] = useState();
@@ -39,15 +40,17 @@ const Item = ({args}) => {
     const { t, i18n } = useTranslation('item'); // Load translations from the 'item' namespace
 
 
+    useEffect(() => {
+        loadItem();    
+    }, []);  
+
     // Update Moment's locale based on the current language from i18next
     useEffect(() => {
         if (i18n.language === 'es') {
             moment.locale('es'); // Set Moment to use Spanish locale
         } else {
             moment.locale('en'); // Use default locale (English) if language is not Spanish
-        }
-        loadItem();
-        
+        }        
     }, [i18n.language]);  // Re-run whenever the language changes
 
     
@@ -59,6 +62,8 @@ const Item = ({args}) => {
                 data = locationState.state?.item // Get item from state when clicking in item wrap
             } else {
                 data = await apiGetItem(storageRoomId, itemId);
+                console.log('cojo data')
+                console.log(data)
             }
             
             setItem(data);
@@ -80,6 +85,7 @@ const Item = ({args}) => {
         Swal.fire(messagesObj[t('locale')].deleteItemConfirmation
             ).then((result) => {
                 if (result.isConfirmed) {
+                    setIsLoading(true);
                     deleteItem();      
                 }
             }
@@ -90,6 +96,7 @@ const Item = ({args}) => {
     const deleteItem = async () => {
         try {
             await apiDeleteItem(storageRoomId, itemId);
+            setIsLoading(false);
             Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
             navigate('/home');
         } catch (err) {
@@ -109,20 +116,27 @@ const Item = ({args}) => {
         } else if (err.response.status === 404 ) { // Item not found
             Swal.fire(messagesObj[t('locale')].itemNotFoundError)
             navigate('/home')
+        } else if (err.response.status === 500) {
+            Swal.fire(messagesObj[t('locale')].unexpectedError)
+            await logout();
+            navigate('/login')
         }
     }
 
 
     const handleReturnLent = async () => {
         try {
+            setIsLoading(true);
             let utcDate = new Date().toISOString().split('T')[0];
-            let itemSaved = await apiReturnLent(storageRoomId, item, utcDate);
+            let itemSaved = await apiReturnLent(storageRoomId, item, utcDate); 
             console.log(itemSaved)
+            console.log(item)
             Swal.fire(messagesObj[t('locale')].editItemSuccess)
+            setIsLoading(false);
+            setItem({...item, isLent: null, lentHistory: itemSaved.lentHistory})
             // Navigate so it is also stored in location state just in case reload
             navigate(`/storageRoom/${item.storageRoomId}/item/${item.itemId}`, {state: {...item, isLent: null, lentHistory: itemSaved.lentHistory}});
         } catch (err) {
-            console.log('poner swal')
             handleError(err)
         }
         forceUpdate();
@@ -148,9 +162,9 @@ const Item = ({args}) => {
                 <h1>{item.name}</h1>
                 <div className="item-container">
                     <div className="item-image-container">
-                        {item.imageUrl && item.imageUrl !== "" ? (
+                        {item.imageUrl && item.imageUrl.normal !== "" ? (
                             <img
-                                src={item.imageUrl}
+                                src={item.imageUrl.normal}
                                 alt={item.name}
                                 className="image-item"
                             />
@@ -215,7 +229,7 @@ const Item = ({args}) => {
                                 )}
 
                             <div className="lent-data-button-container">
-                                {(item.isLent != null) && (
+                                {(item.isLent) && (
                                     <button
                                         className='custom-button-small'
                                         onClick={handleReturnLent}
@@ -248,7 +262,7 @@ const Item = ({args}) => {
                             setModalIsOpen={setModalIsOpen}
                             title={t('modalTitle')}
                             content={item.lentHistory}
-                            />
+                        />
                         }
 
                         <div className="item-data-group">
@@ -264,19 +278,23 @@ const Item = ({args}) => {
                 </div>
 
                 <div className="item-button-container">
-                    <button className='custom-button' onClick={goToEdit}>
+                    <button className='custom-button' onClick={goToEdit} disabled={isLoading}>
                         <span className="material-symbols-outlined">
                             edit
                         </span>
                         {t('editButton')}
                     </button>
-                    <button className='custom-button' onClick={handleDelete}>
+                    <button className='custom-button' onClick={handleDelete} disabled={isLoading}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>
                         {t('deleteButton')}
                     </button>
                     {/* <button className='retrun-button' onClick={handleReturnLent}>{"return"}</button> */}
+                </div>
+
+                <div className="loader-clip-container-small">
+                    <ClipLoader className="custom-spinner-clip" loading={isLoading} />
                 </div>
             </div>
         </div>

@@ -70,7 +70,12 @@ const messagesObj = {
             title: 'Error',
             text: 'Error de conexión',
             icon: "error"
-        }
+        },
+        unexpectedError: {
+            title: 'Error',
+            text: 'Error inexperado, intentalo más tarde',
+            icon: "error"
+        },
     },
     en: {
         newItemSuccess: {
@@ -143,7 +148,12 @@ const messagesObj = {
             title: 'Error',
             text: 'Network error',
             icon: "error"
-        }
+        },
+        unexpectedError: {
+            title: 'Error',
+            text: 'Unexpected error, try it later',
+            icon: "error"
+        },
     } 
 
 }

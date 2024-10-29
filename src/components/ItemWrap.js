@@ -9,14 +9,17 @@ import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import messagesObj from "../schemas/messages";
+import { ClipLoader } from 'react-spinners';
 
 import { useTranslation } from 'react-i18next';
 
-const ItemWrap = ({item}) => {
+const ItemWrap = ({itemArg, removeItemFromList}) => {
 
-  console.log(item)
+  const [item, setItem] = useState(itemArg);
   const [lentName, lentDate] = item.isLent != null ? item.isLent.split('/') : [null, null]
   const [isLent, setIsLent] = useState(item.isLent);
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const url = API_BASE_URL;
   const { storageRoomId } = useParams();
   const [,forceUpdate] = useState();
@@ -25,6 +28,7 @@ const ItemWrap = ({item}) => {
 
    // Update Moment's locale based on the current language from i18next
   useEffect(() => {
+    console.log(item)
     if (i18n.language === 'es') {
       moment.locale('es'); // Set Moment to use Spanish locale
     } else {
@@ -37,22 +41,39 @@ const ItemWrap = ({item}) => {
   }
 
   const handleReturnLent = async () => {
+    setIsUpdating(true);
     let utcDate = new Date().toISOString().split('T')[0];
     try {
-      await apiReturnLent(storageRoomId, item, utcDate);
+      const updatedItem = await apiReturnLent(storageRoomId, {...item}, utcDate);
+      setItem({...updatedItem, imageUrl: item.imageUrl})
       setIsLent(null);
       Swal.fire(messagesObj[t('locale')].editItemSuccess)
+      setIsUpdating(false);
     } catch (err) {
       await handleError(err);
     }
     
-    forceUpdate();
+    // forceUpdate();
+  }
+
+  const handleDelete = async () => {
+      Swal.fire(messagesObj[t('locale')].deleteItemConfirmation)
+          .then((result) => {
+              if (result.isConfirmed) {
+                setIsUpdating(true);
+                  deleteItem();   
+              }
+          }
+      )
   }
 
   const deleteItem = async () => {
     try {
       await apiDeleteItem(storageRoomId, item.itemId);
+      setIsUpdating(false);
       Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
+      removeItemFromList(item.itemId)
+
     } catch (err) {
       await handleError(err);
     }
@@ -74,34 +95,31 @@ const ItemWrap = ({item}) => {
     } else if (err.response.status === 404 ) { // Item not found
       Swal.fire(messagesObj[t('locale')].itemNotFoundError)
       navigate('/home')
-    } 
+    } else if (err.response.status === 500) {
+      Swal.fire(messagesObj[t('locale')].unexpectedError)
+      await logout();
+      navigate('/login')
+  } 
   }
 
-  const handleDelete = async () => {
-      Swal.fire(messagesObj[t('locale')].deleteItemConfirmation)
-          .then((result) => {
-              if (result.isConfirmed) {
-                  deleteItem();   
-              }
-          }
-      )
-  }
+ 
 
   
   return (
     <div className="list-item">
         
         <div className="image-wrap-container" onClick={goToItem}>
-            {item.imageUrl && item.imageUrl !== "" ? (
+            {item.imageUrl && item.imageUrl.thumbnail !== "" ? (
               <img
-                src={item.imageUrl}
+                src={item.imageUrl.thumbnail}
                 alt={item.name}
             />
             ) : (
               <img src={defaultImage}/>
             )}
-            
         </div>
+
+
 
         <div className='list-item-wrapper'>
           {/* <div className='item-wrap-content-container list-item-element' onClick={goToItem}> */}
@@ -131,7 +149,7 @@ const ItemWrap = ({item}) => {
           {/* <div className='item-wrap-buttons-container list-item-element'> */}
           <div className='item-wrap-buttons-container'>
             {item.isLent && 
-              <button className='custom-button-small' onClick={handleReturnLent}>
+              <button className='custom-button-small' onClick={handleReturnLent} disabled={isUpdating}>
                   <span className="material-symbols-outlined">
                     assignment_return                                            
                   </span>            
@@ -139,12 +157,18 @@ const ItemWrap = ({item}) => {
               </button>
             }
 
-            <button className='custom-button-small' onClick={handleDelete}>
+            <button className='custom-button-small' onClick={handleDelete} disabled={isUpdating}>
               <span className="material-symbols-outlined">
                 delete
               </span>
               {t('delete')}
             </button>
+
+            {isUpdating && (
+              <div className="loader-clip-container-small">
+                <ClipLoader className="custom-spinner-clip" loading={isUpdating}/>
+              </div>
+            )}
           </div>
         </div>
         

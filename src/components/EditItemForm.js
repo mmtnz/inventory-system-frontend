@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import API_BASE_URL, { apiGetItem } from "../services/api";
+import { useParams, useNavigate } from 'react-router-dom';
 import { logout } from "../services/logout";
-import { ClipLoader } from 'react-spinners';
-
-import Select from 'react-select';
-import TagsInput from './TagsInput';
 import { apiEditItem, apiUploadImage } from '../services/api';
-import Swal from 'sweetalert2';
 import messagesObj from '../schemas/messages';
+
+import TagsInput from './TagsInput';
+import { ClipLoader } from 'react-spinners';
+import Select from 'react-select';
+import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 
 const EditItemForm = ({args, itemArg}) => {
@@ -42,7 +40,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [isLentDate, setIsLentDate] = useState('');
     
     const [loading, setLoading] = useState(true);
-    let url = API_BASE_URL;
+    const [itemSaving, setItemSaving] = useState(false);
 
     const navigate = useNavigate();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
@@ -93,6 +91,7 @@ const EditItemForm = ({args, itemArg}) => {
         e.preventDefault();
         changeState();
         if(validator.allValid()){
+            setItemSaving(true);
             saveItem();
         }
         else{
@@ -102,18 +101,14 @@ const EditItemForm = ({args, itemArg}) => {
 
     const changeState = () => {
         
-        console.log('enro change state')
         let auxItem = {
             ...item,
             name: nameRef.current.value,
             description: descriptionRef.current.value,
-            // date: {created: item.date.created}
         }
 
         setItem(auxItem)
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
-        console.log(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)))
-        // console.log("entro")
     };
 
     const saveItem = async () => {
@@ -146,6 +141,10 @@ const EditItemForm = ({args, itemArg}) => {
         } else if (err.response.status === 404 ) { // Item not found
             Swal.fire(messagesObj[t('locale')].itemNotFoundError)
             navigate('/home')
+        } else if (err.response.status === 500) {
+            Swal.fire(messagesObj[t('locale')].unexpectedError)
+            await logout();
+            navigate('/login')
         }
     }
 
@@ -221,8 +220,6 @@ const EditItemForm = ({args, itemArg}) => {
         };
         setItem(auxItem);
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
-        console.log(auxItem)
-        console.log(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)))
     }
 
     const changeLentName = (event) => {
@@ -260,172 +257,173 @@ const EditItemForm = ({args, itemArg}) => {
     
     return(
         <div>
-            {item.name ? (
-                <form 
-                    className="edit-form"
-                    onSubmit={handleSubmit}
-                    // onChange={changeState}
-                    // onClick={() => {setIsDifferent(oldItem === item)}}
-                >
-                    {/* NAME */}
-                    <div className="formGroup">
-                        <label htmlFor="name">{t('name')}</label>
-                        <input
-                            type="text"
-                            name="name"
-                            defaultValue={item.name}
-                            ref={nameRef}
-                            onBlur={() => validator.showMessageFor('name')}
-                            onChange={changeState}
-                        />
-                        {validator.message('name', item.name, 'required|alpha_num_space')}
-                    </div>
+            <form 
+                className="custom-form"
+                onSubmit={handleSubmit}
+                // onChange={changeState}
+                // onClick={() => {setIsDifferent(oldItem === item)}}
+            >
+                {/* NAME */}
+                <div className="formGroup">
+                    <label htmlFor="name">{t('name')}</label>
+                    <input
+                        type="text"
+                        name="name"
+                        defaultValue={item.name}
+                        ref={nameRef}
+                        onBlur={() => validator.showMessageFor('name')}
+                        onChange={changeState}
+                    />
+                    {validator.message('name', item.name, 'required|alpha_num_space')}
+                </div>
 
-                    {/* OTHER NAMES */}
-                    <div className="formGroup">
-                        <label htmlFor='otherNames'>{t('otherNames')}</label>
-                        <TagsInput tagsList={otherNamesList} setTagsList={changeOtherNamesList}/>
-                    </div>
+                {/* OTHER NAMES */}
+                <div className="formGroup">
+                    <label htmlFor='otherNames'>{t('otherNames')}</label>
+                    <TagsInput tagsList={otherNamesList} setTagsList={changeOtherNamesList}/>
+                </div>
 
-                    {/* TAGS */}
-                    <div className="formGroup">
-                        <label htmlFor='tags'>{t('tags')}</label>
+                {/* TAGS */}
+                <div className="formGroup">
+                    <label htmlFor='tags'>{t('tags')}</label>
+                    <Select
+                        isMulti
+                        options={tagsList}
+                        onChange={updateTagsList}
+                        isLoading={!tagsList}
+                        value={selectedTags}
+                        placeholder={t('select')}
+                    />
+                </div>
+
+                {/* LOCATION */}
+                <div className="formGroup">
+                    <label htmlFor='location'>{t('location')}</label>
+                    <Select
+                        options={placesList}
+                        onChange={changePlace}
+                        value={place}
+                        placeholder={t('select')}
+                    />
+                    {validator.message('place', place, 'required')}
+                    {place && 
                         <Select
-                            isMulti
-                            options={tagsList}
-                            onChange={updateTagsList}
-                            isLoading={!tagsList}
-                            value={selectedTags}
+                            options={locationObj.placeObj[place.value].zonesList}
+                            onChange={changeLocation}
+                            value={location}
                             placeholder={t('select')}
                         />
-                    </div>
-
-                    {/* LOCATION */}
-                    <div className="formGroup">
-                        <label htmlFor='location'>{t('location')}</label>
-                        <Select
-                            options={placesList}
-                            onChange={changePlace}
-                            value={place}
-                            placeholder={t('select')}
-                        />
-                        {validator.message('place', place, 'required')}
-                        {place && 
-                            <Select
-                                options={locationObj.placeObj[place.value].zonesList}
-                                onChange={changeLocation}
-                                value={location}
-                                placeholder={t('select')}
-                            />
-                        }
-                        {place &&
-                            <div>
-                                {validator.message('location', location, 'required')}
-                            </div>
-                        }
-                        
-                        
-                        {(location && place) && 
-                            <Select
-                                options={locationObj.placeObj[place.value].selfsObj[location.value]}
-                                onChange={changeSublocation}
-                                value={sublocation}
-                                placeholder={t('select')}  
-                            />                   
-                        }
-                        {(location && place) && 
-                            <div>
-                                {validator.message('sublocation', sublocation, 'required')}
-                            </div>
-                        }
-                            
-                    </div>
-
-                    {/* DESCRIPTION */}
-                    <div className="formGroup">
-                        <label htmlFor='description'>
-                            {t('description')}
-                        </label>
-                        <textarea
-                            maxLength={300}
-                            ref={descriptionRef}
-                            defaultValue={item.description}
-                            onChange={changeState}
-                        />
-                    </div>
-
-                    {/* IMAGE */}
-                    <div className='formGroup'>
-                        {(!isFileChanged) && (
-                            <div className='thumb-image-container'>
-                                {(item.imageUrl && item.imageUrl !== "") && (
-                                    <img src={item.imageUrl} alt={item.name} className="thumb"/> 
-                                )}
-
-                                <div className='delete-button' onClick={removeImage}>
-                                    <span className="material-symbols-outlined">
-                                        close
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-                        
-                        
-                        <label htmlFor='file0'>{t('image')}</label>
-                        <input type='file' name='file0' onChange={addFile} accept='.jpg, .jpeg, .png'/>
-                    </div>
-
-                    {/* IS LENT */}
-                    <div className='formGroup'>
-                        <label htmlFor='isLent'>{t('isLent')}</label>
-                        <div className='radio-buttons-container'>
-                            <div>{t('yes')}</div>
-                            <input type='radio' name='isLent' value={true}
-                                checked={isLent}  // Lent is checked when isLent is true
-                                onChange={(e) => changeIsLent(e.target.value)}  // Set state to true when Lent is selected
-                            />
-                            <div>{t('no')}</div>
-                            <input type='radio' name='isLent' value={false}
-                                checked={!isLent}  // Lent is checked when isLent is true
-                                onChange={(e) => changeIsLent(e.target.value)}  // Set state to true when Lent is selected
-                            />
+                    }
+                    {place &&
+                        <div>
+                            {validator.message('location', location, 'required')}
                         </div>
-                    </div>
-
-                    {isLent &&
-                    <>
-                        <div className='formGroup'>
-                            <label htmlFor='isLentName'>{t('whom')}</label>
-                            <input type='text' name='isLentName' placeholder={t('name')} value={isLentName}
-                                onChange={changeLentName}
-                            />
-                            {validator.message('isLentName', isLentName, isLent ? 'required|alpha_space' : '')}
-                        </div>
-
-                        <div className='formGroup'>
-                            <label htmlFor='isLentDate'>{t('when')}</label>
-                            <input aria-label="Date" type="date" value={isLentDate} max={today}
-                                onChange={changeLentDate}
-                            />
-                            {validator.message('isLentDate', isLentDate, isLent ? 'required' : '')}
-                        </div>
-                    </>
-                }
-
-
-                    <div className='formGroup'>
-                        <div className='button-container'>
-                            <button className='custom-button' type='submit' disabled={!isDifferent && !isFileChanged}>
-                                {t('save')}
-                            </button>
-                        </div>
-                    </div>
+                    }
                     
+                    
+                    {(location && place) && 
+                        <Select
+                            options={locationObj.placeObj[place.value].selfsObj[location.value]}
+                            onChange={changeSublocation}
+                            value={sublocation}
+                            placeholder={t('select')}  
+                        />                   
+                    }
+                    {(location && place) && 
+                        <div>
+                            {validator.message('sublocation', sublocation, 'required')}
+                        </div>
+                    }
+                        
+                </div>
 
-                </form>
-            ): (
-                <h2>Esperando articulo</h2>
-            )}
+                {/* DESCRIPTION */}
+                <div className="formGroup">
+                    <label htmlFor='description'>
+                        {t('description')}
+                    </label>
+                    <textarea
+                        maxLength={300}
+                        ref={descriptionRef}
+                        defaultValue={item.description}
+                        onChange={changeState}
+                    />
+                </div>
+
+                {/* IMAGE */}
+                <div className='formGroup'>
+                    {(!isFileChanged) && (
+                        <div className='thumb-image-container'>
+                            {(item.imageUrl && item.imageUrl.thumbnail !== "") && (
+                                <img src={item.imageUrl.thumbnail} alt={item.name} className="thumb"/> 
+                            )}
+
+                            <div className='delete-button' onClick={removeImage}>
+                                <span className="material-symbols-outlined">
+                                    close
+                                </span>
+                            </div>
+                        </div>
+                    )}
+                    
+                    
+                    <label htmlFor='file0'>{t('image')}</label>
+                    <input type='file' name='file0' onChange={addFile} accept='.jpg, .jpeg, .png'/>
+                </div>
+
+                {/* IS LENT */}
+                <div className='formGroup'>
+                    <label htmlFor='isLent'>{t('isLent')}</label>
+                    <div className='radio-buttons-container'>
+                        <div>{t('yes')}</div>
+                        <input type='radio' name='isLent' value={true}
+                            checked={isLent}  // Lent is checked when isLent is true
+                            onChange={(e) => changeIsLent(e.target.value)}  // Set state to true when Lent is selected
+                        />
+                        <div>{t('no')}</div>
+                        <input type='radio' name='isLent' value={false}
+                            checked={!isLent}  // Lent is checked when isLent is true
+                            onChange={(e) => changeIsLent(e.target.value)}  // Set state to true when Lent is selected
+                        />
+                    </div>
+                </div>
+
+                {isLent &&
+                <>
+                    <div className='formGroup'>
+                        <label htmlFor='isLentName'>{t('whom')}</label>
+                        <input type='text' name='isLentName' placeholder={t('name')} value={isLentName}
+                            onChange={changeLentName}
+                        />
+                        {validator.message('isLentName', isLentName, isLent ? 'required|alpha_space' : '')}
+                    </div>
+
+                    <div className='formGroup'>
+                        <label htmlFor='isLentDate'>{t('when')}</label>
+                        <input aria-label="Date" type="date" value={isLentDate} max={today}
+                            onChange={changeLentDate}
+                        />
+                        {validator.message('isLentDate', isLentDate, isLent ? 'required' : '')}
+                    </div>
+                </>
+            }
+
+
+                <div className='formGroup'>
+                    <div className='button-container'>
+                        <button className='custom-button' type='submit' disabled={(!isDifferent && !isFileChanged) || itemSaving}>
+                            {t('save')}
+                        </button>
+                    </div>
+                </div>
+
+                <div className="loader-clip-container-small">
+                    <ClipLoader className="custom-spinner-clip" loading={itemSaving} />
+                </div>
+                
+
+            </form>
+            
             
 
         </div>

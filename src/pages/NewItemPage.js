@@ -24,7 +24,7 @@ const NewItemPage = () => {
         
         try {
             let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-            setArgs(storageRoomInfo.config);;
+            setArgs(storageRoomInfo.config);
         } catch (err) {
             
             if (err.code === 'ERR_NETWORK') {

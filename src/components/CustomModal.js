@@ -25,14 +25,16 @@ const CustomModal = ({modalIsOpen, setModalIsOpen, title, content}) => {
             <div className='modal-content-container'>
                 <div className="modal-content">
                     <ul>
-                        {content.map(result => {
+                        {content.map((result, index) => {
                             let [lentName, lentDateInit, lentDateEnd] = result.split('/');
                             return(
-                                <li>
+                                <li key={index}>
                                     <div className='modal-history-entry'>
                                         {lentName}
-                                        <Moment format="DD/MM/YYYY ">{lentDateInit}</Moment>
-                                        <Moment format="DD/MM/YYYY ">{lentDateEnd}</Moment>
+                                        <div className='modal-history-entry-aux'>
+                                            <Moment format="DD/MM/YYYY ">{lentDateInit}</Moment>
+                                            <Moment format="DD/MM/YYYY ">{lentDateEnd}</Moment>
+                                        </div>
                                     </div>
                                 </li>
                             )

@@ -117,6 +117,15 @@ h1 {
     margin-left: 20px;
 }
 
+.header-title-container {
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* justify-content: center; */
+}
+
 .header-icon-container {
     cursor: pointer;
     display: flex;
@@ -345,6 +354,15 @@ h1 {
     /* margin-bottom: 2.5rem; */
 }
 
+
+.loader-clip-container-small{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0.4rem;
+    margin-top: 1.3rem;
+}
+
 .custom-spinner-clip{
     color: var(--color-theme);
     margin: 0;
@@ -571,6 +589,7 @@ h1 {
 .item-image-container img {
     width: auto;
     height: 20rem;
+    max-width: 20rem;
 }
 
 .item-image-container {
@@ -758,7 +777,18 @@ h1 {
     width: 40%;
 }
 
+.modal-content ul li {
+    margin-bottom: 0.5rem; /* Adjust to control spacing */
+  }
+
 .modal-history-entry{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    column-gap: 2rem;
+}
+
+.modal-history-entry-aux{
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -802,7 +832,7 @@ h1 {
 /* FORM */
 /* ####################################################### */
 
-.new-form, .search-form, .edit-form{
+.custom-form{
     width: 50%;
     margin: 0px auto;
     display: flex;
@@ -839,7 +869,6 @@ input[type="date"]{
     height: 30px;
     border: 1px solid var(--color-form-border);
     padding: 3px;
-    
     transition: 300ms all;
 }
 
@@ -1003,7 +1032,7 @@ textarea {
 }
 
 /* Customize the selected option */
-.react-select__option--is-selected {
+form .react-select__option--is-selected {
     background-color: var(--color-theme) !important; /* Change background color for selected option */
     color: white !important;                /* Change text color for selected option */
 }
@@ -1120,7 +1149,7 @@ textarea {
         margin-left: 0;
     }
 
-    .search-form, .new-form, .edit-form, .login-form, .change-password-form{
+    .custom-form, .login-form, .change-password-form{
         width: 80%;
     }
 
@@ -1185,6 +1214,18 @@ textarea {
         width: 100%;
         margin-right: 5px
     }
+
+    .modal-content {
+        width: 90%;
+        font-size: 0.9rem;
+    }
+
+    
+    .modal-history-entry{
+        flex-direction: column;
+    }
+
+
 
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {signIn} from '../services/authenticate';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator';
@@ -19,16 +19,6 @@ function LoginPage() {
   const { setUserAttributes } = useContext(AuthContext); // Use context to store the user attributes
 
   const { t, i18n } = useTranslation('login'); // Load translations from the 'login' namespace
-
-  //Default messages
-  const customMessages = {
-    default: 'Este campo no es válido.',
-    required: t('requiredMessage'),
-    // name: "Este campo aa es obligatorio",
-    // min: 'El valor debe ser mayor o igual a :min caracteres.',
-    // max: 'El valor debe ser menor o igual a :max caracteres.',
-    email: 'El correo electrónico no es válido.',
-  }
 
   // Initialize simple-react-validator
   const [validator, setValidator] = useState(
@@ -77,7 +67,6 @@ function LoginPage() {
       if (result.newPasswordRequired) {
         setUser(result.cognitoUser)
         setUserAttributes(result.userAttributes)
-        console.log(result.userAttributes)
         navigate('/change-password')
         
       } else {
@@ -86,7 +75,7 @@ function LoginPage() {
         setUserAttributes(result.userAttributes)
         
         const userInfo = await apiGetUserInfo();
-        sessionStorage.setItem('storageRoomsList', userInfo.storageRoomId)
+        sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
         navigate('/home');
       }
     } catch (err) {
@@ -141,7 +130,9 @@ function LoginPage() {
               </div>
               
               <div className="button-container">
-                <button className="custom-button" type="submit">{t('login')}</button>
+                <button className="custom-button" type="submit" disabled={isLoading}>
+                  {t('login')}
+                </button>
               </div>
             </form>
 
