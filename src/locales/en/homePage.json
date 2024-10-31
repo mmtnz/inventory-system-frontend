@@ -2,5 +2,6 @@
     "title": "Storage Room",
     "searchButton": "Search",
     "newItemButton": "New item",
-    "locale": "en"
+    "locale": "en",
+    "select": "Select storage room..."
 }

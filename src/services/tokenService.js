@@ -1,6 +1,6 @@
 // Verify if the token is expired
 const isTokenExpired = (token) => {
-    if (token == null | token == 'undefined') {
+    if (token == null | token === 'undefined') {
         return true
     }
     const decodedToken = JSON.parse(atob(token.split('.')[1]));  // Decode the JWT payload
@@ -9,9 +9,9 @@ const isTokenExpired = (token) => {
 }
 
 
-const getAccessToken = () => {
+// const getAccessToken = () => {
 
-}
+// }
 
 
 const refreshToken = () => {

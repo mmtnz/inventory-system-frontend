@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import TagsInput from './TagsInput';
 import { apiSaveItem, apiUploadImage } from '../services/api';
@@ -37,6 +37,7 @@ const NewItemForm = ({args}) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
+    const locationHook = useLocation();
     const { storageRoomId } = useParams();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'newItem' namespace
 
@@ -79,7 +80,7 @@ const NewItemForm = ({args}) => {
     const saveItem = async () => {
         try {
             
-            const itemResponse = await apiSaveItem(item);
+            const itemResponse = await apiSaveItem(item, storageRoomId);
             setItem(itemResponse);
             
             if (selectedFile){
@@ -90,7 +91,13 @@ const NewItemForm = ({args}) => {
         } catch (err) {
             await handleError(err);
         }
-        navigate('/home')  // Go home when success
+        const storageRoom = getStorageRoomFromUrl();
+        navigate(storageRoom ? `/home?storageRoom=${storageRoom}` : '/home')  // Go home when success
+    }
+
+    const getStorageRoomFromUrl = () => {
+        const match = locationHook.pathname.match(/\/storageRoom\/([^/]+)\//);
+        return match ? match[1] : null
     }
 
     // To handle error depending on http error code
@@ -115,6 +122,7 @@ const NewItemForm = ({args}) => {
         }
     }
 
+    // Uploads image throug a S3 url
     const uploadImage = async (itemId) => {
         try {            
             const fileExtension = `.${selectedFile.type.split('/')[1]}`;
@@ -218,6 +226,7 @@ const NewItemForm = ({args}) => {
                         isMulti
                         options={tagsList}
                         onChange={updateTagsList}
+                        value={selectedTags}
                         placeholder={t('select')}
                     />
                 </div>

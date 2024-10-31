@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SignOut from './SignOut';
 import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';

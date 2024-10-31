@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { logout } from "../services/logout";
 import { apiEditItem, apiUploadImage } from '../services/api';
 import messagesObj from '../schemas/messages';
@@ -34,7 +34,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [isFileChanged, setIsFileChanged] = useState(false);
     const [isDifferent, setIsDifferent] = useState(false);
     const [isLent, setIsLent] = useState(itemArg.isLent != null);
-    const initialIsLent = itemArg.isLent != null;
+    // const initialIsLent = itemArg.isLent != null;
 
     const [isLentName, setIsLentName] = useState('');
     const [isLentDate, setIsLentDate] = useState('');
@@ -43,6 +43,7 @@ const EditItemForm = ({args, itemArg}) => {
     const [itemSaving, setItemSaving] = useState(false);
 
     const navigate = useNavigate();
+    const locationHook = useLocation();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     
@@ -122,7 +123,13 @@ const EditItemForm = ({args, itemArg}) => {
         } catch (err) {
             await handleError(err);
         }
-        navigate('/home'); 
+        const storageRoom = getStorageRoomFromUrl();
+        navigate(storageRoom ? `/home?storageRoom=${storageRoom}` : '/home')  // Go home when success
+    }
+
+    const getStorageRoomFromUrl = () => {
+        const match = locationHook.pathname.match(/\/storageRoom\/([^/]+)\//);
+        return match ? match[1] : null
     }
 
     // To handle error depending on http error code
@@ -147,6 +154,7 @@ const EditItemForm = ({args, itemArg}) => {
         }
     }
 
+    // Uploads image throug a S3 url
     const uploadImage = async (itemId) => {
         try {            
             const fileExtension = `.${selectedFile.type.split('/')[1]}`;

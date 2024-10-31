@@ -99,7 +99,7 @@ const Item = ({args}) => {
             await apiDeleteItem(storageRoomId, itemId);
             setIsLoading(false);
             Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
-            navigate('/home');
+            navigate(storageRoomId ?  `/home?storageRoom=${storageRoomId}` : '/home') 
         } catch (err) {
             await handleError(err);
         }

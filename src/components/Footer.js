@@ -1,5 +1,5 @@
 // src/pages/HomePage.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import config from '../config';
 
 

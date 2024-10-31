@@ -180,10 +180,10 @@ export const apiUploadImage = async (storageRoomId, itemId, fileExtension) => {
 };
 
 // POST save new item
-export const apiSaveItem = async (item) => {
+export const apiSaveItem = async (item, storageRoomId) => {
     
     try {
-        const response = await api.post(`storageRoom/storageRoom1/item`, item)
+        const response = await api.post(`storageRoom/${storageRoomId}/item`, item)
         return response.data
     } catch (error) {
         throw error;

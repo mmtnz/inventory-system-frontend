@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../services/AuthContext';  // Assuming you have a context to manage user state
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
+// import AuthContext from '../services/AuthContext';  // Assuming you have a context to manage user state
+// import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
 import { apiDeleteRefreshToken } from '../services/api';

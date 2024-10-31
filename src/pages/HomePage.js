@@ -7,7 +7,6 @@ import { apiGetUserInfo } from '../services/api';
 import { logout } from "../services/logout";
 import Swal from 'sweetalert2';
 import messagesObj from '../schemas/messages';
-import { use } from 'i18next';
 
 
 const HomePage = () => {
@@ -113,17 +112,17 @@ const HomePage = () => {
       <section className='content'>
         {/* <h1>{t('title')}</h1> */}
         {/* <label>Storage room:</label> */}
-        <div>{storageRoom?.id}</div>
+        
         {(isMultipleStorageRooms ? (
-          <div>
-            <h2>{storageRoom?.label}</h2>
+          <div className='storage-room-select-container'>
+            {/* <h2>{storageRoom?.label}</h2> */}
             <form className='custom-form'>
               <Select
                 className='custom-select'
                 options={storageRoomOptions}
                 value={storageRoom}
                 onChange={changeStorageRoom}
-                placeholder={'Select storage room...'}
+                placeholder={t('select')}
               />
             </form>
           

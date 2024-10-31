@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { BrowserRouter, Route, Routes, useParams, Navigate } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SearchPage from "./pages/SearchPage";
 import ItemPage from "./pages/ItemPage";
 import HomePage from "./pages/HomePage";

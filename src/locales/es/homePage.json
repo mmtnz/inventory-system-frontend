@@ -2,5 +2,6 @@
     "title": "Organizador trastero",
     "searchButton": "Buscar",
     "newItemButton": "Nuevo elemento",
-    "locale": "es"
+    "locale": "es",
+    "select": "Selecionar trastero..."
 }

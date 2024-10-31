@@ -130,8 +130,8 @@ h1 {
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
 }
 
 .header-icon-container select{
@@ -220,6 +220,10 @@ h1 {
   'GRAD' 0,
   'opsz' 24;
   color: white;
+}
+
+.storage-room-select-container {
+    margin-top: 6rem;
 }
 
 .button-container {
@@ -530,7 +534,7 @@ h1 {
     margin-top: 1.5rem;
     margin-left: 2rem;
     margin-right: 3.5rem;
-} */ */
+} */ 
 
 /* 
 .list-item p {
