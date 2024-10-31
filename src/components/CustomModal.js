@@ -1,6 +1,5 @@
 import Modal from 'react-modal';
 import Moment from 'react-moment'
-import moment from 'moment';
 Modal.setAppElement('#root');  // Required for accessibility
 
 

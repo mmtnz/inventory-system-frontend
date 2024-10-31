@@ -12,29 +12,17 @@ const ItemPage = () => {
   const { storageRoomId } = useParams();
 
     useEffect(() => {
-      getStorageRoomData();    
+      getStorageRoomData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps    
     }, [])
 
   // Get storage room info
   const getStorageRoomData = async () => {
     let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-    console.log(storageRoomInfo)
     setArgs(storageRoomInfo.config);
     setIsLoaded(true);
 }
-  
-//   // Get options from the DB
-//   const getArgs = async () => {
-//     let tagList = await apiGetTagsList();
-//     let locationObj = await apiGetTLoationsObj();
-//     let aux = {
-//         tagList: tagList,
-//         locationObj: locationObj
-//     };
-//     setArgs(aux);
-//     setIsLoaded(true);
-// }
-  
+    
   if (!isLoaded) {
     return (
       <div>Loading...</div>

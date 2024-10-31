@@ -8,7 +8,7 @@ import { logout } from "../services/logout";
 import Swal from 'sweetalert2';
 import { ClipLoader } from 'react-spinners';
 
-import ItemModel from '../schemas/item';
+// import ItemModel from '../schemas/item';
 import messagesObj from '../schemas/messages';
 
 import { useTranslation } from 'react-i18next';
@@ -117,22 +117,17 @@ const NewItemForm = ({args}) => {
 
     const uploadImage = async (itemId) => {
         try {            
-            console.log(selectedFile)
             const fileExtension = `.${selectedFile.type.split('/')[1]}`;
-            console.log(fileExtension)
             const response = await apiUploadImage(storageRoomId, itemId, fileExtension);
             const uploadUrl = response.data.uploadUrl;
-            console.log(uploadUrl)
 
-            const responseImage = await fetch(uploadUrl, {
+            await fetch(uploadUrl, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': selectedFile.type,  // Make sure to set the correct MIME type
                 },
                 body: selectedFile,  // The actual file goes here
             });
-            console.log(responseImage);
-
             Swal.fire(messagesObj[t('locale')].newItemSuccess);
         } catch (err) {
             Swal.fire(messagesObj[t('locale')].newItemImageError);
@@ -159,7 +154,7 @@ const NewItemForm = ({args}) => {
     }
 
     const changeOtherNamesList = (event) => {
-        if (event != ''){
+        if (event !== ''){
             setOtherNamesList(event);
             setItem({...item, otherNamesList: event})
         }

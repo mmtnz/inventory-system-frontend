@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
-import API_BASE_URL, { apiGetItem, apiReturnLent, apiDeleteItem } from "../services/api";
+import { apiReturnLent, apiDeleteItem } from "../services/api";
 import { logout } from "../services/logout";
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
@@ -20,15 +20,12 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
   const [isLent, setIsLent] = useState(item.isLent);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const url = API_BASE_URL;
   const { storageRoomId } = useParams();
-  const [,forceUpdate] = useState();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation('itemWrap'); // Load translations from the 'itemWrap' namespace
 
    // Update Moment's locale based on the current language from i18next
   useEffect(() => {
-    console.log(item)
     if (i18n.language === 'es') {
       moment.locale('es'); // Set Moment to use Spanish locale
     } else {
@@ -115,14 +112,13 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
                 alt={item.name}
             />
             ) : (
-              <img src={defaultImage}/>
+              <img src={defaultImage} alt={'default'}/>
             )}
         </div>
 
 
 
         <div className='list-item-wrapper'>
-          {/* <div className='item-wrap-content-container list-item-element' onClick={goToItem}> */}
           <div className='item-wrap-content-container' onClick={goToItem}>
             <h2>{item.name}</h2>
 
@@ -146,7 +142,6 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
             }
           </div>
 
-          {/* <div className='item-wrap-buttons-container list-item-element'> */}
           <div className='item-wrap-buttons-container'>
             {item.isLent && 
               <button className='custom-button-small' onClick={handleReturnLent} disabled={isUpdating}>
@@ -171,10 +166,6 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
             )}
           </div>
         </div>
-        
-      
-
-       
     </div>
   );
 };

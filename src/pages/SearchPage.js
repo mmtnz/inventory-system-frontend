@@ -8,7 +8,7 @@ import { logout } from "../services/logout";
 
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
-import { BarLoader } from 'react-spinners';
+// import { BarLoader } from 'react-spinners';
 import Swal from "sweetalert2";
 import messagesObj from "../schemas/messages";
 
@@ -22,7 +22,6 @@ const SearchPage = () => {
     const [numItems, setNumItems] = useState(0)
     const [queryParams, setQueryParams] = useState('');
  
-    const [lastEvaluatedKey, setLastEvaluatedKey] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [startIndex, setStartIndex] = useState(0);
@@ -35,6 +34,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         getStorageRoomData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     useEffect(() => {
@@ -71,12 +71,10 @@ const SearchPage = () => {
             tag: tagList
         }
 
-        if(isLent != undefined){
+        if(isLent !== undefined){
             args = {...args, lent: isLent}
         }
         let urlArgs = new URLSearchParams(args)
-        console.log(urlArgs.toString())
-        // setQueryParams(urlArgs.toString());
         return urlArgs.toString()
     }
 
@@ -85,16 +83,13 @@ const SearchPage = () => {
         try {
             // let urlArgs = new URLSearchParams(queryParams)  // Get query and tags from url to search
             const [data, totalCount] = await apiSearchItems(storageRoomId, urlArgs);
-            console.log(data)
             setNumItems(totalCount);
-            console.log(`TOTAL COUNT: ${totalCount}`)
 
             setIsLoading(false)
             setResults(data);
             setIsSearch(true);
             // setTotalPages(Math.ceil(data.length / itemsPerPage));
             setTotalPages(Math.ceil(totalCount / itemsPerPage));
-            console.log(Math.ceil(totalCount / itemsPerPage))
 
         } catch (err) {
             console.log(err);
@@ -189,7 +184,7 @@ const SearchPage = () => {
                 <div className='list-items-container'>
                     
                     {/* RESULTS */}
-                    {(results != null && results.length == 0 && isSearch) ? (
+                    {(results !== null && results.length === 0 && isSearch) ? (
                         <h3 className="num-items-title">{t('noItemsFound')}</h3>
                     ) : 
                     (
@@ -210,13 +205,13 @@ const SearchPage = () => {
                     {(results && numItems > itemsPerPage) && 
                         
                         <div className="paginating-container">
-                            <button className="custom-button-icon" onClick={decreasePage} disabled={currentPage == 1}>
+                            <button className="custom-button-icon" onClick={decreasePage} disabled={currentPage === 1}>
                                 <span className="material-symbols-outlined">
                                     arrow_back
                                 </span>
                             </button>
                             <p>{`${currentPage} / ${totalPages}`}</p>
-                            <button className="custom-button-icon" onClick={increasePage} disabled={currentPage == totalPages}>
+                            <button className="custom-button-icon" onClick={increasePage} disabled={currentPage === totalPages}>
                                 <span className="material-symbols-outlined">
                                     arrow_forward
                                 </span>

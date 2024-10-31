@@ -57,7 +57,6 @@ const EditItemForm = ({args, itemArg}) => {
     const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
-        console.log(item)
         if (item.tagsList && item.tagsList.length > 0) {
             setSelectedTags(tagsList.filter(option => item.tagsList.includes(option.value)));
         }
@@ -118,12 +117,12 @@ const EditItemForm = ({args, itemArg}) => {
             if (selectedFile){
                 await uploadImage(itemResponse.itemId);
             } else {
-                Swal.fire(messagesObj[t('locale')].editItemSuccess);
-                navigate('/home');
+                Swal.fire(messagesObj[t('locale')].editItemSuccess);   
             }      
         } catch (err) {
             await handleError(err);
-        } 
+        }
+        navigate('/home'); 
     }
 
     // To handle error depending on http error code
@@ -151,9 +150,9 @@ const EditItemForm = ({args, itemArg}) => {
     const uploadImage = async (itemId) => {
         try {            
             const fileExtension = `.${selectedFile.type.split('/')[1]}`;
-            const response = await apiUploadImage(storageRoomId, itemId, selectedFile);
+            const response = await apiUploadImage(storageRoomId, itemId, fileExtension);
             const uploadUrl = response.data.uploadUrl;
-            const responseImage = await fetch(uploadUrl, {
+            await fetch(uploadUrl, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': selectedFile.type,  // Make sure to set the correct MIME type
@@ -162,7 +161,6 @@ const EditItemForm = ({args, itemArg}) => {
             });
 
             Swal.fire(messagesObj[t('locale')].editItemSuccess);
-            navigate('/home')
         } catch (err) {
             console.log(err)
             Swal.fire(messagesObj[t('locale')].editItemImageError);
@@ -192,7 +190,6 @@ const EditItemForm = ({args, itemArg}) => {
         let auxItem = {...item, location: place.value + "/" + location.value + "/" + e.value};
         setItem(auxItem);
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
-        console.log(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)))
     }
 
     const updateTagsList = (tags) => {
@@ -358,11 +355,13 @@ const EditItemForm = ({args, itemArg}) => {
                                 <img src={item.imageUrl.thumbnail} alt={item.name} className="thumb"/> 
                             )}
 
-                            <div className='delete-button' onClick={removeImage}>
-                                <span className="material-symbols-outlined">
-                                    close
-                                </span>
-                            </div>
+                            {(item.imageUrl && item.imageUrl.thumbnail !== "") && (
+                                <div className='delete-button' onClick={removeImage}>
+                                    <span className="material-symbols-outlined">
+                                        close
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     )}
                     

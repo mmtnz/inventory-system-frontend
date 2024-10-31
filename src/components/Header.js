@@ -1,25 +1,44 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import SignOut from './SignOut';
 import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 
 
 const Header = () => {
 
-    
-    const languageOptions = [
-        {"label": "EN", "value": "en"},
-        {"label": "ES", "value": "es"}
-    ]
     const cognitoUser = userPool.getCurrentUser();
     const navigate = useNavigate();
-    const { i18n } = useTranslation(); 
+    const { i18n } = useTranslation();
+    // const { storageRoomId } = useParams();
+    const location = useLocation();
+    const [storageRoomId, setStorageRoomId] = useState();
       
 
+    useEffect(() => {
+        // Extract storageRoomId from the updated path whenever location changes
+        const match = location.pathname.match(/\/storageRoom\/([^/]+)\//);
+        setStorageRoomId( match ? match[1] : null);
+        
+        console.log("Updated storageRoomId:", storageRoomId);
+    }, [location]);
+
+    // useEffect(() => {
+    //     console.log("Updated storageRoomId:", storageRoomId);
+    // }, [storageRoomId]);
+
+
     const goHome = () => {
-        navigate('/home');
+        console.log(`redirijo: ${storageRoomId}`)
+        if (storageRoomId){
+            navigate(`/home?storageRoom=${storageRoomId}`);
+        } else {
+            navigate('/home')
+        }
+        
+        
     }
 
     // Function to change the language

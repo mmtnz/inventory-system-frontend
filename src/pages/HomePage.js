@@ -1,9 +1,13 @@
 // src/pages/HomePage.js
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { apiGetUserInfo } from '../services/api';
+import { logout } from "../services/logout";
+import Swal from 'sweetalert2';
+import messagesObj from '../schemas/messages';
+import { use } from 'i18next';
 
 
 const HomePage = () => {
@@ -17,30 +21,61 @@ const HomePage = () => {
   
   const navigate = useNavigate();
   const { t } = useTranslation('homePage'); // Load translations from the 'home' namespace
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    
+
+    // Get user info if not already loaded
     if (!storageRoomsList) {
       getUserInfo();
     }
-
-    showAssociatedStorageRooms();    
+    // Add storage room options
+    showAssociatedStorageRooms();
   }, []);
+
+  useEffect(() => {
+    getStorageRoomFromUrl();
+  }, [storageRoomOptions])
 
   // To get storages rooms from user info (it should be done in login)
   const getUserInfo = async () => {
-    const userInfo = await apiGetUserInfo();
-    sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
-    setStorageRoomsList(userInfo.storageRoomsList);
-
+    try {
+      const userInfo = await apiGetUserInfo();
+      sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
+      setStorageRoomsList(userInfo.storageRoomsList);  
+    } catch (err){
+      console.log(err)
+      handleError(err);
+    }
   }
+
+  // To handle error depending on http error code
+  const handleError = async (err) => {
+    if (err.code === 'ERR_NETWORK') {
+        Swal.fire(messagesObj[t('locale')].networkError);
+        navigate('/login')
+    } else if (err.response.status === 401) {
+        Swal.fire(messagesObj[t('locale')].sessionError)
+        await logout();
+        navigate('/login')
+    } else if ( err.response.status === 403) {  // Access denied
+        Swal.fire(messagesObj[t('locale')].accessDeniedError)
+        navigate('/home')
+    } else if (err.response.status === 404 ) { // Item not found
+        Swal.fire(messagesObj[t('locale')].itemNotFoundError)
+        navigate('/home')
+    } else if (err.response.status === 500) {
+        Swal.fire(messagesObj[t('locale')].unexpectedError)
+        await logout();
+        navigate('/login')
+    }
+}
 
   //Show storage room or storageroom options
   const showAssociatedStorageRooms = () => {
-    console.log(storageRoomsList)
     // Only one storage room associted
-    if (typeof storageRoomsList == 'string' || (storageRoomsList && storageRoomsList.length == 1)){
-      let room = typeof storageRoomsList == 'string' ? storageRoomsList : storageRoomsList[0]
+    if (typeof storageRoomsList === 'string' || (storageRoomsList && storageRoomsList.length === 1)){
+      let room = typeof storageRoomsList === 'string' ? storageRoomsList : storageRoomsList[0]
       setStorageRoom(room);
     } else {
       setIsMultipleStorageRooms(true);
@@ -50,9 +85,17 @@ const HomePage = () => {
     }
   }
 
+  // If storage room in url choose that option
+  const getStorageRoomFromUrl = () => {
+    
+    const urlStorageRoom = searchParams.get('storageRoom');
+    if (urlStorageRoom) {
+      setStorageRoom(storageRoomOptions.find(storRoom => storRoom.value === urlStorageRoom))
+    } 
+  }
+
 
   const changeStorageRoom = (event) => {
-    console.log(event)
     sessionStorage.removeItem('storageRoom');
     setStorageRoom(event);
   }
@@ -70,6 +113,7 @@ const HomePage = () => {
       <section className='content'>
         {/* <h1>{t('title')}</h1> */}
         {/* <label>Storage room:</label> */}
+        <div>{storageRoom?.id}</div>
         {(isMultipleStorageRooms ? (
           <div>
             <h2>{storageRoom?.label}</h2>

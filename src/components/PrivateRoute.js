@@ -7,7 +7,6 @@ import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 const PrivateRoute = ({ element: Element, ...rest }) => {
     const { user, passwordChangeRequired } = useContext(AuthContext); // Access user and password change flag from AuthContext
     const cognitoUser = userPool.getCurrentUser();
-    console.log(cognitoUser)
 
     // If password change is required, redirect to the password change page
     if (user && passwordChangeRequired) {

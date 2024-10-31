@@ -1,5 +1,6 @@
 {
     "title": "Storage Room",
     "searchButton": "Search",
-    "newItemButton": "New item"
+    "newItemButton": "New item",
+    "locale": "en"
 }

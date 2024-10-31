@@ -10,7 +10,7 @@ import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
-import { BarLoader } from 'react-spinners';
+// import { BarLoader } from 'react-spinners';
 
 import Modal from 'react-modal';
 import CustomModal from "./CustomModal";
@@ -41,7 +41,8 @@ const Item = ({args}) => {
 
 
     useEffect(() => {
-        loadItem();    
+        loadItem();
+        console.log(item) 
     }, []);  
 
     // Update Moment's locale based on the current language from i18next
@@ -162,14 +163,14 @@ const Item = ({args}) => {
                 <h1>{item.name}</h1>
                 <div className="item-container">
                     <div className="item-image-container">
-                        {item.imageUrl && item.imageUrl.normal !== "" ? (
+                        {item.imageUrl && item.imageUrl.medium !== "" ? (
                             <img
-                                src={item.imageUrl.normal}
+                                src={item.imageUrl.medium}
                                 alt={item.name}
                                 className="image-item"
                             />
                         ):(
-                            <img src={defaultImage} className="image-item"/>
+                            <img src={defaultImage} alt={'default'} className="image-item"/>
                         )}
                     </div>
                     
@@ -211,7 +212,7 @@ const Item = ({args}) => {
                         
                         <div className="item-data-group">
                             <label>{t('description')}:</label>
-                            {(item.description != '') ? (
+                            {(item.description !== '') ? (
                                 <p>{item.description}</p>
                             ) : (
                                 '-'
