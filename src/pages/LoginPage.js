@@ -63,6 +63,7 @@ function LoginPage() {
      
       const result = await signIn(email, password);
       console.log(result)
+      console.log(result.newPasswordRequired)
 
       if (result.newPasswordRequired) {
         setUser(result.cognitoUser)

@@ -228,6 +228,7 @@ const NewItemForm = ({args}) => {
                         onChange={updateTagsList}
                         value={selectedTags}
                         placeholder={t('select')}
+                        classNamePrefix="react-select" // Apply custom prefix
                     />
                 </div>
 
@@ -238,6 +239,7 @@ const NewItemForm = ({args}) => {
                         options={placesList}
                         onChange={changePlace}
                         placeholder={t('select')}
+                        classNamePrefix="react-select" // Apply custom prefix
                     />
                     {validator.message('place', place, 'required')}
                     {place && 
@@ -246,6 +248,7 @@ const NewItemForm = ({args}) => {
                             onChange={changeLocation}
                             value={location}
                             placeholder={t('select')}
+                            classNamePrefix="react-select" // Apply custom prefix
                         />
                     }
                     {place && 
@@ -260,7 +263,8 @@ const NewItemForm = ({args}) => {
                             options={locationObj.placeObj[place.value].selfsObj[location.value]}
                             onChange={changeSublocation}
                             value={sublocation}
-                            placeholder={t('select')}  
+                            placeholder={t('select')}
+                            classNamePrefix="react-select" // Apply custom prefix  
                         />                   
                     }
                     {(location && place) && 

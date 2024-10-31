@@ -298,6 +298,7 @@ const EditItemForm = ({args, itemArg}) => {
                         isLoading={!tagsList}
                         value={selectedTags}
                         placeholder={t('select')}
+                        classNamePrefix="react-select" // Apply custom prefix
                     />
                 </div>
 
@@ -309,6 +310,7 @@ const EditItemForm = ({args, itemArg}) => {
                         onChange={changePlace}
                         value={place}
                         placeholder={t('select')}
+                        classNamePrefix="react-select" // Apply custom prefix
                     />
                     {validator.message('place', place, 'required')}
                     {place && 
@@ -317,6 +319,7 @@ const EditItemForm = ({args, itemArg}) => {
                             onChange={changeLocation}
                             value={location}
                             placeholder={t('select')}
+                            classNamePrefix="react-select" // Apply custom prefix
                         />
                     }
                     {place &&
@@ -331,7 +334,8 @@ const EditItemForm = ({args, itemArg}) => {
                             options={locationObj.placeObj[place.value].selfsObj[location.value]}
                             onChange={changeSublocation}
                             value={sublocation}
-                            placeholder={t('select')}  
+                            placeholder={t('select')}
+                            classNamePrefix="react-select" // Apply custom prefix  
                         />                   
                     }
                     {(location && place) && 

@@ -6,6 +6,8 @@ import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator'
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
+import Swal from 'sweetalert2';
+import messagesObj from '../schemas/messages';
 
 const ChangePasswordPage = () => {
 
@@ -63,11 +65,15 @@ const ChangePasswordPage = () => {
 
         if (validator.allValid()) {
             setIsLoading(true);
+            console.log('entro aqui')
             try {
                 await changePassword();
+                console.log('despues change')
                 // Clear any local application state related to user (only used for creating new password)
                 setUser(null);  
                 setUserAttributes(null);
+                console.log('antes navigate')
+                Swal.fire(messagesObj[t('locale')].passwordUpdated)
                 navigate('/home'); // Redirect to home after success
             } catch (err) {
                 console.log('Problem changing password!', err);
@@ -75,6 +81,7 @@ const ChangePasswordPage = () => {
                 setIsLoading(false)
             }
         } else {
+            console.log('problema validator')
             validator.showMessages(); // Show validation error messages
             forceUpdate(); // Force re-render to show validation messages
         }
@@ -86,7 +93,8 @@ const ChangePasswordPage = () => {
             user.completeNewPasswordChallenge(newPassword, userAttributes, {
                 onSuccess: (result) => {
                     console.log('Password changed successfully!', result);
-                    setConfirmPassword(false);
+                    resolve();
+                    // setConfirmPassword(false);
                 },
                 onFailure: (err) => {
                     reject(err)
@@ -120,10 +128,7 @@ const ChangePasswordPage = () => {
                             onBlur={() => validator.showMessageFor('newPassword')}
                         />
 
-                        <div className='show-password-container'>
-                            <input type='checkbox' onChange={togglePassword}/>
-                            <div>{t('showPassword')}</div>
-                        </div>
+                        
 
                         {validator.message('newPassword', newPassword, 'required|passwordStrength|min:8')}
                     </div>
@@ -138,6 +143,12 @@ const ChangePasswordPage = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             onBlur={() => validator.showMessageFor('confirmPassword')}
                         />
+
+                        <div className='show-password-container'>
+                            <input type='checkbox' onChange={togglePassword}/>
+                            <div>{t('showPassword')}</div>
+                        </div>
+
                         {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${newPassword}`)}
                     </div>
 

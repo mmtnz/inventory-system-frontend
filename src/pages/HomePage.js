@@ -76,7 +76,7 @@ const HomePage = () => {
     if (typeof storageRoomsList === 'string' || (storageRoomsList && storageRoomsList.length === 1)){
       let room = typeof storageRoomsList === 'string' ? storageRoomsList : storageRoomsList[0]
       setStorageRoom(room);
-    } else {
+    } else if (storageRoomsList) {
       setIsMultipleStorageRooms(true);
       setStorageRoomOptions(storageRoomsList.map(storRoom => (
         {value: storRoom.id, label: storRoom.name}
@@ -123,6 +123,7 @@ const HomePage = () => {
                 value={storageRoom}
                 onChange={changeStorageRoom}
                 placeholder={t('select')}
+                classNamePrefix="react-select" // Apply custom prefix
               />
             </form>
           

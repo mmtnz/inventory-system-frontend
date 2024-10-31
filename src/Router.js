@@ -24,7 +24,7 @@ const Router = () => {
                     <div className='body-content'>
                         <Routes>
                             <Route path="/login" element={<LoginPage/>}/>
-                            <Route exact path="/change-password" element={<PrivateRoute element={ChangePasswordPage} />} />
+                            <Route exact path="/change-password" element={<ChangePasswordPage/>} />
                             <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route path ="/home" element={<PrivateRoute element={HomePage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/item/:itemId" element={<PrivateRoute element={ItemPage} />} />

@@ -76,6 +76,11 @@ const messagesObj = {
             text: 'Error inexperado, intentalo más tarde',
             icon: "error"
         },
+        passwordUpdated: {
+            title: 'Password updated',
+            // text: 'Password updated',
+            icon: "success"
+        },
     },
     en: {
         newItemSuccess: {
@@ -153,6 +158,11 @@ const messagesObj = {
             title: 'Error',
             text: 'Unexpected error, try it later',
             icon: "error"
+        },
+        passwordUpdated: {
+            title: 'Contraseña actualizada',
+            // text: 'Password updated',
+            icon: "success"
         },
     } 
 

@@ -194,7 +194,7 @@ const SearchPage = () => {
                         )}
                         
                         <div className="list-items-container-content">
-                            {results.slice(startIndex, startIndex + itemsPerPage - 1).map(result => (
+                            {results.slice(startIndex, startIndex + itemsPerPage).map(result => (
                                 <ItemWrap key={result.itemId} itemArg={result} removeItemFromList={removeItemFromList}/>
                             ))}
                         </div>
