@@ -1,0 +1,13 @@
+{
+    "title": "Nuevo trastero",
+    "name": "Nombre",
+    "tags": "Etiquetas",
+    "places": "Places",
+    "place": "Place",
+    "locations": "Locations",
+    "location": "Location",
+    "sublocations": "Sublocations",
+    "save": "Guardar",
+    "next": "Siguiente",
+    "back": "Atras"
+}

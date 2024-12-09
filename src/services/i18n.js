@@ -12,6 +12,7 @@ import enSearchPage from '../locales/en/searchPage.json'
 import enItemForm from '../locales/en/itemForm.json'
 import enLogin from '../locales/en/login.json'
 import enItemWrap from '../locales/en/itemWrap.json'
+import enNewStorageRoom from '../locales/en/newStorageRoom.json'
 
 
 import esHomePage from '../locales/es/homePage.json'
@@ -20,6 +21,7 @@ import esSearchPage from '../locales/es/searchPage.json'
 import esItemForm from '../locales/es/itemForm.json'
 import esLogin from '../locales/es/login.json'
 import esItemWrap from '../locales/es/itemWrap.json'
+import esNewStorageRoom from '../locales/es/newStorageRoom.json'
 
 
 // Initialize i18n
@@ -35,6 +37,7 @@ i18n
                 itemForm: enItemForm,
                 login: enLogin,
                 itemWrap: enItemWrap,
+                newStorageRoom: enNewStorageRoom
             },
             es: {
                 homePage: esHomePage,
@@ -43,6 +46,7 @@ i18n
                 itemForm: esItemForm,
                 login: esLogin,
                 itemWrap: esItemWrap,
+                newStorageRoom: esNewStorageRoom
             },
         },
         lng: 'en', // Default language

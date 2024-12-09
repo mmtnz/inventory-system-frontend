@@ -37,7 +37,8 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
     navigate(`/storageRoom/${storageRoomId}/item/${item.itemId}`, { state: { item: item } });
   }
 
-  const handleReturnLent = async () => {
+  const handleReturnLent = async (event) => {
+    event.stopPropagation(); // Prevent navigation to item
     setIsUpdating(true);
     let utcDate = new Date().toISOString().split('T')[0];
     try {
@@ -53,7 +54,8 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
     // forceUpdate();
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async (event) => {
+      event.stopPropagation(); // Prevent navigation to item
       Swal.fire(messagesObj[t('locale')].deleteItemConfirmation)
           .then((result) => {
               if (result.isConfirmed) {
@@ -103,9 +105,9 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
 
   
   return (
-    <div className="list-item">
+    <div className={i18n.language === 'en' ? "list-item" : "list-item local-es"} onClick={goToItem}>
         
-        <div className="image-wrap-container" onClick={goToItem}>
+        <div className="image-wrap-container">
             {item.imageUrl && item.imageUrl.thumbnail !== "" ? (
               <img
                 src={item.imageUrl.thumbnail}
@@ -119,7 +121,7 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
 
 
         <div className='list-item-wrapper'>
-          <div className='item-wrap-content-container' onClick={goToItem}>
+          <div className='item-wrap-content-container'>
             <h2>{item.name}</h2>
 
             <div className="list-item-date">
@@ -142,6 +144,7 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
             }
           </div>
 
+          
           <div className='item-wrap-buttons-container'>
             {item.isLent && 
               <button className='custom-button-small' onClick={handleReturnLent} disabled={isUpdating}>

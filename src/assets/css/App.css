@@ -113,6 +113,13 @@ h1 {
     /* padding-left: 10px; */
 }
 
+.content {
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
 .version-content {
     margin-left: 20px;
 }
@@ -416,11 +423,12 @@ h1 {
     gap: 1rem;
     border: 2px 0 2px 0 solid rgb(87, 81, 81);
     font-size: 0.9rem;
+    cursor: pointer;
 }
 
 .text-bold{
     font-weight: bold;
-    flex-basis: 4rem;
+    flex-basis: 4.3rem;
     flex-shrink: 0;
     text-align: left; 
 }
@@ -699,6 +707,45 @@ h1 {
     border-radius: 5px;
 } */
 
+/* #################################################### */
+/* STORAGE ROOM*/
+/* #################################################### */
+
+.storage-room-data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1rem;
+    width: 100%;
+    margin-top: 10px;
+    margin-left: 20px
+}
+
+.storage-room-data p{
+    text-align: left;
+}
+
+.storage-room-data-group {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 0.6rem;
+    width: 100%;
+}
+
+.storage-room-data-group label{
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.storage-room-data-group p {
+    margin: 0;
+}
+
+.storage-room-data-group .tags-container .tag-item{
+    padding-right: 6px;
+}
 
 /* #################################################### */
 /* MODAL*/
@@ -1043,6 +1090,56 @@ form .react-select__option--is-selected {
 
 
 /* #################################### */
+/* ######### PAGINATION ############### */
+/* #################################### */
+
+.step-buttons-container{
+    display: flex;
+    margin-top: auto; /* Pushes this child to the bottom */
+}
+
+.pagination-bars-container {
+    margin-top: 2rem;
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.pagination-bar {
+    width: 80%;
+    height: 5px;
+    background-color: lightgray;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination-bar.active {
+    background-color: var(--color-theme);
+}
+
+/* #################################### */
+/* ############### TREE ############### */
+/* #################################### */
+.custom-tree-node{
+    margin-left: 2rem;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-tree-node-name{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.custom-tree-node .material-symbols-outlined{
+    color: #0b101a;
+    /* color: var(--color-theme) */
+}
+
+/* #################################### */
 /* ######### RESPONSIVE ############### */
 /* #################################### */
 
@@ -1175,7 +1272,11 @@ form .react-select__option--is-selected {
     }
 
     .list-item {
-        width: 90%
+        width: 90%;
+    }
+
+    .local-es{
+        gap: 10px;
     }
 
     .list-item .image-wrap-container {
@@ -1197,7 +1298,7 @@ form .react-select__option--is-selected {
 
     .item-wrap-content-container{
         flex-grow: 0;
-        width:100%
+        width: 100%
     }
 
     .list-item-date{

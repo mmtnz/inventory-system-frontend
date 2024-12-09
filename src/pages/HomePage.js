@@ -7,6 +7,7 @@ import { apiGetUserInfo } from '../services/api';
 import { logout } from "../services/logout";
 import Swal from 'sweetalert2';
 import messagesObj from '../schemas/messages';
+import { ClipLoader } from 'react-spinners';
 
 
 const HomePage = () => {
@@ -23,17 +24,19 @@ const HomePage = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-
     // Get user info if not already loaded
     if (!storageRoomsList) {
       getUserInfo();
     }
     // Add storage room options
     showAssociatedStorageRooms();
+    console.log(storageRoom)
   }, []);
 
   useEffect(() => {
-    getStorageRoomFromUrl();
+    if (storageRoomsList.length > 1){
+      getStorageRoomFromUrl();
+    }
   }, [storageRoomOptions])
 
   // To get storages rooms from user info (it should be done in login)
@@ -73,15 +76,20 @@ const HomePage = () => {
   //Show storage room or storageroom options
   const showAssociatedStorageRooms = () => {
     // Only one storage room associted
-    if (typeof storageRoomsList === 'string' || (storageRoomsList && storageRoomsList.length === 1)){
-      let room = typeof storageRoomsList === 'string' ? storageRoomsList : storageRoomsList[0]
-      setStorageRoom(room);
+    // if (typeof storageRoomsList === 'string' || (storageRoomsList && storageRoomsList.length === 1)){
+    if (storageRoomsList && storageRoomsList.length === 1){
+      // let room = typeof storageRoomsList === 'string' ? storageRoomsList : storageRoomsList[0]
+      let room = storageRoomsList[0]
+      console.log(room)
+      setStorageRoom({value: room.id, label: room.name});
+      setIsMultipleStorageRooms(false);
     } else if (storageRoomsList) {
       setIsMultipleStorageRooms(true);
       setStorageRoomOptions(storageRoomsList.map(storRoom => (
         {value: storRoom.id, label: storRoom.name}
       )))
     }
+    
   }
 
   // If storage room in url choose that option
@@ -126,10 +134,11 @@ const HomePage = () => {
                 classNamePrefix="react-select" // Apply custom prefix
               />
             </form>
-          
           </div>
         ) : (
-          <h2>{storageRoom}</h2>
+          // <h2>{'hola'}</h2>
+          // <h2>{JSON.stringify(storageRoom)}</h2>
+          <h2>{storageRoom?.label}</h2>
         ))}
         
         <div className='option-button-container'>

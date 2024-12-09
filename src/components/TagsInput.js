@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from 'react-i18next';
 
 
-const TagsInput = ({tagsList, setTagsList}) => {
+const TagsInput = ({tagsList, setTagsList, isDisabled}) => {
     // console.log(tagsList)
     const tagRef = React.createRef();
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
@@ -45,7 +45,7 @@ const TagsInput = ({tagsList, setTagsList}) => {
             <input type="text" ref={tagRef}/>
             
             <div className="tag-button-container">
-                <button onClick={addTag} className="custom-button-small">
+                <button onClick={addTag} className="custom-button-small" disabled={isDisabled}>
                     <span className="material-symbols-outlined">
                         add
                     </span>
