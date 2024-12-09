@@ -81,6 +81,10 @@ const messagesObj = {
             // text: 'Password updated',
             icon: "success"
         },
+        storageRoomCreated: {
+            title: "Storage room created",
+            icon: "success"
+        }
     },
     en: {
         newItemSuccess: {
@@ -164,6 +168,10 @@ const messagesObj = {
             // text: 'Password updated',
             icon: "success"
         },
+        storageRoomCreated: {
+            title: "Trastero creado",
+            icon: "success"
+        }
     } 
 
 }

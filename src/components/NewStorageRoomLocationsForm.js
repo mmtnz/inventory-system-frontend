@@ -13,7 +13,7 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
     const [locationsList, setLocationsList] = useState([]);
     const [sublocationsList, setSublocationsList] = useState([]);
     
-    const [placesOptionsList, setPlacesOptionsList] = useState([]);
+    const [placesOptionsList, setPlacesOptionsList] = useState(placesList.length > 0 ? createOptionList(placesList) : []);
     const [locationOptionsList, setLocationOptionsList] = useState([]);
 
     const [selectedPlace, setSelectedPlace] = useState(null);
@@ -41,18 +41,6 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
             })
         );
     }, [i18n.language])
-
-    const handleSubmit = (e)  => {
-        // e.preventDefault();
-        // // changeState();
-        // if(validator.allValid()){
-        //     setIsLoading(true);
-        //     // saveStorageRoom();
-        // }
-        // else{
-        //     validator.showMessages();
-        // }
-    };
 
     const changePlacesList = (event) => {
         const newPlace = event[event.length - 1];
@@ -88,6 +76,8 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
     const changePlace = (e) => {
         setSelectedPlace(e);
         setLocationsList([...locationObj.placeObj?.[e?.value]?.zonesList?.map(val => val.value) || [] ]);
+        setLocationOptionsList([...locationObj.placeObj?.[e?.value]?.zonesList])
+        // setLocationOptionsList(createOptionList([...locationObj.placeObj?.[e?.value]?.zonesList] || [] ))
         changeLocation(null);
     }
 
@@ -151,7 +141,7 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
         <div>
             <form 
                 className="custom-form"
-                onSubmit={handleSubmit}
+                // onSubmit={handleSubmit}
                 // onChange={changeState}
             >
                 <div className="formGroup">

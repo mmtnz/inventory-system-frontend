@@ -32,7 +32,7 @@ const Router = () => {
                             <Route path= "/storageRoom/:storageRoomId/search" element={<PrivateRoute element={SearchPage} />} />
                             <Route path= "/storageRoom/:storageRoomId/new-item" element={<PrivateRoute element={NewItemPage} />} />
                             <Route path= "/storageRoom/:storageRoomId/item/:itemId/edit" element={<PrivateRoute element={EditItemPage} />} />
-                            <Route path="/storageRoom/new" element={<NewStorageRoomPage/>} />
+                            <Route path="/storageRoom/new" element={<PrivateRoute element={NewStorageRoomPage} />} />
                             <Route path="*" element={
                                 <React.Fragment>
                                     <h1>Error</h1>
