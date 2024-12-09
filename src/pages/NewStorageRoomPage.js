@@ -8,6 +8,7 @@ import NewStorageRoomNameForm from '../components/NewStorageRoomNameForm';
 import NewStorageRoomTagsForm from '../components/NewStorageRoomTagsForm';
 import NewStorageRoomLocationsForm from '../components/NewStorageRoomLocationsForm';
 import NewStorageRoomConfirmation from '../components/NewStorageRoomConfirmation';
+import Pagination from '../components/Pagination';
 
 
 const NewStorageRoomPage = () => {
@@ -64,42 +65,13 @@ const NewStorageRoomPage = () => {
                     <NewStorageRoomConfirmation name={name} locationObj={locationObj} tagsList={tagsList}/>
                 )}
                  
-
-                <div className='step-buttons-container'>
-                    <div className='button-container'>
-                        <button className='custom-button' disabled={currentStep === 1} onClick={() => {setCurrentStep(currentStep - 1)}}>
-                            {t('back')}
-                        </button>
-                    </div>
-
-                    <div className="pagination-bars-container">
-                        {[1, 2, 3, 4].map((step) => (
-                        <div
-                            key={step}
-                            className={`pagination-bar ${currentStep >= step ? 'active' : ''}`}
-                        ></div>
-                        ))}
-                    </div>
-
-                    {(currentStep < 4) ? (
-                        <div className='button-container'>
-                            <button
-                                className='custom-button'
-                                onClick={() => {setCurrentStep(currentStep + 1)}}
-                                disabled={isNextButtonDisabled()}
-                            >
-                                {t('next')}
-                            </button>
-                        </div>
-                    ): (
-                        <div className='button-container'>
-                            <button className='custom-button' onClick={handleSave}>
-                                {t('save')}
-                            </button>
-                        </div>
-                    )}
-                    
-                </div>
+                <Pagination
+                    numSteps={4}
+                    currentStep={currentStep}
+                    setCurrentStep={setCurrentStep}
+                    isNextButtonDisabled={isNextButtonDisabled()}
+                    handleSave={handleSave}
+                />
 
 
             </section>

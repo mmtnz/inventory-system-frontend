@@ -147,6 +147,16 @@ export const apiGetStorageRoomInfo = async (storageRoomId) => {
     }
 }
 
+// POST
+export const apiSaveStorageRoom = async (storageRoom) => {
+    try {
+        const response = await api.post(`/storageRoom/new`, storageRoom);
+
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const apiGetUserInfo = async () => {
     try {
         const response = await api.get('/user');
@@ -155,6 +165,8 @@ export const apiGetUserInfo = async () => {
         throw error;
     }
 }
+
+
 
 // POST upload image
 export const apiUploadImage = async (storageRoomId, itemId, fileExtension) => {
