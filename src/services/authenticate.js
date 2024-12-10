@@ -22,27 +22,15 @@ const signIn = async (email, password) => {
     user.authenticateUser(authDetails, {
       onSuccess: (session) => {
 
-        console.log('Successfully signed in:', session);
-        // Access tokens
-        // console.log('Access token:', session.getAccessToken().getJwtToken());
-        // console.log('ID token:', session.getIdToken().getJwtToken());
-        // console.log('Refresh token:', session.getRefreshToken().getToken());
-
-        // Handle successful authentication
-        // sessionStorage.setItem('idToken', session.getIdToken().getJwtToken());
-        sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
-        // sessionStorage.setItem('refreshToken', session.getRefreshToken().getToken());
-
         // Store the access token in memory or session storage
         sessionStorage.setItem('accessToken', session.getAccessToken().getJwtToken());
+        // Store refresh token in https cookies
         apiSendRefreshToken(session.getRefreshToken().getToken());
         
         resolve({session, cognitoUser: user}); // Return the session on success
       },
       newPasswordRequired: (userAttributes, requiredAttributes) => {
-        // console.log(userAttributes)
-        // console.log(requiredAttributes)
-
+       
         // Filter out non-writable attributes
         // const writableAttributes = { ...userAttributes };
         userAttributes.name = userAttributes.email;

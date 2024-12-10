@@ -4,7 +4,7 @@ import {signIn} from '../services/authenticate';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
-import { apiGetUserInfo } from '../services/api';
+import { apiGetStorageRoomsList, apiGetUserInfo } from '../services/api';
 import { ClipLoader } from 'react-spinners';
 
 function LoginPage() {
@@ -77,11 +77,15 @@ function LoginPage() {
         
         const userInfo = await apiGetUserInfo();
         sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
+        const storageRoomsList = await apiGetStorageRoomsList();
+        console.log(storageRoomsList)
         navigate('/home');
       }
     } catch (err) {
-      console.error('Error signing in:', err);
-      setError(t('incorrectEmailPassword'))
+      if (err.code === 'NotAuthorizedException') {
+        console.error('Error signing in:', err);
+        setError(t('incorrectEmailPassword'))
+      }
       setIsLoading(false);
     }
   }

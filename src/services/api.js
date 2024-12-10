@@ -16,6 +16,7 @@ const api = axios.create({
     headers: {
       'Content-Type': 'application/json',
     },
+    withCredentials: true, // Include cookies with each request
 });
 
 
@@ -30,7 +31,7 @@ api.interceptors.request.use(
             const newToken = await apiRefreshToken(); // If expired, refresh token (optional)
             sessionStorage.setItem('accessToken', newToken); // Store the new token
             accessToken = newToken
-        } 
+        }
         
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`; // Attach token to headers
@@ -52,21 +53,15 @@ const apiRefreshToken = async () => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(result)
+        return result.data.accessToken;
     } catch (error) {
         throw error;
     }
 }
 
-export const apiDeleteRefreshToken = async (accessToken) =>{
+export const apiDeleteRefreshToken = async () =>{
     try {
-        const result = await api.delete('/auth/token', null,{
-            headers: {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,  // Add token to Authorization header
-                } 
-            }
-        });
+        const result = await api.delete('/auth/token');
         console.log(result)
     } catch (error) {
         console.log(error)
@@ -81,12 +76,8 @@ export const apiSendRefreshToken = async (refresToken) => {
         // await api.post('/auth/token', refresToken, {
         const result = await api.post(
             '/auth/token',
-            refresToken,
-            {
-                headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,  // Add token to Authorization header
-                }
-            })
+            refresToken
+        );
         console.log(result)
     } catch (error) {
         throw error;
@@ -133,6 +124,17 @@ export const apiGetTLoationsObj = async () => {
         throw error;
     }
 }
+
+// GET storage room list
+export const apiGetStorageRoomsList = async () => {
+    try {
+        const response = await api.get('/storageRoom/list');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+} 
+
 
 // GET storge room config
 export const apiGetStorageRoomInfo = async (storageRoomId) => {

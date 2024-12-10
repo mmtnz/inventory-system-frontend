@@ -1,4 +1,5 @@
 import userPool from './cognitoConfig'; // Your Cognito configuration
+import { apiDeleteRefreshToken } from './api';
 
 export const logout = async () => {
     const cognitoUser = userPool.getCurrentUser();
@@ -10,8 +11,7 @@ export const logout = async () => {
         }
         
         // Clear refresh token from http cookie
-        // const accessToken = sessionStorage.getItem('accessToken')
-        // await apiDeleteRefreshToken(accessToken);
+        await apiDeleteRefreshToken();
 
         // Clear session storage
         sessionStorage.clear();

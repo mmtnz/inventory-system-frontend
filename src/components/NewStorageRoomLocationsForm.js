@@ -31,7 +31,6 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
 
     // Change validator messages language
     useEffect(() => {
-        // changeState();
         setValidator(
             new SimpleReactValidator({
                 messages: {
@@ -77,7 +76,6 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
         setSelectedPlace(e);
         setLocationsList([...locationObj.placeObj?.[e?.value]?.zonesList?.map(val => val.value) || [] ]);
         setLocationOptionsList([...locationObj.placeObj?.[e?.value]?.zonesList])
-        // setLocationOptionsList(createOptionList([...locationObj.placeObj?.[e?.value]?.zonesList] || [] ))
         changeLocation(null);
     }
 
@@ -141,8 +139,6 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
         <div>
             <form 
                 className="custom-form"
-                // onSubmit={handleSubmit}
-                // onChange={changeState}
             >
                 <div className="formGroup">
                     <label htmlFor='places'>{t('places')}</label>
