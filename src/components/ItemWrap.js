@@ -4,11 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
 import { apiReturnLent, apiDeleteItem } from "../services/api";
 import { logout } from "../services/logout";
+import handleError from '../services/handleError';
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import messagesObj from "../schemas/messages";
+import {messagesObj} from "../schemas/messages";
 import { ClipLoader } from 'react-spinners';
 
 import { useTranslation } from 'react-i18next';
@@ -48,7 +49,7 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
       Swal.fire(messagesObj[t('locale')].editItemSuccess)
       setIsUpdating(false);
     } catch (err) {
-      await handleError(err);
+      await handleError(err, t('locale'), navigate);
     }
     
     // forceUpdate();
@@ -74,35 +75,9 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
       removeItemFromList(item.itemId)
 
     } catch (err) {
-      await handleError(err);
+      await handleError(err, t('locale'), navigate);
     }
   }
-
-  // To handle error depending on http error code
-  const handleError = async (err) => {
-    console.log(err)
-    if (err.code === 'ERR_NETWORK') {
-      Swal.fire(messagesObj[t('locale')].networkError);
-      navigate('/login')
-    } else if (err.response.status === 401) {
-      Swal.fire(messagesObj[t('locale')].sessionError)
-      await logout();
-      navigate('/login')
-    } else if ( err.response.status === 403) {  // Access denied
-      Swal.fire(messagesObj[t('locale')].accessDeniedError)
-      navigate('/home')
-    } else if (err.response.status === 404 ) { // Item not found
-      Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-      navigate('/home')
-    } else if (err.response.status === 500) {
-      Swal.fire(messagesObj[t('locale')].unexpectedError)
-      await logout();
-      navigate('/login')
-  } 
-  }
-
- 
-
   
   return (
     <div className={i18n.language === 'en' ? "list-item" : "list-item local-es"} onClick={goToItem}>

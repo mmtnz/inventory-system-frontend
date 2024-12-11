@@ -4,12 +4,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import TagsInput from './TagsInput';
 import { apiSaveItem, apiUploadImage } from '../services/api';
-import { logout } from "../services/logout";
+import handleError from '../services/handleError';
 import Swal from 'sweetalert2';
 import { ClipLoader } from 'react-spinners';
 
-// import ItemModel from '../schemas/item';
-import messagesObj from '../schemas/messages';
+import {messagesObj} from '../schemas/messages';
 
 import { useTranslation } from 'react-i18next';
 
@@ -89,37 +88,9 @@ const NewItemForm = ({args}) => {
                 Swal.fire(messagesObj[t('locale')].newItemSuccess);
             }      
         } catch (err) {
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
-        const storageRoom = getStorageRoomFromUrl();
-        navigate(storageRoom ? `/home?storageRoom=${storageRoom}` : '/home')  // Go home when success
-    }
-
-    const getStorageRoomFromUrl = () => {
-        const match = locationHook.pathname.match(/\/storageRoom\/([^/]+)\//);
-        return match ? match[1] : null
-    }
-
-    // To handle error depending on http error code
-    const handleError = async (err) => {
-        if (err.code === 'ERR_NETWORK') {
-            Swal.fire(messagesObj[t('locale')].networkError);
-            navigate('/login')
-        } else if (err.response.status === 401) {
-            Swal.fire(messagesObj[t('locale')].sessionError)
-            await logout();
-            navigate('/login')
-        } else if ( err.response.status === 403) {  // Access denied
-            Swal.fire(messagesObj[t('locale')].accessDeniedError)
-            navigate('/home')
-        } else if (err.response.status === 404 ) { // Item not found
-            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-            navigate('/home')
-        } else if (err.response.status === 500) {
-            Swal.fire(messagesObj[t('locale')].unexpectedError)
-            await logout();
-            navigate('/login')
-        }
+        navigate(`/storageRoom/${storageRoomId}`) 
     }
 
     // Uploads image throug a S3 url

@@ -3,8 +3,8 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { logout } from "../services/logout";
 import { apiEditItem, apiUploadImage } from '../services/api';
-import messagesObj from '../schemas/messages';
-
+import {messagesObj} from '../schemas/messages';
+import handleError from '../services/handleError';
 import TagsInput from './TagsInput';
 import { ClipLoader } from 'react-spinners';
 import Select from 'react-select';
@@ -121,37 +121,9 @@ const EditItemForm = ({args, itemArg}) => {
                 Swal.fire(messagesObj[t('locale')].editItemSuccess);   
             }      
         } catch (err) {
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
-        const storageRoom = getStorageRoomFromUrl();
-        navigate(storageRoom ? `/home?storageRoom=${storageRoom}` : '/home')  // Go home when success
-    }
-
-    const getStorageRoomFromUrl = () => {
-        const match = locationHook.pathname.match(/\/storageRoom\/([^/]+)\//);
-        return match ? match[1] : null
-    }
-
-    // To handle error depending on http error code
-    const handleError = async (err) => {
-        if (err.code === 'ERR_NETWORK') {
-            Swal.fire(messagesObj[t('locale')].networkError);
-            navigate('/login')
-        } else if (err.response.status === 401) {
-            Swal.fire(messagesObj[t('locale')].sessionError)
-            await logout();
-            navigate('/login')
-        } else if ( err.response.status === 403) {  // Access denied
-            Swal.fire(messagesObj[t('locale')].accessDeniedError)
-            navigate('/home')
-        } else if (err.response.status === 404 ) { // Item not found
-            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-            navigate('/home')
-        } else if (err.response.status === 500) {
-            Swal.fire(messagesObj[t('locale')].unexpectedError)
-            await logout();
-            navigate('/login')
-        }
+        navigate(`/storageRoom/${storageRoomId}`)  // Go storage room page when success
     }
 
     // Uploads image throug a S3 url

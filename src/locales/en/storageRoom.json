@@ -3,8 +3,11 @@
     "searchButton": "Search",
     "newItemButton": "New item",
     "locale": "en",
-    "select": "Select storage room...",
     "newStorageRoom": "New storage room",
     "storageRoomsList": "Your storage rooms",
-    "settings": "Settings"
+    "settings": "Settings",
+    "edit": "Edit",
+    "addUser": "Add user",
+    "delete": "Delete" 
+
 }

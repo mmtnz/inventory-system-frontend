@@ -11,7 +11,7 @@ const NewStorageRoomConfirmation = ({name, tagsList, locationObj}) => {
     const transformedTagsList = createOptionList(tagsList);
 
     const locationTree = createLocationTree(locationObj);
-    console.log(locationTree)
+
     return(
         <div className='center'>
 

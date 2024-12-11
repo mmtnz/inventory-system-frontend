@@ -73,9 +73,13 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
 
     // Change selected place from options and showing the respective associated locations 
     const changePlace = (e) => {
+        console.log(e)
+        console.log(locationObj)
         setSelectedPlace(e);
-        setLocationsList([...locationObj.placeObj?.[e?.value]?.zonesList?.map(val => val.value) || [] ]);
-        setLocationOptionsList([...locationObj.placeObj?.[e?.value]?.zonesList])
+        const zonesList = locationObj?.placeObj?.[e?.value]?.zonesList;
+        console.log(zonesList)
+        setLocationsList(zonesList ? zonesList.map(val => val.value) : []);
+        setLocationOptionsList(zonesList ? zonesList : [])
         changeLocation(null);
     }
 

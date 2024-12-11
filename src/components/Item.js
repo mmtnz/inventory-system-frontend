@@ -2,9 +2,10 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
 import { logout } from "../services/logout";
 import { useEffect, useState } from "react";
+import handleError from "../services/handleError";
 import defaultImage from "../assets/images/default.png"
 import Swal from 'sweetalert2';
-import messagesObj from "../schemas/messages";
+import {messagesObj} from "../schemas/messages";
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
@@ -77,7 +78,7 @@ const Item = ({args}) => {
             setIsLoaded(true);
         } catch (err) {
             console.log(err)
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
     }
 
@@ -99,31 +100,11 @@ const Item = ({args}) => {
             await apiDeleteItem(storageRoomId, itemId);
             setIsLoading(false);
             Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
-            navigate(storageRoomId ?  `/home?storageRoom=${storageRoomId}` : '/home') 
+            navigate(storageRoomId ?  `/storageRoom/${storageRoomId}` : '/home') 
         } catch (err) {
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
     }
-
-    // To handle error depending on http error code
-    const handleError = async (err) => {
-        if (err.response.status === 401) {
-            Swal.fire(messagesObj[t('locale')].sessionError)
-            await logout();
-            navigate('/login')
-        } else if ( err.response.status === 403) {  // Access denied
-            Swal.fire(messagesObj[t('locale')].accessDeniedError)
-            navigate('/home')
-        } else if (err.response.status === 404 ) { // Item not found
-            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-            navigate('/home')
-        } else if (err.response.status === 500) {
-            Swal.fire(messagesObj[t('locale')].unexpectedError)
-            await logout();
-            navigate('/login')
-        }
-    }
-
 
     const handleReturnLent = async () => {
         try {
@@ -138,7 +119,7 @@ const Item = ({args}) => {
             // Navigate so it is also stored in location state just in case reload
             navigate(`/storageRoom/${item.storageRoomId}/item/${item.itemId}`, {state: {...item, isLent: null, lentHistory: itemSaved.lentHistory}});
         } catch (err) {
-            handleError(err)
+            await handleError(err, t('locale'), navigate);
         }
         forceUpdate();
     }

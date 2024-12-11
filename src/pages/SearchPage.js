@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
+import AuthContext from '../services/AuthContext';
 import SearchForm from '../components/SearchForm';
-import { apiSearchItems } from "../services/api";
+import { apiSearchItems, apiGetStorageRoomsList } from "../services/api";
 import ItemWrap from "../components/ItemWrap"
-import { getStorageRoomInfo } from '../services/storageRoomInfoService';
-import { logout } from "../services/logout";
-
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
 // import { BarLoader } from 'react-spinners';
 import Swal from "sweetalert2";
-import messagesObj from "../schemas/messages";
+import {messagesObj} from "../schemas/messages";
+import handleError from "../services/handleError";
 
 const SearchPage = () => {
 
@@ -29,12 +28,19 @@ const SearchPage = () => {
 
     const navigate = useNavigate();
 
+    const {storageRoomsList, setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
     const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
     const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
     useEffect(() => {
-        getStorageRoomData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (!storageRoomsList){
+            getStorageRoomData();
+        } else {
+            const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId)
+            setTagList(storageRoom.config.tagsList); // in getStorageRoomData is also done
+        }
+        
+
     }, [])
     
     useEffect(() => {
@@ -52,15 +58,19 @@ const SearchPage = () => {
         
     }, [searchParams]);
 
-
-    // Get storage room info
     const getStorageRoomData = async () => {
-        
         try {
-            let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-            setTagList(storageRoomInfo.config.tagsList);
+            const response = await apiGetStorageRoomsList();
+            setStorageRoomsList(response.storageRoomsList);
+            setStorageRoomsAccessList(response.storageRoomsAccessList);
+            const storageRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storageRoom){
+                await handleError({response: {status: 403}}, t('locale'), navigate);
+            }
+            setTagList(storageRoom?.config?.tagsList);
+            setIsLoading(false);
         } catch (err) {
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
     }
 
@@ -93,60 +103,49 @@ const SearchPage = () => {
 
         } catch (err) {
             console.log(err);
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
     };
 
-    const loadMoreItems = async () => {
+    const loadMoreItems = async (auxResults) => {
         setIsLoading(true);
+        // console.log(results)
+        auxResults??=results; // Update if aux results is null
         try {
 
-            let lastEvaluatedItem = results.at(-1); // Last item loadedd from backend
+            let lastEvaluatedItem = auxResults.at(-1); // Last item loadedd from backend
             let lastEvaluatedKey = {
                 storageRoomId: lastEvaluatedItem.storageRoomId,
                 itemId: lastEvaluatedItem.itemId
             };
-            console.log(queryParams)
             let urlArgsWithKey = `${queryParams}&lastEvaluatedKey=${encodeURIComponent(JSON.stringify(lastEvaluatedKey))}`;
-            console.log(urlArgsWithKey)
             const [data, ] = await apiSearchItems(storageRoomId, urlArgsWithKey);
-            console.log(data)
-            setResults([...results, ...data]);
-            console.log([...results, ...data])
+            setResults([...auxResults, ...data]);
             setIsLoading(false);
         } catch (err) {
             console.log(err);
             setIsLoading(false);
-            await handleError(err);
-        }
-    }
-
-    // To handle error depending on http error code
-    const handleError = async (err) => {
-        if (err.code === 'ERR_NETWORK') {
-            Swal.fire(messagesObj[t('locale')].networkError);
-            navigate('/login')
-        } else if (err.response.status === 401) {
-            Swal.fire(messagesObj[t('locale')].sessionError)
-            await logout();
-            navigate('/login')
-        } else if ( err.response.status === 403) {  // Access denied
-            Swal.fire(messagesObj[t('locale')].accessDeniedError)
-            navigate('/home')
-        } else if (err.response.status === 404 ) { // Item not found
-            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-            navigate('/home')
-        } else if (err.response.status === 500) {
-            Swal.fire(messagesObj[t('locale')].unexpectedError)
-            await logout();
-            navigate('/login')
+            await handleError(err, t('locale'), navigate);
         }
     }
 
     // Remove deleted item
     const removeItemFromList = (itemId) => {
-        setResults(results.filter(item => item.itemId !== itemId));
+        const auxResult = results.filter(item => item.itemId !== itemId);
+        setResults(auxResult);
         setNumItems(numItems - 1);
+        
+        //if there are no more items in that page, decrease one
+        if (currentPage > 0 && auxResult.slice(startIndex, startIndex + itemsPerPage).length === 0){
+            decreasePage();
+        }
+
+        // Load more items to have 5 by page
+        if (auxResult.length !== numItems - 1) { // If there are more items
+            loadMoreItems(auxResult);
+        }
+
+        setTotalPages(Math.ceil((numItems - 1) / itemsPerPage));
     }
 
     // Display increase page

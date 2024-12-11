@@ -1,4 +1,4 @@
-const messagesObj = {
+export const messagesObj = {
     es: {
         newItemSuccess: {
             title: 'Elemento creado',
@@ -84,6 +84,16 @@ const messagesObj = {
         storageRoomCreated: {
             title: "Storage room created",
             icon: "success"
+        },
+        deleteStorageRoomConfirmation: {
+            title: "¿Estás seguro?",
+            text: "Una vez eliminado no podrá ser !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e32e36',
+            cancelButtonColor: '#1b263b',
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel"
         }
     },
     en: {
@@ -119,7 +129,7 @@ const messagesObj = {
         },
         deleteItemConfirmation: {
             title: "Are you sure?",
-            text: "Once deleted you It can't be recovered!",
+            text: "Once deleted it can't be recovered!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#e32e36',
@@ -171,8 +181,37 @@ const messagesObj = {
         storageRoomCreated: {
             title: "Trastero creado",
             icon: "success"
-        }
+        },
+        deleteStorageRoomConfirmation: {
+            title: "Are you sure?",
+            text: "Once deleted it can't be recovered!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e32e36',
+            cancelButtonColor: '#1b263b',
+            confirmButtonText: "Delete",
+            cancelButtonText: "Cancel"
+
+        },
     } 
 
+};
+
+export const getDeleteStorageRoomConfirmationMsg = (locale, numItems) => {
+    let msg = {
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e32e36',
+        cancelButtonColor: '#1b263b',
+        confirmButtonText: "Delete",
+        cancelButtonText: "Cancel"
+    };
+    if (locale === 'en') {
+        msg.title = "Are you really sure?";
+        msg.text = `${numItems} item${numItems > 1 ? 's' : ''} will be completly deleted`
+    } else if (locale === 'es') {
+        msg.title = "¿Estás completamente seguro?";
+        msg.text = `${numItems} elemento${numItems > 1 ? 's' : ''} serán completamente eliminados`
+    }
+    return msg
 }
-export default messagesObj;

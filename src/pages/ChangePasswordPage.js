@@ -7,7 +7,7 @@ import SimpleReactValidator from 'simple-react-validator'
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
-import messagesObj from '../schemas/messages';
+import {messagesObj} from '../schemas/messages';
 
 const ChangePasswordPage = () => {
 

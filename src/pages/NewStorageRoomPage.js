@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import messagesObj from '../schemas/messages';
+import {messagesObj} from '../schemas/messages';
 
 import NewStorageRoomNameForm from '../components/NewStorageRoomNameForm';
 import NewStorageRoomTagsForm from '../components/NewStorageRoomTagsForm';
@@ -10,9 +10,11 @@ import NewStorageRoomLocationsForm from '../components/NewStorageRoomLocationsFo
 import NewStorageRoomConfirmation from '../components/NewStorageRoomConfirmation';
 import Pagination from '../components/Pagination';
 import { apiSaveStorageRoom } from '../services/api';
-import { logout } from "../services/logout";
+import handleError from '../services/handleError';
+import AuthContext from '../services/AuthContext';
 
 import { ClipLoader } from 'react-spinners';
+import createOptionList from '../utils/createOptionList';
 
 
 const NewStorageRoomPage = () => {
@@ -25,6 +27,7 @@ const NewStorageRoomPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const {setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
     const { t } = useTranslation('newStorageRoom'); // Load translations from the 'itemForm' namespace
 
     const navigate = useNavigate();
@@ -44,7 +47,7 @@ const NewStorageRoomPage = () => {
         const storageRoom = {
             name: name,
             config: {
-                tagsList: tagsList,
+                tagsList: createOptionList(tagsList),
                 locationObj: locationObj
             }
         };
@@ -52,34 +55,15 @@ const NewStorageRoomPage = () => {
         try {
             await apiSaveStorageRoom(storageRoom);
             Swal.fire(messagesObj[t('locale')].storageRoomCreated);
-            // navigate('/home')
+            // Force to query again storage rooms so the new one appears
+            setStorageRoomsList(null);
+            setStorageRoomsAccessList(null);
+            navigate('/home')
         } catch (err) {
-            // await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
     }
-
-    // To handle error depending on http error code
-    const handleError = async (err) => {
-        if (err.code === 'ERR_NETWORK') {
-            Swal.fire(messagesObj[t('locale')].networkError);
-            navigate('/login')
-        } else if (err.response.status === 401) {
-            Swal.fire(messagesObj[t('locale')].sessionError)
-            await logout();
-            navigate('/login')
-        } else if ( err.response.status === 403) {  // Access denied
-            Swal.fire(messagesObj[t('locale')].accessDeniedError)
-            navigate('/home')
-        } else if (err.response.status === 404 ) { // Item not found
-            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-            navigate('/home')
-        } else if (err.response.status === 500) {
-            Swal.fire(messagesObj[t('locale')].unexpectedError)
-            await logout();
-            navigate('/login')
-        }
-    }
-    
+   
 
     return(
         <div className='center'>

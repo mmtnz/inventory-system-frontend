@@ -6,6 +6,7 @@
 :root {
     --color-theme: #1b263b;
     --color-theme-font: white;
+    --color-delete: #e32e36;
 
     --color-form-border: hsl(0, 0%, 80%);
     --color-form-background: hsl(0, 0%, 100%);
@@ -257,6 +258,15 @@ h1 {
     min-width: 8rem;
     transition: transform 0.1s ease; /* Smooth transition */
 }
+
+.custom-button.es{
+    min-width: 10rem;
+}
+
+.custom-button.delete{
+    background-color: var(--color-delete);
+}
+
 
 .custom-button:disabled{
     opacity: 50%;
@@ -706,6 +716,44 @@ h1 {
     border: solid 1px var(--color-button-delete-color);
     border-radius: 5px;
 } */
+
+/* #################################################### */
+/* STORAGE ROOM LIST*/
+/* #################################################### */
+.storage-room-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.storage-room-list-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.storage-room-card {
+    width: 40%;
+    background-color: #b5c8e1;
+    color: #101520;
+    font-weight: bold;
+    /* color: var(--color-theme-font); */
+    border-radius: 3px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 1rem 1rem 1rem 1rem;
+}
 
 /* #################################################### */
 /* STORAGE ROOM*/

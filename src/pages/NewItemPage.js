@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import AuthContext from '../services/AuthContext';
 import NewItemForm from '../components/NewItemForm';
 import { useTranslation } from 'react-i18next';
-import { getStorageRoomInfo } from '../services/storageRoomInfoService';
+import { apiGetStorageRoomsList } from "../services/api";
 import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import messagesObj from '../schemas/messages';
+import {messagesObj} from '../schemas/messages';
+import handleError from '../services/handleError';
 
 
 const NewItemPage = () => {
@@ -12,31 +14,32 @@ const NewItemPage = () => {
     const [args, setArgs] = useState({tagList: null, locationObj: null});
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     const { storageRoomId } = useParams();
+    const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
 
     const navigate = useNavigate();
     
     useEffect(() => {
-        getStorageRoomData();        
+        if (!storageRoomsList || !storageRoomsAccessList){
+            getStorageRoomData();        
+        } else {
+            const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            setArgs(storageRoom?.config);
+        }
     }, [])
     
-    // Get storage room info
+
     const getStorageRoomData = async () => {
-        
         try {
-            let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-            setArgs(storageRoomInfo.config);
-        } catch (err) {
-            
-            if (err.code === 'ERR_NETWORK') {
-                Swal.fire(messagesObj[t('locale')].networkError);
-                navigate('/login')
-            } else if ( err.response.status === 403) {  // Access denied
-                Swal.fire(messagesObj[t('locale')].accessDeniedError)
-                navigate('/home')
-            } else if (err.response.status === 404 ) { // Item not found
-                Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-                navigate('/home')
+            const response = await apiGetStorageRoomsList();
+            setStorageRoomsList(response.storageRoomsList);
+            setStorageRoomsAccessList(response.storageRoomsAccessList);
+            const storageRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storageRoom){
+                await handleError({response: {status: 403}}, t('locale'), navigate);
             }
+            setArgs(storageRoom?.config);
+        } catch (err) {
+            await handleError(err, t('locale'), navigate);
         }
     }
 

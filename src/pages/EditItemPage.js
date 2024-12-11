@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import AuthContext from '../services/AuthContext';
 import EditItemForm from '../components/EditItemForm';
 import { apiGetItem } from '../services/api';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getStorageRoomInfo } from '../services/storageRoomInfoService';
+import { apiGetStorageRoomsList } from "../services/api";
 import { ClipLoader } from 'react-spinners';
-import { logout } from "../services/logout";
-import Swal from 'sweetalert2';
-import messagesObj from '../schemas/messages';
+import handleError from '../services/handleError';
 
 
 const EditItemPage = () => {
@@ -17,33 +16,46 @@ const EditItemPage = () => {
     const [item, setItem] = useState({});
     const [loading, setLoading] = useState(true);
 
+    const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     useEffect(() => {
-        getStorageRoomData(); // Get item called inside
+        if (!storageRoomsList || !storageRoomsAccessList){
+            getStorageRoomData();        
+        } else {
+            const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            setArgs(storageRoom?.config);
+        }
+        getItemData();
     }, [])
 
     // Get storage room info
     const getStorageRoomData = async () => {
         try {
-            let storageRoomInfo = await getStorageRoomInfo(storageRoomId);
-            setArgs(storageRoomInfo.config);
-
-            // Check if item is passed as state from Item page
-            if (location.state?.item) {
-                setItem(location.state?.item);
-                setLoading(false);
-            } else {
-                getItem();
+            const response = await apiGetStorageRoomsList();
+            setStorageRoomsList(response.storageRoomsList);
+            setStorageRoomsAccessList(response.storageRoomsAccessList);
+            const storageRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storageRoom){
+                await handleError({response: {status: 403}}, t('locale'), navigate);
             }
-            
+            setArgs(storageRoom?.config);
         } catch (err) {
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
     }
 
+    const getItemData = () => {
+        // Check if item is passed as state from Item page
+        if (location.state?.item) {
+            setItem(location.state?.item);
+            setLoading(false);
+        } else {
+            getItem();
+        }
+    }
 
     // GET item info from backend
     const getItem = async () => {
@@ -53,26 +65,8 @@ const EditItemPage = () => {
             setLoading(false);
             
         } catch (err) {
-            await handleError(err);
+            await handleError(err, t('locale'), navigate);
         }
-    }
-
-    // To handle error depending on http error code
-    const handleError = async (err) => {
-        if (err.code === 'ERR_NETWORK') {
-            Swal.fire(messagesObj[t('locale')].networkError);
-            navigate('/login')
-        } else if (err.response.status === 401) {
-            Swal.fire(messagesObj[t('locale')].sessionError)
-            await logout();
-            navigate('/login')
-        } else if ( err.response.status === 403) {  // Access denied
-            Swal.fire(messagesObj[t('locale')].accessDeniedError)
-            navigate('/home')
-        } else if (err.response.status === 404 ) { // Item not found
-            Swal.fire(messagesObj[t('locale')].itemNotFoundError)
-            navigate('/home')
-        } 
     }
 
     if (loading) {
