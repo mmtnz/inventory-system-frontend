@@ -94,6 +94,16 @@ export const messagesObj = {
             cancelButtonColor: '#1b263b',
             confirmButtonText: "Delete",
             cancelButtonText: "Cancel"
+        },
+        deleteStorageRoomNoPermision: {
+            title: 'Error',
+            text: 'Solo el administrador del trastero puede aceder a ajustes',
+            icon: "error"
+        },
+        deleteStorageRoomDeletionSuccess: {
+            title: 'Trastero eliminado',
+            // text: 'Only the admin of the storage room can access to settings',
+            icon: "success"
         }
     },
     en: {
@@ -193,6 +203,16 @@ export const messagesObj = {
             cancelButtonText: "Cancel"
 
         },
+        deleteStorageRoomNoPermision: {
+            title: 'Error',
+            text: 'Only the admin of the storage room can access to settings',
+            icon: "error"
+        },
+        deleteStorageRoomDeletionSuccess: {
+            title: 'Storage room succesfully deleted',
+            // text: 'Only the admin of the storage room can access to settings',
+            icon: "success"
+        }
     } 
 
 };

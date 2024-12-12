@@ -270,12 +270,12 @@ h1 {
 
 .custom-button:disabled{
     opacity: 50%;
-    cursor: auto;
+    cursor: auto;    
 }
 
-.custom-button:active {
+.custom-button:not(:disabled):active {
     transform: scale(0.95); /* Shrink button slightly on click */
-  }
+}
 
 .custom-button-small{
     background-color: var(--color-theme);

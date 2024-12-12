@@ -259,3 +259,14 @@ export const apiDeleteItem = async (storageRoomId, itemId) => {
 };
 
 
+// DELETE delete storageRoom
+export const apiDeleteStorageRoom = async (storageRoomId) => {
+    try {
+        const response = await api.delete(`/storageRoom/${storageRoomId}`)
+        return response
+    } catch (error) {
+        throw error;
+    }
+};
+
+

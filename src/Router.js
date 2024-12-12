@@ -14,6 +14,7 @@ import { AuthProvider } from './services/AuthContext'; // Import the AuthProvide
 import NewStorageRoomPage from "./pages/NewStorageRoomPage";
 import StorageRoomPage from "./pages/StorageRoomPage";
 import StorageRoomSettingsPage from "./pages/StorageRoomSettingsPage";
+import StorageRoomAddUsersPage from "./pages/StorageRoomAddUsersPage";
 
 
 const Router = () => {
@@ -32,6 +33,7 @@ const Router = () => {
                             <Route path ="/home" element={<PrivateRoute element={HomePage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId" element={<PrivateRoute element={StorageRoomPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/settings" element={<PrivateRoute element={StorageRoomSettingsPage} />} />
+                            <Route exact path ="/storageRoom/:storageRoomId/add-users" element={<PrivateRoute element={StorageRoomAddUsersPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/item/:itemId" element={<PrivateRoute element={ItemPage} />} />
                             <Route path= "/storageRoom/:storageRoomId/search" element={<PrivateRoute element={SearchPage} />} />
                             <Route path= "/storageRoom/:storageRoomId/new-item" element={<PrivateRoute element={NewItemPage} />} />
