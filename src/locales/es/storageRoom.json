@@ -8,5 +8,22 @@
     "settings": "Ajustes",
     "edit": "Editar",
     "addUser": "Añadir usuario",
-    "delete": "Elimninar" 
+    "delete": "Elimninar",
+    "invite": "Invitar",
+    "inviteUser": "Invitar Otro Usario...",
+    "update": "Actualizar",
+    "noUsersInvited": "No userios invitados",
+    "emails": "Emails",
+    "email": "Email",
+    "emailNotValid": "Todos los emails deben ser válidos",
+    "addUsers": "Añadir usuarios",
+    "add": "Añadir",
+    "permisionType": "Tipo de permisio",
+    "admin": "Admin",
+    "write": "Escritura",
+    "read": "Lectura",
+    "select": "Seleccionar...",
+    "requiredMessage": "Este campo es obligatorio.",
+    "defaultMessage": "Este campo no es válido.",
+    "emailMessage": "La direccion debe ser válida"
 }

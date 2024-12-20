@@ -10,7 +10,10 @@ const Pagination = ({numSteps, currentStep, setCurrentStep, isNextButtonDisabled
     return (
         <div className='step-buttons-container'>
             <div className='button-container'>
-                <button className='custom-button' disabled={currentStep === 1} onClick={() => {setCurrentStep(currentStep - 1)}}>
+                <button className='custom-button-small' disabled={currentStep === 1} onClick={() => {setCurrentStep(currentStep - 1)}}>
+                    <span className="material-symbols-outlined">
+                        arrow_back
+                    </span>
                     {t('back')}
                 </button>
             </div>
@@ -24,19 +27,23 @@ const Pagination = ({numSteps, currentStep, setCurrentStep, isNextButtonDisabled
                 ))}
             </div>
 
-            {(currentStep < 4) ? (
+            {(currentStep < numSteps) ? (
                 <div className='button-container'>
                     <button
-                        className='custom-button'
+                        className='custom-button-small'
                         onClick={() => {setCurrentStep(currentStep + 1)}}
                         disabled={isNextButtonDisabled}
                     >
-                        {t('next')}
+                        <span className="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+                        
+                        {/* {t('next')} */}
                     </button>
                 </div>
             ): (
                 <div className='button-container'>
-                    <button className='custom-button' onClick={handleSave} disabled={isSaveButtonDisabled}>
+                    <button className='custom-button-small' onClick={handleSave} disabled={isSaveButtonDisabled}>
                         {t('save')}
                     </button>
                 </div>

@@ -8,6 +8,23 @@
     "settings": "Settings",
     "edit": "Edit",
     "addUser": "Add user",
-    "delete": "Delete" 
+    "delete": "Delete",
+    "invite": "Invite",
+    "inviteUser": "Invite Another User...",
+    "update": "Update",
+    "noUsersInvited": "No users invited",
+    "emails": "Emails",
+    "email": "Email",
+    "emailNotValid": "All emails must be valid",
+    "addUsers": "Add users",
+    "add": "Add",
+    "permisionType": "Permision type",
+    "admin": "Admin",
+    "write": "Write",
+    "read": "Read",
+    "select": "Select...",
+    "requiredMessage": "This field is required.",
+    "defaultMessage": "This field is not valid.",
+    "emailMessage": "The email address must be valid"
 
 }

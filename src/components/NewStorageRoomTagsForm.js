@@ -9,10 +9,6 @@ const NewStorageRoomTagsForm = ({tagsList, setTagsList}) => {
     const { t } = useTranslation('newStorageRoom'); // Load translations from the 'itemForm' namespace
  
     const addTag = (event) => {
-        console.log(event)
-        console.log(tagsList)
-        console.log(event[event.length - 1].trim())
-        console.log(event.length > tagsList && event[event.length - 1].trim() !== "")
         if (event.length > tagsList.length && event[event.length - 1].trim() !== ""){ // avoiding empty string or only blank spaces one
             setTagsList(event)
         }  

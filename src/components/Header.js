@@ -63,7 +63,6 @@ const Header = () => {
                 <div className='header-title-container'>
                     <h2>{'Storage room'}</h2>
                 </div>
-                
                 <div className='header-icon-container'>
                     <select
                         id="language-select"

@@ -13,6 +13,7 @@ const StorageRoomPage = () => {
     const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
     const [storageRoom, setStorageRoom] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
   
     const navigate = useNavigate();
     const { t, i18n } = useTranslation('homePage'); // Load translations from the 'home' namespace
@@ -28,6 +29,11 @@ const StorageRoomPage = () => {
             setIsLoading(false);
         }
     }, []);
+
+    useEffect(() => {
+        const permisionType = storageRoomsAccessList?.find(permission => permission.storageRoomId === storageRoomId).permisionType
+        setIsAdmin(permisionType === 'admin')
+    }, [storageRoom])
 
     // Get a list with all the storage rooms the user has access and another one with the permission
     const getStorageRoomsList = async () => {
@@ -58,7 +64,7 @@ const StorageRoomPage = () => {
     }
 
     const goToSettings = () => {
-        navigate(`/storageRoom/${storageRoomId}/new-item`);
+        navigate(`/storageRoom/${storageRoomId}/settings`);
     }
 
 
@@ -93,7 +99,7 @@ const StorageRoomPage = () => {
                         {t('newItemButton')}
                     </button>
 
-                    <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToSettings} disabled={true}>
+                    <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToSettings} disabled={!isAdmin}>
                         <span className="material-symbols-outlined">
                             settings
                         </span>
