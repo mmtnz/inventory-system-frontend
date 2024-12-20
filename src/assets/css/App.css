@@ -331,6 +331,9 @@ h1 {
     font-size: 1rem;
 }
 
+.custom-button-small.es{
+    min-width: 7rem;
+}
 
 .custom-button-small:disabled{
     opacity: 50%;
@@ -805,12 +808,20 @@ h1 {
 /* STORAGE ROOM*/
 /* #################################################### */
 
+.storage-room-confirmation{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .storage-room-data {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 1rem;
-    width: 100%;
+    width: 40%;
     margin-top: 10px;
     margin-left: 20px
 }
@@ -1328,17 +1339,31 @@ form .react-select__option--is-selected {
 /* ######### PAGINATION ############### */
 /* #################################### */
 
+.pagination {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto; /* Pushes this child to the bottom */
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
 .step-buttons-container{
     display: flex;
-    margin-top: auto; /* Pushes this child to the bottom */
+    gap: 1rem;
+    width: 50%;
+    justify-content: space-between;
 }
 
 .pagination-bars-container {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     display: flex;
+    flex-direction: row;
     width: 100%;
     gap: 0.5rem;
     align-items: center;
+    justify-content: center;
 }
 
 .pagination-bar {
@@ -1351,6 +1376,13 @@ form .react-select__option--is-selected {
 
 .pagination-bar.active {
     background-color: var(--color-theme);
+}
+
+.pagination-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 /* #################################### */
@@ -1602,6 +1634,18 @@ form .react-select__option--is-selected {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+
+    /*PAGINATION*/
+    .step-buttons-container{
+        gap: 1rem;
+        width: 80%;
+    }
+
+    /*STORAGE ROOM*/
+    .storage-room-data {
+        width: 80%;
     }
 
 

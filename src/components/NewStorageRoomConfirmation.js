@@ -13,7 +13,7 @@ const NewStorageRoomConfirmation = ({name, tagsList, locationObj}) => {
     const locationTree = createLocationTree(locationObj);
 
     return(
-        <div className='center'>
+        <div className='storage-room-confirmation'>
 
             <div className="storage-room-data">
                 <div className="storage-room-data-group">
