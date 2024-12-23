@@ -25,6 +25,7 @@
     "select": "Select...",
     "requiredMessage": "This field is required.",
     "defaultMessage": "This field is not valid.",
-    "emailMessage": "The email address must be valid"
+    "emailMessage": "The email address must be valid",
+    "inviteAnotherUser": "Invite Another User..."
 
 }

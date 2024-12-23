@@ -25,5 +25,6 @@
     "select": "Seleccionar...",
     "requiredMessage": "Este campo es obligatorio.",
     "defaultMessage": "Este campo no es válido.",
-    "emailMessage": "La direccion debe ser válida"
+    "emailMessage": "La direccion debe ser válida",
+    "inviteAnotherUser": "Invitar a otro usuario..."
 }

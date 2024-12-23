@@ -6,27 +6,29 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import handleError from '../services/handleError';
 import { ClipLoader } from 'react-spinners';
-import { apiGetStorageRoomsList, apiSearchItems } from '../services/api';
+import { apiAddUsers, apiGetInvitations, apiGetStorageRoomsList, apiSearchItems } from '../services/api';
 import Swal from "sweetalert2";
 import {messagesObj, getDeleteStorageRoomConfirmationMsg} from "../schemas/messages";
-import TagsInput from '../components/TagsInput';
-import AddUserModal from '../components/AddUserModal';
 import UserInvitation from '../components/UserInvitation';
+import AddUserModal from '../components/AddUserModal';
 
 const StorageRoomAddUsersPage = () => {
   
 
-    const [emailsList, setEmailsList] = useState([]);
     const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
     const [storageRoom, setStorageRoom] = useState(null);
     const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
 
     const [usersList, setUsersList] = useState([]);
-    // const [userData, setUserData] = useState(null)
+    const [userEmail, setUserEmail] = useState([]);
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
+
+    const [invitationsList, setInvitationsList] = useState(null);
+    const [invitationsToDelete, setInvitationsToDelete] = useState(null);
+    const [invitationsToEdit, setInvitationsToEdit] = useState(null);
 
     const { t, i18n } = useTranslation('storageRoom'); // Load translations from the 'home' namespace
 
@@ -41,12 +43,26 @@ const StorageRoomAddUsersPage = () => {
             if (!storRoom) {
                 handleError({response: {status: 404}}, t('locale'), navigate);
             } else {
-                setStorageRoom(storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId));
-                setIsLoading(false);           
+                setStorageRoom(storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId));       
             }
     
         }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (storageRoom) {
+            getInvitations();
+        }
+    }, [storageRoom]);
+
+    const getInvitations = async () => {
+        const [invitationsList, email] = await apiGetInvitations(storageRoomId);
+        setInvitationsList(invitationsList);
+        setUserEmail(email)
+        setIsLoading(false);
+    }
+    
+     
 
     const getStorageRoomData = async () => {
         try {
@@ -68,37 +84,42 @@ const StorageRoomAddUsersPage = () => {
                         }
                     }
                 );
-            } else {
-                setIsLoading(false);
             }
-
         } catch (err) {
             await handleError(err, t('locale'), navigate);
         }
     }
 
-    const validateEmails = () => {
-        return emailsList.every((email) => validator.check(email, 'email'));
-    };
-
-    const handleInviteUsers = () => {
-        if (validateEmails()) {
-            alert('Invite people');
-            setIsError(false);
-        } else {
-            setIsError(true);
+    const handleInviteUsers = async () => {
+        try {
+            await apiAddUsers(storageRoomId, usersList);
+        } catch (err) {
+            console.log(err)
+            // handleError(err, t('locale'), navigate);
         }
+        
     }
 
-    const removeInvitation = (userId) => {
-        setUsersList(usersList.filter(user => user.id !== userId))
+    const removeInvitation = (invitationId) => {
+        const itemToDelete = invitationsList.find(user => user.invitationId === invitationId);
+
+        setInvitationsList(invitationsList.filter(user => user.invitationId !== invitationId));
+        setInvitationsToDelete([...invitationsToDelete || [], itemToDelete]);
+        console.log([...invitationsToDelete || [], itemToDelete])
     }
 
-    const editInvitation = (userId) => {
-        let auxUser = usersList.find(user => user.id === userId);
-        console.log(userId)
-        console.log(auxUser)
-        console.log(usersList)
+    const removeNewInvitation = (invitationId) => {
+        setUsersList(usersList.filter(user => user.id !== invitationId))
+    }
+
+    const editInvitation = (invitationId) => {
+        let auxUser = usersList.find(user => user.invitationId === invitationId);
+        setUserToEdit({...auxUser});
+        setModalIsOpen(true);
+    }
+
+    const editNewInvitation = (invitationId) => {
+        let auxUser = usersList.find(user => user.invitationId === invitationId);
         setUserToEdit({...auxUser});
         setModalIsOpen(true);
     }
@@ -115,8 +136,7 @@ const StorageRoomAddUsersPage = () => {
         <div className='center'>
             <section className='content'>
                 <h1 className='margin-bottom-0'>{t('addUsers')}</h1>
-                <h3>{storageRoom.name}</h3>
-                
+                <h3>{storageRoom.name}</h3>                
 
                 <AddUserModal 
                     modalIsOpen={modalIsOpen}
@@ -129,16 +149,29 @@ const StorageRoomAddUsersPage = () => {
 
                 
                 <div className='user-list-container'>
+                        {/* Already invited users */}
+                        {invitationsList?.map(invitation => (
+                            <UserInvitation
+                                key={invitation.invitationId}
+                                user={invitation}
+                                removeInvitation={removeInvitation}
+                                editInvitation={editInvitation}
+                                userEmail={userEmail}
+                            />
+                        ))}
+
+                        {/* New invitations */}
                         {usersList.map(user => (
                             <UserInvitation
-                                key={user.id}
+                                key={user.invitationId}
                                 user={user}
-                                removeInvitation={removeInvitation}
+                                removeInvitation={removeNewInvitation}
                                 editInvitation={editInvitation}
                             />
                         ))}
+
                         <div className='add-user-item' onClick={() => {setModalIsOpen(true)}}>
-                            Invite Another User...
+                            {t('inviteAnotherUser')}
                         </div>
 
                 </div>

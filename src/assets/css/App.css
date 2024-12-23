@@ -1068,6 +1068,14 @@ h1 {
 
 }
 
+.invitation-you-container {
+    background-color: #415a77;
+    border-radius: 15px;
+    margin-right: 0.5rem;
+    padding: 0.2rem 0.6rem 0.3rem 0.6rem;
+}
+
+
 .invitation-button-container {
     display: flex;
     flex-direction: row;
@@ -1629,6 +1637,11 @@ form .react-select__option--is-selected {
         gap: 1rem;
     }
 
+    .add-user-item{
+        width: 90%;
+        gap: 1rem;
+    }
+
     .user-list-email{
         /* max-width: 30%; */
         white-space: nowrap;
@@ -1648,6 +1661,10 @@ form .react-select__option--is-selected {
         width: 80%;
     }
 
+    /* STORAGE ROOM LIST*/
+    .storage-room-card {
+        width: 80%;
+    }
 
 
 

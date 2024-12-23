@@ -4,6 +4,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal}) => {
@@ -22,6 +23,7 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
             email: t('emailMessage')
         }
     }));
+    const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
     const permisionTypeOptions = [
         {label: t('admin'), value: "admin"},
@@ -68,7 +70,8 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
         setUsersList([
             ...usersList,
             {
-                id:  uuidv4(), // Create id so it has a reference to be edited
+                storageRoomId: storageRoomId,
+                invitationId:  uuidv4(), // Create id so it has a reference to be edited
                 email: email,
                 permisionType: permisionType.value
             }

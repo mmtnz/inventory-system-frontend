@@ -149,6 +149,17 @@ export const apiGetStorageRoomInfo = async (storageRoomId) => {
     }
 }
 
+// GET invitations
+export const apiGetInvitations = async (storageRoomId) => {
+    try {
+        const response = await api.get(`/storageRoom/${storageRoomId}/users`)
+        return [response.data.invitations, response.data.email]
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
 // POST
 export const apiSaveStorageRoom = async (storageRoom) => {
     try {
@@ -180,13 +191,6 @@ export const apiUploadImage = async (storageRoomId, itemId, fileExtension) => {
                 fileExtension: fileExtension
             }
         );
-        // const response = await api.post(
-        //     `/storageRoom/${storageRoomId}/item/${itemId}/image`,
-        //     formData,
-        //     {
-        //         headers: {'Content-Type': 'multipart/form-data'},
-        //     }
-        // );
         return response
     } catch (error) {
         throw error;
@@ -203,6 +207,18 @@ export const apiSaveItem = async (item, storageRoomId) => {
         throw error;
     }
 };
+
+// POST
+export const apiAddUsers = async (storageRoomId, invitations) => {
+    try {
+        await api.post(
+            `storageRoom/${storageRoomId}/add-users`,
+            {invitations: invitations}
+        )
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 // PUT edit item

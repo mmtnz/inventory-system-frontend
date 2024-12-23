@@ -81,7 +81,7 @@ const StorageRoomPage = () => {
         <div className='center'>
             <section className='content'>
                 {/* <h2>{storageRoom?.label}</h2>   */}
-                <h1>{storageRoom.name}</h1>  
+                <h2 className='margin-top-3rem'>{storageRoom.name}</h2>  
         
                 <div className='option-button-container'>
                     <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToSearch}>
