@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TagsInput from './TagsInput';
+import InfoModal from './InfoModal';
 
 
 
 const NewStorageRoomTagsForm = ({tagsList, setTagsList}) => {
 
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
     const { t } = useTranslation('newStorageRoom'); // Load translations from the 'itemForm' namespace
  
     const addTag = (event) => {
@@ -21,10 +23,29 @@ const NewStorageRoomTagsForm = ({tagsList, setTagsList}) => {
                 // onChange={changeState}
             >
                 <div className="formGroup">
-                    <label htmlFor='tags'>{t('tags')}</label>
+                    <div className='label-container'>
+                        <label htmlFor='tags'>
+                            {t('tags')}
+                            
+                        </label>
+                        <div
+                            className='label-icon-container'
+                            onClick={() => {setIsInfoOpen(true)}}
+                        >
+                            <span className="material-symbols-outlined">
+                                help
+                            </span>
+                        </div>
+                    </div>
                     <TagsInput tagsList={tagsList} setTagsList={addTag}/>
                 </div>
             </form>
+
+            <InfoModal
+                modalIsOpen={isInfoOpen}
+                setModalIsOpen={setIsInfoOpen}
+                text={t('tagsInfo')}
+            />
     </div>
     )
     

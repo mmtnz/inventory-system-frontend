@@ -24,10 +24,11 @@ const StorageRoomAddUsersPage = () => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isUpdateLoading, setIsUpdateLoading] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
 
     const [invitationsList, setInvitationsList] = useState(null);
-    const [invitationsToDelete, setInvitationsToDelete] = useState(null);
+    const [invitationsToDelete, setInvitationsToDelete] = useState([]);
     const [invitationsToEdit, setInvitationsToEdit] = useState(null);
 
     const { t, i18n } = useTranslation('storageRoom'); // Load translations from the 'home' namespace
@@ -91,12 +92,23 @@ const StorageRoomAddUsersPage = () => {
     }
 
     const handleInviteUsers = async () => {
+        setIsUpdateLoading(true);
         try {
-            await apiAddUsers(storageRoomId, usersList);
+            await apiAddUsers(storageRoomId,
+                {
+                    newInvitationsList: usersList,
+                    removeInvitationsList: invitationsToDelete
+                }
+            );
+            setInvitationsList([...invitationsList, ...usersList]);
+            setUsersList([])
+            setInvitationsToDelete([]); 
         } catch (err) {
             console.log(err)
+            
             // handleError(err, t('locale'), navigate);
         }
+        setIsUpdateLoading(false);
         
     }
 
@@ -150,6 +162,14 @@ const StorageRoomAddUsersPage = () => {
                 
                 <div className='user-list-container'>
                         {/* Already invited users */}
+                        <UserInvitation
+                            key={userEmail}
+                            user={{email: userEmail, permisionType: 'admin'}}
+                            isAdmin={true}
+                            removeInvitation={removeInvitation}
+                            editInvitation={editInvitation}
+                            type={'admin'}
+                        />
                         {invitationsList?.map(invitation => (
                             <UserInvitation
                                 key={invitation.invitationId}
@@ -167,6 +187,7 @@ const StorageRoomAddUsersPage = () => {
                                 user={user}
                                 removeInvitation={removeNewInvitation}
                                 editInvitation={editInvitation}
+                                type={'new'}
                             />
                         ))}
 
@@ -181,13 +202,17 @@ const StorageRoomAddUsersPage = () => {
                     <button
                         className="custom-button"
                         onClick={handleInviteUsers}
-                        disabled={usersList?.length <= 0}
+                        disabled={usersList?.length <= 0 && invitationsToDelete?.length <= 0}
                     >
                         <span className="material-symbols-outlined">
                             person_add
                         </span>
                         {t('update')}
                     </button>
+                </div>
+
+                <div className="loader-clip-container">
+                    <ClipLoader className="custom-spinner-clip" loading={isUpdateLoading} />
                 </div>
             </section>      
         </div>

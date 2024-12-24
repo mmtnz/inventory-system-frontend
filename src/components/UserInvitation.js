@@ -1,15 +1,15 @@
 import React from 'react';
 
 
-const UserInvitation = ({user, removeInvitation, editInvitation, userEmail}) => {
+const UserInvitation = ({user, removeInvitation, editInvitation, isAdmin, type}) => {
   
 
   return (
-    <div className='user-list-item'>
+    <div className={`user-list-item ${type}`}>
         <div className='user-list-email' title={user.email}>{user.email}</div>
         <div>{user.permisionType}</div>
         
-        {(userEmail && userEmail === user.email) ? (
+        {(isAdmin) ? (
           <div className='invitation-you-container'>you</div>
         ) : (
           <div className='invitation-button-container'>

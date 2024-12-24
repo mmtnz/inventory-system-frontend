@@ -1018,6 +1018,77 @@ h1 {
     row-gap: 1.5rem;
 }
 
+/* #################################################### */
+/* INFO MODAL*/
+/* #################################################### */
+.info-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding-bottom: 20px;
+    border-radius: 4px;
+    width: 25vw;
+    min-height: 30vh;
+    text-align: center;
+}
+
+.info-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-modal-header{
+
+    background-color: #0d1b2a;
+    color: white;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    /* align-items: space-between; */
+    justify-content: flex-end; /* Align the close button to the right */
+    /* justify-content: center; */
+    border-radius: 4px 4px 0 0;
+    position: relative; /* Needed to position the title absolutely */ 
+}
+
+.info-modal-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    font-size: 1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+
+.info-modal-content-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-modal-content {
+    margin-top: 2rem;
+    color: black;
+    width: 80%;
+    text-align: left;
+}
+
 /* ############################################### */
 /* ADD USERS */
 /* ############################################### */
@@ -1047,15 +1118,24 @@ h1 {
     justify-content: flex-end;
     align-items: center;
     gap: 2.5rem;
-    background-color: #7294bb;
+    background-color: #8eaed3;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
     border-radius: 3px;
 }
 
+.user-list-item.admin{
+    /* background-color: rgb(114, 187, 169) ; */
+    border: 2px solid #38495c;;
+}
+
+.user-list-item.new{
+    background-color: #507196 ;
+}
+
 .add-user-item{
     width: 60%;
-    background-color: #7294bb;
+    background-color: #8eaed3;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
     border-radius: 3px;
@@ -1166,6 +1246,31 @@ h1 {
     align-items: flex-start;
     row-gap: 9px;
 }
+
+.label-container{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.label-icon-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    /* height: 100%; */
+    cursor: pointer;
+    /* height: auto; */
+}
+
+.label-icon-container .material-symbols-outlined{
+    color: black;
+    font-size: 1.3rem;
+}
+
+
 
 input[type="text"], textarea, input[type="file"],
 input[type="email"], input[type="password"],
@@ -1631,6 +1736,12 @@ form .react-select__option--is-selected {
         font-size: 0.9rem;
     }
 
+    /*INFO MODAL*/
+    .info-modal {
+        width: 78vw;
+        min-height: 30vh;
+    }
+
     /* ADD USERS */
     .user-list-item {
         width: 90%;
@@ -1683,10 +1794,11 @@ form .react-select__option--is-selected {
 @media (max-width: 390px){
     .custom-button{
         min-width: 55%;
+        padding: 0.5rem 0.7rem 0.5rem 0.7rem;
     }
 
     .custom-button.es{
-        min-width: 10rem;
+        /* min-width: 62%; */
     }
 }
 

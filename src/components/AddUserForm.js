@@ -26,7 +26,7 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
     const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
     const permisionTypeOptions = [
-        {label: t('admin'), value: "admin"},
+        // {label: t('admin'), value: "admin"},
         {label: t('write'), value: "write"},
         {label: t('read'), value: "read"},
     ]

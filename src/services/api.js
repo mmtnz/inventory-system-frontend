@@ -209,11 +209,11 @@ export const apiSaveItem = async (item, storageRoomId) => {
 };
 
 // POST
-export const apiAddUsers = async (storageRoomId, invitations) => {
+export const apiAddUsers = async (storageRoomId, invitationsObj) => {
     try {
         await api.post(
             `storageRoom/${storageRoomId}/add-users`,
-            {invitations: invitations}
+            {...invitationsObj}
         )
     } catch (error) {
         throw error;

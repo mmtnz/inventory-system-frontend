@@ -3,12 +3,14 @@
     "title": "Nuevo trastero",
     "name": "Nombre",
     "tags": "Etiquetas",
-    "places": "Places",
-    "place": "Place",
-    "locations": "Locations",
-    "location": "Location",
-    "sublocations": "Sublocations",
+    "places": "Lugares",
+    "place": "Lugar",
+    "locations": "Localizaciones",
+    "location": "Localización",
+    "sublocations": "Sublocalizaciones",
     "save": "Guardar",
     "next": "Siguiente",
-    "back": "Atras"
+    "back": "Atras",
+    "tagsInfo": "Crea las etiquetas que quieras usar para clasificar los elementos.\\nEj: deportes, herramientas, musica...",
+    "placesInfo": "Crea los lugares donde pueden estar almacenados los elementos. Se pueden crear hasta tres subniveles:\\n(Lugar/Localización/Sublocalización).\\nEj: Garaje/Armario 1/Balda 2"
 }

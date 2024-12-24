@@ -77,12 +77,12 @@ export const messagesObj = {
             icon: "error"
         },
         passwordUpdated: {
-            title: 'Password updated',
+            title: 'contraseña actualizada',
             // text: 'Password updated',
             icon: "success"
         },
         storageRoomCreated: {
-            title: "Storage room created",
+            title: "Trastero creado",
             icon: "success"
         },
         deleteStorageRoomConfirmation: {
@@ -97,7 +97,7 @@ export const messagesObj = {
         },
         deleteStorageRoomNoPermision: {
             title: 'Error',
-            text: 'Solo el administrador del trastero puede aceder a ajustes',
+            text: 'Solo el administrador del trastero puede acceder a ajustes',
             icon: "error"
         },
         deleteStorageRoomDeletionSuccess: {

@@ -5,6 +5,7 @@ import Select from 'react-select';
 import TagsInput from './TagsInput';
 import { useTranslation } from 'react-i18next';
 import createOptionList from '../utils/createOptionList';
+import InfoModal from './InfoModal';
 
 const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
     
@@ -18,7 +19,7 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
 
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
-
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
 
     const { t, i18n } = useTranslation('newStorageRoom'); // Load translations from the 'newItem' namespace
 
@@ -145,14 +146,37 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
                 className="custom-form"
             >
                 <div className="formGroup">
-                    <label htmlFor='places'>{t('places')}</label>
+                    <div className='label-container'>
+                        <label htmlFor='location'>
+                            {t('places')}
+                        </label>
+                        <div
+                            className='label-icon-container'
+                            onClick={() => {setIsInfoOpen(true)}}
+                        >
+                            <span className="material-symbols-outlined">
+                                help
+                            </span>
+                        </div>
+                    </div>
                     <TagsInput tagsList={placesList} setTagsList={changePlacesList}/>
                 </div>
+
+                <InfoModal
+                    modalIsOpen={isInfoOpen}
+                    setModalIsOpen={setIsInfoOpen}
+                    text={t('placesInfo')}
+                />
 
                 {placesOptionsList.length > 0 && (
                     <>
                     <div className="formGroup">
-                        <label htmlFor='location'>{t('place')}</label>
+                        
+                        <label htmlFor='location'>
+                            {t('place')}
+                        </label>
+                            
+                       
                         <Select
                             // isMulti
                             options={placesOptionsList}
