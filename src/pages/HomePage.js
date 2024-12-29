@@ -1,7 +1,7 @@
 // src/pages/HomePage.js
 import React, { useEffect, useState, useContext } from 'react';
 import AuthContext from '../services/AuthContext';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { apiGetStorageRoomsList } from '../services/api';
 import handleError from '../services/handleError';
@@ -10,7 +10,6 @@ import { ClipLoader } from 'react-spinners';
 
 const HomePage = () => {
   
-    const [storageRoom, setStorageRoom] = useState();
     const {storageRoomsList, setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);

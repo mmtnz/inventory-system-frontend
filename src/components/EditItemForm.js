@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { logout } from "../services/logout";
 import { apiEditItem, apiUploadImage } from '../services/api';
 import {messagesObj} from '../schemas/messages';
 import handleError from '../services/handleError';
@@ -43,7 +42,6 @@ const EditItemForm = ({args, itemArg}) => {
     const [itemSaving, setItemSaving] = useState(false);
 
     const navigate = useNavigate();
-    const locationHook = useLocation();
     const { t, i18n } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     
@@ -65,7 +63,7 @@ const EditItemForm = ({args, itemArg}) => {
         setOtherNamesList(item.otherNamesList ? item.otherNamesList : []); // Just in case item has no otherNamesList as attribute
 
         let [auxPlace, auxLoc, auxSubLoc] = item.location.split('/');
-        console.log(placesList)
+
         setPlace(placesList.find(option => auxPlace.includes(option.value)));
         setLocation(locationObj?.placeObj[auxPlace]?.zonesList?.find(option => auxLoc.includes(option.value)));
         setSubLocation(locationObj?.placeObj[auxPlace]?.selfsObj[auxLoc]?.find(option => auxSubLoc.includes(option.value)));

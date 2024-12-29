@@ -41,7 +41,7 @@ const StorageRoomSettingsPage = () => {
             setStorageRoomsAccessList(response.storageRoomsAccessList);
             setStorageRoom(response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId));
             const storageRoomPermission = response.storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
-            console.log(storageRoomPermission)
+
             if (!storageRoomPermission){
                 await handleError({response: {status: 403}}, t('locale'), navigate);
             }
@@ -75,7 +75,7 @@ const StorageRoomSettingsPage = () => {
     }
     
     const confirmDeletion = async () => {
-        const [_, totalCount] = await apiSearchItems(storageRoomId, "q=&tag=&lent=null");
+        const [, totalCount] = await apiSearchItems(storageRoomId, "q=&tag=&lent=null");
         console.log(`total: ${totalCount}`);
         Swal.fire(getDeleteStorageRoomConfirmationMsg(t('locale'), totalCount)
             ).then((result) => {

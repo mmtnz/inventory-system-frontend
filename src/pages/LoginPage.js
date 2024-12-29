@@ -4,7 +4,7 @@ import {signIn} from '../services/authenticate';
 import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
-import { apiGetStorageRoomsList, apiGetUserInfo } from '../services/api';
+import { apiGetStorageRoomsList } from '../services/api';
 import { ClipLoader } from 'react-spinners';
 
 function LoginPage() {

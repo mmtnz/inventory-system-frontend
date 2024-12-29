@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {signUp} from '../services/createAccount';
-import AuthContext from '../services/AuthContext';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
-import { apiGetStorageRoomsList, apiGetUserInfo } from '../services/api';
 import { ClipLoader } from 'react-spinners';
 
 function SignUpPage() {
@@ -18,10 +16,6 @@ function SignUpPage() {
     const [error, setError] = useState(null);
     const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-
-    const { setUser } = useContext(AuthContext); // Use context to store the user
-    const { setUserAttributes } = useContext(AuthContext); // Use context to store the user attributes
 
     const { t, i18n } = useTranslation('login'); // Load translations from the 'login' namespace
 

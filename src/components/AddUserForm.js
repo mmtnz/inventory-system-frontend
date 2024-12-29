@@ -1,10 +1,9 @@
-import { toHaveDescription } from '@testing-library/jest-dom/matchers';
 import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal, isNew, invitationsToEdit, setInvitationsToEdit, currentUserList}) => {

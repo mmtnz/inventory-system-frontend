@@ -1,10 +1,8 @@
-import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
+import { CognitoUser } from "amazon-cognito-identity-js";
 import userPool from './cognitoConfig';
 
 const signUp = (email, password, name, lastName) => {
-    console.log(`email ${email}`)
-    console.log(`password ${password}`)
-    console.log(`name ${name}`)
+
     return new Promise((resolve, reject) => {
         const attributeList = [
             {

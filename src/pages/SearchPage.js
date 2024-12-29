@@ -6,9 +6,6 @@ import { apiSearchItems, apiGetStorageRoomsList } from "../services/api";
 import ItemWrap from "../components/ItemWrap"
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
-// import { BarLoader } from 'react-spinners';
-import Swal from "sweetalert2";
-import {messagesObj} from "../schemas/messages";
 import handleError from "../services/handleError";
 
 const SearchPage = () => {

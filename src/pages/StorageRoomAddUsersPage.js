@@ -1,14 +1,13 @@
 // src/pages/HomePage.js
 import React, { useEffect, useState, useContext } from 'react';
-import SimpleReactValidator from 'simple-react-validator';
 import AuthContext from '../services/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import handleError from '../services/handleError';
 import { ClipLoader } from 'react-spinners';
-import { apiAddUsers, apiGetInvitations, apiGetStorageRoomsList, apiSearchItems } from '../services/api';
+import { apiAddUsers, apiGetInvitations, apiGetStorageRoomsList } from '../services/api';
 import Swal from "sweetalert2";
-import {messagesObj, getDeleteStorageRoomConfirmationMsg} from "../schemas/messages";
+import {messagesObj} from "../schemas/messages";
 import UserInvitation from '../components/UserInvitation';
 import AddUserModal from '../components/AddUserModal';
 
@@ -32,9 +31,8 @@ const StorageRoomAddUsersPage = () => {
     const [invitationsToDelete, setInvitationsToDelete] = useState([]);
     const [invitationsToEdit, setInvitationsToEdit] = useState([]);
 
-    const { t, i18n } = useTranslation('storageRoom'); // Load translations from the 'home' namespace
+    const { t } = useTranslation('storageRoom'); // Load translations from the 'home' namespace
 
-    const validator = new SimpleReactValidator();
     const navigate = useNavigate();
 
     useEffect(() => {

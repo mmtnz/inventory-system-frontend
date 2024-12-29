@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
 import { apiReturnLent, apiDeleteItem } from "../services/api";
-import { logout } from "../services/logout";
 import handleError from '../services/handleError';
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
@@ -24,7 +23,7 @@ const ItemWrap = ({itemArg, removeItemFromList, permissionType}) => {
   const { storageRoomId } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation('itemWrap'); // Load translations from the 'itemWrap' namespace
-  console.log(permissionType)
+
 
    // Update Moment's locale based on the current language from i18next
   useEffect(() => {

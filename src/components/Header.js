@@ -1,44 +1,17 @@
-import React, {useEffect} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import {useNavigate } from 'react-router-dom';
 import SignOut from './SignOut';
 import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-
-
 
 const Header = () => {
 
     const cognitoUser = userPool.getCurrentUser();
     const navigate = useNavigate();
     const { i18n } = useTranslation();
-    // const { storageRoomId } = useParams();
-    const location = useLocation();
-    const [storageRoomId, setStorageRoomId] = useState();
-      
-
-    useEffect(() => {
-        // Extract storageRoomId from the updated path whenever location changes
-        const match = location.pathname.match(/\/storageRoom\/([^/]+)\//);
-        setStorageRoomId( match ? match[1] : null);
-        
-        console.log("Updated storageRoomId:", storageRoomId);
-    }, [location]);
-
-    // useEffect(() => {
-    //     console.log("Updated storageRoomId:", storageRoomId);
-    // }, [storageRoomId]);
-
-
+    
     const goHome = () => {
-        console.log(`redirijo: ${storageRoomId}`)
-        if (storageRoomId){
-            navigate(`/home?storageRoom=${storageRoomId}`);
-        } else {
-            navigate('/home')
-        }
-        
-        
+        navigate('/home');      
     }
 
     // Function to change the language
@@ -55,9 +28,6 @@ const Header = () => {
                     <span className="material-symbols-outlined" onClick={goHome}>
                         home
                     </span>
-                    {/* <div className='hover-text'>
-                        Home
-                    </div> */}
                 </div>
 
                 <div className='header-title-container'>

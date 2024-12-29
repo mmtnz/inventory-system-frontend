@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {confirmUser, resendConfirmationCode} from '../services/createAccount';
 import { useTranslation } from 'react-i18next';
@@ -13,14 +13,10 @@ function ConfirmEmailPage() {
     const [searchParams] = useSearchParams();
     const email = searchParams.get('email');
     
-   
-
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { t, i18n } = useTranslation('login'); // Load translations from the 'login' namespace
-
-    const [, forceUpdate] = useState('')
+    const { t } = useTranslation('login'); // Load translations from the 'login' namespace
     const navigate = useNavigate();
   
     useEffect(() => {
