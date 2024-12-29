@@ -13,7 +13,8 @@ const StorageRoomPage = () => {
     const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
     const [storageRoom, setStorageRoom] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false);
+    
+    const [permissionType, setPermissionType] = useState(false);
   
     const navigate = useNavigate();
     const { t, i18n } = useTranslation('homePage'); // Load translations from the 'home' namespace
@@ -31,8 +32,7 @@ const StorageRoomPage = () => {
     }, []);
 
     useEffect(() => {
-        const permissionType = storageRoomsAccessList?.find(permission => permission.storageRoomId === storageRoomId).permissionType
-        setIsAdmin(permissionType === 'admin')
+        setPermissionType(storageRoomsAccessList?.find(permission => permission.storageRoomId === storageRoomId).permissionType);
     }, [storageRoom])
 
     // Get a list with all the storage rooms the user has access and another one with the permission
@@ -92,14 +92,22 @@ const StorageRoomPage = () => {
                         {t('searchButton')}
                     </button>
             
-                    <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToNewItem}>
+                    <button
+                        className={`custom-button ${i18n.language === 'es' ? "es" : ""}`}
+                        onClick={goToNewItem}
+                        disabled={permissionType === 'read'}
+                    >
                         <span className="material-symbols-outlined">
                             add
                         </span>
                         {t('newItemButton')}
                     </button>
 
-                    <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToSettings} disabled={!isAdmin}>
+                    <button
+                        className={`custom-button ${i18n.language === 'es' ? "es" : ""}`}
+                        onClick={goToSettings}
+                        disabled={permissionType !== 'admin'}
+                    >
                         <span className="material-symbols-outlined">
                             settings
                         </span>

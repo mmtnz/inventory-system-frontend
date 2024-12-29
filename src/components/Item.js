@@ -1,7 +1,8 @@
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams, useLocation} from "react-router-dom";
+import AuthContext from '../services/AuthContext';
 import { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
 import { logout } from "../services/logout";
-import { useEffect, useState } from "react";
 import handleError from "../services/handleError";
 import defaultImage from "../assets/images/default.png"
 import Swal from 'sweetalert2';
@@ -11,6 +12,8 @@ import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
+import {getLocationString} from '../utils/getLocationString'
+import { apiGetStorageRoomsList } from "../services/api";
 // import { BarLoader } from 'react-spinners';
 
 import Modal from 'react-modal';
@@ -33,8 +36,14 @@ const Item = ({args}) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [storageRoomPermission, setStorageRoomPermission] = useState(null); 
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [, forceUpdate] = useState();
+
+
+
+    const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
 
     const navigate = useNavigate();
     const locationState = useLocation();
@@ -42,8 +51,17 @@ const Item = ({args}) => {
 
 
     useEffect(() => {
-        loadItem();
-        console.log(item) 
+        if (!storageRoomsList || !storageRoomsAccessList){
+            getStorageRoomData();        
+        } else {
+            const storRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            const storRoomPermission = storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storRoom || !storRoomPermission) {
+                handleError({response: {status: 404}}, t('locale'), navigate);
+            }
+            setStorageRoomPermission(storRoomPermission.permissionType);        
+        }
+        loadItem(); 
     }, []);  
 
     // Update Moment's locale based on the current language from i18next
@@ -55,6 +73,23 @@ const Item = ({args}) => {
         }        
     }, [i18n.language]);  // Re-run whenever the language changes
 
+    // Get storage room info
+    const getStorageRoomData = async () => {
+        try {
+            const response = await apiGetStorageRoomsList();
+            setStorageRoomsList(response.storageRoomsList);
+            setStorageRoomsAccessList(response.storageRoomsAccessList);
+            const storRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            const storRoomPermission = response.storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storRoom || !storRoomPermission){
+                await handleError({response: {status: 403}}, t('locale'), navigate);
+            }
+            setStorageRoomPermission(storRoomPermission.permissionType);
+            
+        } catch (err) {
+            await handleError(err, t('locale'), navigate);
+        }
+    }
     
 
     const loadItem = async () => {
@@ -72,8 +107,8 @@ const Item = ({args}) => {
 
             let [auxPlace, auxLoc, auxSubLoc] = data.location.split('/');
             setPlace(locationObj.placesList.find(option => auxPlace.includes(option.value)));
-            setLocation(locationObj.placeObj[auxPlace].zonesList.find(option => auxLoc.includes(option.value)));
-            setSublocation(locationObj.placeObj[auxPlace].selfsObj[auxLoc].find(option => auxSubLoc.includes(option.value)));
+            setLocation(locationObj?.placeObj[auxPlace]?.zonesList?.find(option => auxLoc.includes(option.value)));
+            setSublocation(locationObj?.placeObj[auxPlace]?.selfsObj[auxLoc]?.find(option => auxSubLoc.includes(option.value)));
 
             setIsLoaded(true);
         } catch (err) {
@@ -188,7 +223,7 @@ const Item = ({args}) => {
 
                         <div className="item-data-group">
                             <label>{t('location')}:</label>
-                            <p>{`${place.label} / ${location.label} / ${sublocation.label}`}</p>  
+                            <p>{getLocationString(place.label, location?.label, sublocation?.label)}</p>  
                         </div>
                         
                         <div className="item-data-group">
@@ -215,6 +250,7 @@ const Item = ({args}) => {
                                     <button
                                         className='custom-button-small'
                                         onClick={handleReturnLent}
+                                        disabled={storageRoomPermission === 'read'}
                                     >
                                         <span className="material-symbols-outlined">
                                             assignment_return                                            
@@ -260,13 +296,13 @@ const Item = ({args}) => {
                 </div>
 
                 <div className="item-button-container">
-                    <button className='custom-button' onClick={goToEdit} disabled={isLoading}>
+                    <button className='custom-button' onClick={goToEdit} disabled={isLoading || storageRoomPermission === 'read'}>
                         <span className="material-symbols-outlined">
                             edit
                         </span>
                         {t('editButton')}
                     </button>
-                    <button className='custom-button' onClick={handleDelete} disabled={isLoading}>
+                    <button className='custom-button' onClick={handleDelete} disabled={isLoading || storageRoomPermission === 'read'}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>

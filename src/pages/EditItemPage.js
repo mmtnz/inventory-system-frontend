@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { apiGetStorageRoomsList } from "../services/api";
 import { ClipLoader } from 'react-spinners';
 import handleError from '../services/handleError';
+import Swal from 'sweetalert2';
+import {messagesObj} from '../schemas/messages';
 
 
 const EditItemPage = () => {
@@ -25,8 +27,15 @@ const EditItemPage = () => {
         if (!storageRoomsList || !storageRoomsAccessList){
             getStorageRoomData();        
         } else {
-            const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
-            setArgs(storageRoom?.config);
+            const storRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            const storageRoomPermission = storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storRoom || !storageRoomPermission) {
+                handleError({response: {status: 404}}, t('locale'), navigate);
+            } else {
+                const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+                setArgs(storageRoom?.config);           
+            }
+            
         }
         getItemData();
     }, [])
@@ -38,10 +47,21 @@ const EditItemPage = () => {
             setStorageRoomsList(response.storageRoomsList);
             setStorageRoomsAccessList(response.storageRoomsAccessList);
             const storageRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
-            if (!storageRoom){
+            const storageRoomPermission = response.storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storageRoom || !storageRoomPermission){
                 await handleError({response: {status: 403}}, t('locale'), navigate);
             }
+            if (storageRoomPermission?.permissionType === 'read'){
+                Swal.fire(messagesObj[t('locale')].readOnlyPermission)
+                    .then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
+                            navigate(`/storageRoom/${storageRoomId}`);
+                        }
+                    }
+                );
+            }
             setArgs(storageRoom?.config);
+
         } catch (err) {
             await handleError(err, t('locale'), navigate);
         }
@@ -51,19 +71,17 @@ const EditItemPage = () => {
         // Check if item is passed as state from Item page
         if (location.state?.item) {
             setItem(location.state?.item);
-            setLoading(false);
         } else {
             getItem();
         }
+        setLoading(false);
     }
 
     // GET item info from backend
     const getItem = async () => {
         try {
             const data = await apiGetItem(storageRoomId, itemId);
-            setItem(data);
-            setLoading(false);
-            
+            setItem(data);           
         } catch (err) {
             await handleError(err, t('locale'), navigate);
         }

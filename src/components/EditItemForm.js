@@ -20,7 +20,7 @@ const EditItemForm = ({args, itemArg}) => {
 
     const tagsList = args.tagsList;
     const locationObj = args.locationObj;
-    const placesList = locationObj != null ?  locationObj.placesList : null;
+    const placesList = locationObj != null ?  locationObj?.placesList : null;
 
     const [place, setPlace] = useState(null);
     const [location, setLocation] = useState(null);
@@ -65,9 +65,10 @@ const EditItemForm = ({args, itemArg}) => {
         setOtherNamesList(item.otherNamesList ? item.otherNamesList : []); // Just in case item has no otherNamesList as attribute
 
         let [auxPlace, auxLoc, auxSubLoc] = item.location.split('/');
+        console.log(placesList)
         setPlace(placesList.find(option => auxPlace.includes(option.value)));
-        setLocation(locationObj.placeObj[auxPlace].zonesList.find(option => auxLoc.includes(option.value)));
-        setSubLocation(locationObj.placeObj[auxPlace].selfsObj[auxLoc].find(option => auxSubLoc.includes(option.value)));
+        setLocation(locationObj?.placeObj[auxPlace]?.zonesList?.find(option => auxLoc.includes(option.value)));
+        setSubLocation(locationObj?.placeObj[auxPlace]?.selfsObj[auxLoc]?.find(option => auxSubLoc.includes(option.value)));
         setLoading(false);
 
         if (isLent && item.isLent != null){
@@ -158,11 +159,15 @@ const EditItemForm = ({args, itemArg}) => {
         setPlace(e);
         setLocation(null);
         setSubLocation(null);
+         //just in case there are no locations
+         setItem({...item, location: e.value + "//"})
     }
 
     const changeLocation = (e) => {
         setLocation(e);
         setSubLocation(null);
+        //Just in case there are no sublocations
+        setItem({...item, location: place.value + "/" + (e?.value || '') + "/"})
     }
 
     const changeSublocation = (e) => {
@@ -261,18 +266,20 @@ const EditItemForm = ({args, itemArg}) => {
                 </div>
 
                 {/* TAGS */}
-                <div className="formGroup">
-                    <label htmlFor='tags'>{t('tags')}</label>
-                    <Select
-                        isMulti
-                        options={tagsList}
-                        onChange={updateTagsList}
-                        isLoading={!tagsList}
-                        value={selectedTags}
-                        placeholder={t('select')}
-                        classNamePrefix="react-select" // Apply custom prefix
-                    />
-                </div>
+                {(tagsList && tagsList.length > 0) && (     
+                    <div className="formGroup">
+                        <label htmlFor='tags'>{t('tags')}</label>
+                        <Select
+                            isMulti
+                            options={tagsList}
+                            onChange={updateTagsList}
+                            isLoading={!tagsList}
+                            value={selectedTags}
+                            placeholder={t('select')}
+                            classNamePrefix="react-select" // Apply custom prefix
+                        />
+                    </div>
+                )}
 
                 {/* LOCATION */}
                 <div className="formGroup">
@@ -285,7 +292,9 @@ const EditItemForm = ({args, itemArg}) => {
                         classNamePrefix="react-select" // Apply custom prefix
                     />
                     {validator.message('place', place, 'required')}
-                    {place && 
+
+                    {(place && locationObj.placeObj[place.value]?.zonesList) && 
+                        <>
                         <Select
                             options={locationObj.placeObj[place.value].zonesList}
                             onChange={changeLocation}
@@ -293,29 +302,24 @@ const EditItemForm = ({args, itemArg}) => {
                             placeholder={t('select')}
                             classNamePrefix="react-select" // Apply custom prefix
                         />
+                        {validator.message('location', location, 'required')}
+                        </>
                     }
-                    {place &&
-                        <div>
-                            {validator.message('location', location, 'required')}
-                        </div>
-                    }
+                                       
                     
-                    
-                    {(location && place) && 
+                    {((location && place) && locationObj?.placeObj[place.value]?.selfsObj[location.value]) &&
+                        <>
                         <Select
                             options={locationObj.placeObj[place.value].selfsObj[location.value]}
                             onChange={changeSublocation}
                             value={sublocation}
                             placeholder={t('select')}
                             classNamePrefix="react-select" // Apply custom prefix  
-                        />                   
+                        /> 
+                        {validator.message('sublocation', sublocation, 'required')}
+                        </>                  
                     }
-                    {(location && place) && 
-                        <div>
-                            {validator.message('sublocation', sublocation, 'required')}
-                        </div>
-                    }
-                        
+                                            
                 </div>
 
                 {/* DESCRIPTION */}

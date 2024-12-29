@@ -100,6 +100,11 @@ export const messagesObj = {
             text: 'Solo el administrador del trastero puede acceder a ajustes',
             icon: "error"
         },
+        readOnlyPermission: {
+            title: 'Error',
+            text: 'Solo tienes permisos de lectura',
+            icon: "error"
+        },
         deleteStorageRoomDeletionSuccess: {
             title: 'Trastero eliminado',
             // text: 'Only the admin of the storage room can access to settings',
@@ -215,6 +220,11 @@ export const messagesObj = {
         deleteStorageRoomNoPermission: {
             title: 'Error',
             text: 'Only the admin of the storage room can access to settings',
+            icon: "error"
+        },
+        readOnlyPermission: {
+            title: 'Error',
+            text: 'You only have reading permission',
             icon: "error"
         },
         deleteStorageRoomDeletionSuccess: {

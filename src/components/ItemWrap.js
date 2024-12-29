@@ -14,7 +14,7 @@ import { ClipLoader } from 'react-spinners';
 
 import { useTranslation } from 'react-i18next';
 
-const ItemWrap = ({itemArg, removeItemFromList}) => {
+const ItemWrap = ({itemArg, removeItemFromList, permissionType}) => {
 
   const [item, setItem] = useState(itemArg);
   const [lentName, lentDate] = item.isLent != null ? item.isLent.split('/') : [null, null]
@@ -24,6 +24,7 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
   const { storageRoomId } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation('itemWrap'); // Load translations from the 'itemWrap' namespace
+  console.log(permissionType)
 
    // Update Moment's locale based on the current language from i18next
   useEffect(() => {
@@ -122,7 +123,7 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
           
           <div className='item-wrap-buttons-container'>
             {item.isLent && 
-              <button className='custom-button-small' onClick={handleReturnLent} disabled={isUpdating}>
+              <button className='custom-button-small' onClick={handleReturnLent} disabled={isUpdating || permissionType === 'read'}>
                   <span className="material-symbols-outlined">
                     assignment_return                                            
                   </span>            
@@ -130,7 +131,7 @@ const ItemWrap = ({itemArg, removeItemFromList}) => {
               </button>
             }
 
-            <button className='custom-button-small' onClick={handleDelete} disabled={isUpdating}>
+            <button className='custom-button-small' onClick={handleDelete} disabled={isUpdating || permissionType === 'read'}>
               <span className="material-symbols-outlined">
                 delete
               </span>

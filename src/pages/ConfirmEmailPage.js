@@ -16,7 +16,6 @@ function ConfirmEmailPage() {
    
 
     const [error, setError] = useState(null);
-    const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const { t, i18n } = useTranslation('login'); // Load translations from the 'login' namespace
@@ -93,7 +92,6 @@ function ConfirmEmailPage() {
                 
                 <form onSubmit={handleVerify} className='login-form'>
                     
-
                     <div className='text-container margin-top-1rem margin-bottom-2rem'>
                         {t('codeSent')}
                         <b>{email}</b>

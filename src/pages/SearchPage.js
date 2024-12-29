@@ -28,15 +28,17 @@ const SearchPage = () => {
 
     const navigate = useNavigate();
 
-    const {storageRoomsList, setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
+    const [permissionType, setPermissionType] = useState(null);
+    const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
     const { t } = useTranslation('searchPage'); // Load translations from the 'searchPage' namespace
     const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
     useEffect(() => {
-        if (!storageRoomsList){
+        if (!storageRoomsList || !storageRoomsAccessList){
             getStorageRoomData();
         } else {
-            const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId)
+            const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            setPermissionType(storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId).permissionType);
             setTagList(storageRoom.config.tagsList); // in getStorageRoomData is also done
         }
         
@@ -64,9 +66,12 @@ const SearchPage = () => {
             setStorageRoomsList(response.storageRoomsList);
             setStorageRoomsAccessList(response.storageRoomsAccessList);
             const storageRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
-            if (!storageRoom){
+            const storRoomPermission = response.storageRoomsAccessList?.find(storRoom => storRoom.storageRoomId === storageRoomId)
+            
+            if (!storageRoom || !storRoomPermission){
                 await handleError({response: {status: 403}}, t('locale'), navigate);
             }
+            setPermissionType(storRoomPermission.permissionType);
             setTagList(storageRoom?.config?.tagsList);
             setIsLoading(false);
         } catch (err) {
@@ -194,7 +199,12 @@ const SearchPage = () => {
                         
                         <div className="list-items-container-content">
                             {results.slice(startIndex, startIndex + itemsPerPage).map(result => (
-                                <ItemWrap key={result.itemId} itemArg={result} removeItemFromList={removeItemFromList}/>
+                                <ItemWrap
+                                    key={result.itemId}
+                                    itemArg={result}
+                                    removeItemFromList={removeItemFromList}
+                                    permissionType={permissionType}
+                                />
                             ))}
                         </div>
                         </>

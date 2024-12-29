@@ -66,17 +66,19 @@ const SearchForm = ({tagList}) => {
                 />
             </div>
             
-            <div className='formGroup'>
-                <label htmlFor="tags">{t('tags')}</label>
-                <Select
-                    isMulti
-                    value={selectedTags}
-                    name={t('tags')}
-                    options={tagList}
-                    onChange={onChangeTags}
-                    placeholder={t('select')}
-                />
-            </div>
+            {(tagList && tagList.length > 0) && (
+                <div className='formGroup'>
+                    <label htmlFor="tags">{t('tags')}</label>
+                    <Select
+                        isMulti
+                        value={selectedTags}
+                        name={t('tags')}
+                        options={tagList}
+                        onChange={onChangeTags}
+                        placeholder={t('select')}
+                        />
+                </div>
+            )}
 
             <div className='formGroup'>
                 <label htmlFor="lentSelect">{t('lentLabel')}</label>
