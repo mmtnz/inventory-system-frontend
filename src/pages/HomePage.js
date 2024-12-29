@@ -62,21 +62,26 @@ const HomePage = () => {
                 <div className='storage-room-list'>
                     <h2>{t('storageRoomsList')}</h2>
 
-                    <div className='storage-room-list-container'>
-                        {storageRoomsList?.map(stRoom => (
-                            <div
-                                className='storage-room-card'
-                                onClick={() => {goToStorageRoom(stRoom.storageRoomId)}}>
-                                    {stRoom.name}
-                            </div>
-                        ))}
-                    </div>
+                    {(storageRoomsList && storageRoomsList.length > 0) ? (
+                        <div className='storage-room-list-container'>
+                            {storageRoomsList?.map(stRoom => (
+                                <div
+                                    key={stRoom.storageRoomId}
+                                    className='storage-room-card'
+                                    onClick={() => {goToStorageRoom(stRoom.storageRoomId)}}>
+                                        {stRoom.name}
+                                </div>
+                            ))}
+                        </div>
+                    ): (
+                        <div>{t('noStorageRooms')}</div>
+                    )}
                 </div>
 
                 <div className='option-button-container'>          
                     <button className="custom-button" onClick={goToNewStorageRoom}>
                         <span className="material-symbols-outlined">
-                        add
+                            add
                         </span>
                         {t('newStorageRoom')}
                     </button>

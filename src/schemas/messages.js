@@ -104,6 +104,15 @@ export const messagesObj = {
             title: 'Trastero eliminado',
             // text: 'Only the admin of the storage room can access to settings',
             icon: "success"
+        },
+        emailVerifiedSuccess: {
+            title: 'Email verificado',
+            text: 'Ahora puedes acceder',
+            icon: "success"
+        },
+        UserNotFoundException: {
+            title: 'Email no encontrado',
+            icon: "error"
         }
     },
     en: {
@@ -212,6 +221,15 @@ export const messagesObj = {
             title: 'Storage room succesfully deleted',
             // text: 'Only the admin of the storage room can access to settings',
             icon: "success"
+        },
+        emailVerifiedSuccess: {
+            title: 'Email verified',
+            text: 'Now you can log in',
+            icon: "success"
+        },
+        UserNotFoundException: {
+            title: 'Email not found',
+            icon: "error"
         }
     } 
 

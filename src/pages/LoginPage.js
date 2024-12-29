@@ -75,8 +75,8 @@ function LoginPage() {
         setUser(result.cognitoUser)
         setUserAttributes(result.userAttributes)
         
-        const userInfo = await apiGetUserInfo();
-        sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
+        // const userInfo = await apiGetUserInfo();
+        // sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
         const storageRoomsList = await apiGetStorageRoomsList();
         console.log(storageRoomsList)
         navigate('/home');
@@ -85,6 +85,8 @@ function LoginPage() {
       if (err.code === 'NotAuthorizedException') {
         console.error('Error signing in:', err);
         setError(t('incorrectEmailPassword'))
+      } else if (err.code === "UserNotConfirmedException") {
+        navigate(`/confirm-email?email=${email}`)
       }
       setIsLoading(false);
     }
@@ -133,11 +135,18 @@ function LoginPage() {
                 </div>
                 {validator.message('password', password, 'required')}
               </div>
+
+              
               
               <div className="button-container">
                 <button className="custom-button" type="submit" disabled={isLoading}>
                   {t('login')}
                 </button>
+              </div>
+
+              <div className='login-options-container'>
+                <p className='login-link' onClick={() => {navigate('/sign-up')}}>{t('createAccount')}</p>
+                <p className='login-link' onClick={() => {navigate('/forotten-password')}}>{t('forgotMyPassword')}</p>
               </div>
             </form>
 

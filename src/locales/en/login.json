@@ -1,13 +1,27 @@
 {
+    "locale": "en",
     "login": "Login",
     "email": "Email",
     "password": "Password",
     "showPassword": "Show password",
+    "forgotMyPassword": "I forgot my password",
     "createPassword": "Create password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm password",
     "signOut": "Sign out",
     "requiredMessage": "This field is required.",
     "emailInvalid": "The email must be a valid email address.",
-    "incorrectEmailPassword": "Incorrect email or password"
+    "incorrectEmailPassword": "Incorrect email or password",
+    "createAccount": "Create account",
+    "name": "Name",
+    "lastName": "Last name",
+    "userAlreadyExistsError": "This email is already registered",
+    "confirmEmail": "Confirm email",
+    "verificationCode": "Verification code",
+    "verify": "Verify",
+    "codeSent": "Verification code sent to:",
+    "codeExpired": "The code has expired, ask for a new one",
+    "wrongCode": "The code does not match",
+    "codeLimitExceeded": "Max number of attempts reached, try it later"
+    
 }

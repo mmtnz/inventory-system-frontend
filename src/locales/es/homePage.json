@@ -6,5 +6,6 @@
     "select": "Selecionar trastero...",
     "newStorageRoom": "Nuevo trastero",
     "storageRoomsList": "Tus trasteros",
-    "settings": "Ajustes"
+    "settings": "Ajustes",
+    "noStorageRooms": "No tienes ningun trastero"
 }

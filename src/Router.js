@@ -15,6 +15,8 @@ import NewStorageRoomPage from "./pages/NewStorageRoomPage";
 import StorageRoomPage from "./pages/StorageRoomPage";
 import StorageRoomSettingsPage from "./pages/StorageRoomSettingsPage";
 import StorageRoomAddUsersPage from "./pages/StorageRoomAddUsersPage";
+import SignUpPage from "./pages/SignUpPage";
+import ConfirmEmailPage from "./pages/ConfirmEmailPage";
 
 
 const Router = () => {
@@ -28,6 +30,8 @@ const Router = () => {
                     <div className='body-content'>
                         <Routes>
                             <Route path="/login" element={<LoginPage/>}/>
+                            <Route path="/sign-up" element={<SignUpPage/>}/>
+                            <Route path="/confirm-email" element={<ConfirmEmailPage/>}/>
                             <Route exact path="/change-password" element={<ChangePasswordPage/>} />
                             <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route path ="/home" element={<PrivateRoute element={HomePage} />} />

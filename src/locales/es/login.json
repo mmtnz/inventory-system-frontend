@@ -1,13 +1,26 @@
 {
+    "locale": "es",
     "login": "Iniciar sesión",
     "email": "Email",
     "password": "Contraseña",
     "showPassword": "Mostrar contraseña",
+    "forgotMyPassword": "He olvidado mi contraseña",
     "createPassword": "Crear contraseña",
     "newPassword": "Nueva contraseña",
     "confirmPassword": "Confirmar contraseña",
     "signOut": "Cerrar sesión",
     "requiredMessage": "Este campo es obligatorio.",
     "emailInvalid": "Debe ser una dirección de correo válida.",
-    "incorrectEmailPassword": "Email o contraseña incorrectos"
+    "incorrectEmailPassword": "Email o contraseña incorrectos",
+    "createAccount": "Crear cuenta",
+    "name": "Nombre",
+    "lastName": "Apellido(s)",
+    "userAlreadyExistsError": "Este email ya está registrado",
+    "confirmEmail": "Confirmar email",
+    "verificationCode": "Código de verificación",
+    "verify": "Verificar",
+    "codeSent": "Se ha enviado un código de verificación a:",
+    "codeExpired": "El código ha expirado, solicita uno nuevo",
+    "wrongCode": "El código no coincide",
+    "codeLimitExceeded": "Has excedido el número de intentos, inténtalo más tarde"
 }
