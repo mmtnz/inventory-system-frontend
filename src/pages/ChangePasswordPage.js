@@ -65,9 +65,8 @@ const ChangePasswordPage = () => {
 
         if (validator.allValid()) {
             setIsLoading(true);
-            console.log('entro aqui')
             try {
-                await changePassword();
+                await createPassword();
                 console.log('despues change')
                 // Clear any local application state related to user (only used for creating new password)
                 setUser(null);  
@@ -88,7 +87,7 @@ const ChangePasswordPage = () => {
     };
 
 
-    const changePassword = async () => {
+    const createPassword = async () => {
         return new Promise((resolve, reject) => {
             user.completeNewPasswordChallenge(newPassword, userAttributes, {
                 onSuccess: (result) => {

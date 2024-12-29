@@ -17,6 +17,7 @@ import StorageRoomSettingsPage from "./pages/StorageRoomSettingsPage";
 import StorageRoomAddUsersPage from "./pages/StorageRoomAddUsersPage";
 import SignUpPage from "./pages/SignUpPage";
 import ConfirmEmailPage from "./pages/ConfirmEmailPage";
+import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 
 
 const Router = () => {
@@ -32,6 +33,7 @@ const Router = () => {
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/sign-up" element={<SignUpPage/>}/>
                             <Route path="/confirm-email" element={<ConfirmEmailPage/>}/>
+                            <Route path="/recover-password" element={<RecoverPasswordPage/>}/>
                             <Route exact path="/change-password" element={<ChangePasswordPage/>} />
                             <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route path ="/home" element={<PrivateRoute element={HomePage} />} />

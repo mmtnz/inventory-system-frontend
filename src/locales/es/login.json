@@ -22,5 +22,8 @@
     "codeSent": "Se ha enviado un código de verificación a:",
     "codeExpired": "El código ha expirado, solicita uno nuevo",
     "wrongCode": "El código no coincide",
-    "codeLimitExceeded": "Has excedido el número de intentos, inténtalo más tarde"
+    "codeLimitExceeded": "Has excedido el número de intentos, inténtalo más tarde",
+    "recoverPassword": "Recuperar contraseña",
+    "sendPetition": "Enviar peticion",
+    "codeWillBeSent": "Un código de verificación será enviado a tu dirección de email"
 }

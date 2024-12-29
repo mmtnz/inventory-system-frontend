@@ -22,6 +22,8 @@
     "codeSent": "Verification code sent to:",
     "codeExpired": "The code has expired, ask for a new one",
     "wrongCode": "The code does not match",
-    "codeLimitExceeded": "Max number of attempts reached, try it later"
-    
+    "codeLimitExceeded": "Max number of attempts reached, try it later",
+    "recoverPassword": "Recover password",
+    "sendPetition": "Send petition",
+    "codeWillBeSent": "A verification code will be sent to our email address"
 }
