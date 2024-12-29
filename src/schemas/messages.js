@@ -95,7 +95,7 @@ export const messagesObj = {
             confirmButtonText: "Delete",
             cancelButtonText: "Cancel"
         },
-        deleteStorageRoomNoPermision: {
+        deleteStorageRoomNoPermission: {
             title: 'Error',
             text: 'Solo el administrador del trastero puede acceder a ajustes',
             icon: "error"
@@ -203,7 +203,7 @@ export const messagesObj = {
             cancelButtonText: "Cancel"
 
         },
-        deleteStorageRoomNoPermision: {
+        deleteStorageRoomNoPermission: {
             title: 'Error',
             text: 'Only the admin of the storage room can access to settings',
             icon: "error"

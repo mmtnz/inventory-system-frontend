@@ -7,25 +7,39 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal}) => {
+const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal, isNew, invitationsToEdit, setInvitationsToEdit, currentUserList}) => {
 
-    const [permisionType, setPermisionType] = useState(null);
+    const [permissionType, setPermissionType] = useState(null);
     const [email, setEmail] = useState('');
 
     const [, forceUpdate] = useState();
     
     const { t, i18n } = useTranslation('storageRoom'); 
+    console.log(currentUserList)
     
     const [validator, setValidator] = useState(new SimpleReactValidator(
-        { messages: {
+        {validators: {
+            newEmail: {
+                message: 'Please fill all heir percentage inputs.',
+                rule: (val) => {
+                    if (userData) { // An invitations is being edited
+                        return true
+                    }
+                    return !currentUserList?.some(invitation => invitation.email === val);    
+                }, 
+                required: true
+            },
+        },
+        messages: {
             default: t('defaultMessage'),
             required: t('requiredMessage'),
-            email: t('emailMessage')
+            email: t('emailMessage'),
+            newEmail: t('newEmailMessage')
         }
     }));
     const { storageRoomId } = useParams(); // Retrieves the storageRoomId from the URL
 
-    const permisionTypeOptions = [
+    const permissionTypeOptions = [
         // {label: t('admin'), value: "admin"},
         {label: t('write'), value: "write"},
         {label: t('read'), value: "read"},
@@ -35,10 +49,10 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
         console.log(userData)
         if (userData) {
             setEmail(userData.email);
-            setPermisionType(permisionTypeOptions.find(opt => opt.value === userData.permisionType))
+            setPermissionType(permissionTypeOptions.find(opt => opt.value === userData.permissionType))
         } else {
             setEmail('');
-            setPermisionType(null);
+            setPermissionType(null);
         }
     }, [userData])
     
@@ -46,7 +60,7 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
         e.preventDefault();
         if (validator.allValid()){
             if (userData) { // Edit
-                editUserpermision();
+                editUserPermission();
                 setUserData(null);
             } else { //New
                 addNewUserPermission();
@@ -58,12 +72,15 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
         }
     }
 
-    const editUserpermision = () => {
+    const editUserPermission = () => {
         // Find heir index from userList
         const index = usersList.findIndex((userObj) => userObj.id === userData?.id);
         let auxUserList = [...usersList];
-        auxUserList[index] = {email: email, permisionType: permisionType.value};
+        auxUserList[index] = {...auxUserList[index], email: email, permissionType: permissionType.value};
         setUsersList(auxUserList);
+        if(!isNew) {
+            setInvitationsToEdit([...invitationsToEdit, auxUserList[index]])
+        }
     }
 
     const addNewUserPermission = () => {
@@ -73,15 +90,15 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
                 storageRoomId: storageRoomId,
                 invitationId:  uuidv4(), // Create id so it has a reference to be edited
                 email: email,
-                permisionType: permisionType.value
+                permissionType: permissionType.value
             }
         ])
         setEmail(null);
-        setPermisionType(null);
+        setPermissionType(null);
     }
 
     const isEdited = () => {
-        return email !== userData?.email || permisionType?.value !== userData?.permisionType
+        return email !== userData?.email || permissionType?.value !== userData?.permissionType
     }
 
 
@@ -95,20 +112,22 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
                         name="email"
                         value={email || ''}
                         onChange={(e) => {setEmail(e.target.value)}}
+                        disabled={userData && !isNew}
                     />
                     {validator.message('name', email, 'required|email')}
+                    {validator.message('newEmailValidation', email, 'newEmail')}
                 </div>
 
                 <div className='formGroup'>
-                    <label htmlFor="type">{t('permisionType')}</label>
+                    <label htmlFor="type">{t('permissionType')}</label>
                     <Select
-                        options={permisionTypeOptions}
-                        onChange={(value) => {setPermisionType(value);}}
+                        options={permissionTypeOptions}
+                        onChange={(value) => {setPermissionType(value);}}
                         placeholder={t('select')}
-                        value={permisionType}
+                        value={permissionType}
                         classNamePrefix="react-select" // Apply custom prefix
                     />
-                    {validator.message('type', permisionType, 'required')}
+                    {validator.message('type', permissionType, 'required')}
                 </div>
 
                 <button

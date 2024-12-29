@@ -5,7 +5,7 @@ import AddUserForm from './AddUserForm';
 Modal.setAppElement('#root');  // Required for accessibility
 
 
-const AddUserModal = ({modalIsOpen, setModalIsOpen, usersList, setUsersList, userData, setUserData}) => {
+const AddUserModal = ({modalIsOpen, setModalIsOpen, usersList, setUsersList, userData, setUserData, isNew, invitationsToEdit, setInvitationsToEdit, currentUserList}) => {
     
     const { t, i18n } = useTranslation('storageRoom');
 
@@ -38,6 +38,10 @@ const AddUserModal = ({modalIsOpen, setModalIsOpen, usersList, setUsersList, use
                         userData={userData}
                         setUserData={setUserData}
                         closeModal={closeModal}
+                        isNew={isNew}
+                        invitationsToEdit={invitationsToEdit}
+                        setInvitationsToEdit={setInvitationsToEdit}
+                        currentUserList={currentUserList}
                     />
                 </div>
             </div>

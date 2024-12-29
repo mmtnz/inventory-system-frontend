@@ -7,7 +7,7 @@ const UserInvitation = ({user, removeInvitation, editInvitation, isAdmin, type})
   return (
     <div className={`user-list-item ${type}`}>
         <div className='user-list-email' title={user.email}>{user.email}</div>
-        <div>{user.permisionType}</div>
+        <div>{user.permissionType}</div>
         
         {(isAdmin) ? (
           <div className='invitation-you-container'>you</div>

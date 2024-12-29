@@ -31,8 +31,8 @@ const StorageRoomPage = () => {
     }, []);
 
     useEffect(() => {
-        const permisionType = storageRoomsAccessList?.find(permission => permission.storageRoomId === storageRoomId).permisionType
-        setIsAdmin(permisionType === 'admin')
+        const permissionType = storageRoomsAccessList?.find(permission => permission.storageRoomId === storageRoomId).permissionType
+        setIsAdmin(permissionType === 'admin')
     }, [storageRoom])
 
     // Get a list with all the storage rooms the user has access and another one with the permission

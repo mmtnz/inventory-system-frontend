@@ -40,14 +40,14 @@ const StorageRoomSettingsPage = () => {
             setStorageRoomsList(response.storageRoomsList);
             setStorageRoomsAccessList(response.storageRoomsAccessList);
             setStorageRoom(response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId));
-            const storageRoomPermision = response.storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
-            console.log(storageRoomPermision)
-            if (!storageRoomPermision){
+            const storageRoomPermission = response.storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            console.log(storageRoomPermission)
+            if (!storageRoomPermission){
                 await handleError({response: {status: 403}}, t('locale'), navigate);
             }
 
-            if (storageRoomPermision?.permisionType !== 'admin'){
-                Swal.fire(messagesObj[t('locale')].deleteStorageRoomNoPermision)
+            if (storageRoomPermission?.permissionType !== 'admin'){
+                Swal.fire(messagesObj[t('locale')].deleteStorageRoomNoPermission)
                     .then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
                             navigate(`/storageRoom/${storageRoomId}`);

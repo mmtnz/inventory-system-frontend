@@ -18,7 +18,7 @@
     "emailNotValid": "Todos los emails deben ser válidos",
     "addUsers": "Añadir usuarios",
     "add": "Añadir",
-    "permisionType": "Tipo de permisio",
+    "permissionType": "Tipo de permiso",
     "admin": "Admin",
     "write": "Escritura",
     "read": "Lectura",
@@ -26,5 +26,6 @@
     "requiredMessage": "Este campo es obligatorio.",
     "defaultMessage": "Este campo no es válido.",
     "emailMessage": "La direccion debe ser válida",
+    "newEmailMessage": "Esta dirección ya esta en la lista",
     "inviteAnotherUser": "Invitar a otro usuario..."
 }
