@@ -57,8 +57,10 @@ const NewStorageRoomLocationsForm = ({locationTree, setLocationTree}) => {
                             </span>
                         </div>
                     </div>
-                    <CustomEditableTree treeData={locationTree} setTreeData={setLocationTree}/>
-                </div>                              
+                    
+                </div>
+
+                <CustomEditableTree treeData={locationTree} setTreeData={setLocationTree}/>                           
             </form>          
         </div>
     );

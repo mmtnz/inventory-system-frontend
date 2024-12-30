@@ -10,7 +10,7 @@ const TreeNode = ({ node, onAdd, onEditComplete, onDelete, depth }) => {
     const { t } = useTranslation('shared');
 
     return (
-        <div className="custom-tree-node">
+        <div>
             <div
                 style={{ cursor: 'pointer' }}
                 onClick={() => setExpanded(!expanded)}
@@ -23,11 +23,12 @@ const TreeNode = ({ node, onAdd, onEditComplete, onDelete, depth }) => {
                     ))}
                     <div className='custom-tree-node-name'>
                         {node.name}
-                        <span className="material-symbols-outlined" onClick={() => onDelete(node)}>close</span>
+                        <div className="small-icon" onClick={() => onDelete(node)}>x</div>
                     </div>
                     
             </div>
-
+            
+            <div className='custom-editable-tree-children-container'>
             {/* Render Children */}
             {hasChildren && expanded && (
             <div>
@@ -47,17 +48,13 @@ const TreeNode = ({ node, onAdd, onEditComplete, onDelete, depth }) => {
             {/* Add Child Button */}
             {(expanded && (depth<=2)) && (
                 <div
-                    style={{
-                        cursor: 'pointer',
-                        marginLeft: '20px',
-                        color: 'blue',
-                        fontStyle: 'italic',
-                    }}
+                    className='custom-tree-add-location'
                     onClick={() => onAdd(node)}
                 >
                     + {t('addLocation')}
                 </div>
             )}
+            </div>
         </div>
     );
 };
@@ -69,6 +66,7 @@ const EditableTreeNode = ({ node, onAdd, onEditComplete, onDelete, depth}) => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent the default behavior of the Enter key
             if (tempName !== '' && !node?.children?.some(child => child.name === tempName)){
                 onEditComplete(node, tempName);
                 setIsEditing(false);
@@ -79,9 +77,9 @@ const EditableTreeNode = ({ node, onAdd, onEditComplete, onDelete, depth}) => {
     };
 
   return (
-        <div>
+        <div className='custom-tree-node'>
             {isEditing ? (
-                <div className='custom-tree-node'>
+                <div className='custom-tree-input-container'>
                     <input
                         autoFocus
                         value={tempName}
@@ -90,7 +88,6 @@ const EditableTreeNode = ({ node, onAdd, onEditComplete, onDelete, depth}) => {
                         onBlur={() => {
                             setIsEditing(false);
                         }}
-                        // style={{ marginLeft: '20px' }}
                     />
                 </div>
             ) : (
@@ -169,8 +166,9 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
 
 
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && tempName !== '') {
+    const handleKeyDown = (e) => {        
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent the default behavior of the Enter key
             if (tempName !== '' && !treeData.children.some(child => child.name === tempName)){
                 setTreeData({...treeData, children: [...treeData.children, {name: tempName, children: []}]})
                 setIsEditing(false);
@@ -184,20 +182,21 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
     };
 
     return (
-        <div>
+        <div className='custom-editable-tree'>
             {treeData.children.map((child, index) => (
                 <EditableTreeNode
-                key={index}
-                node={child}
-                onAdd={handleAddNode}
-                onEditComplete={handleEditComplete}
-                onDelete={handleDeleteNode}
-                depth={depth + 1}
+                    key={index}
+                    node={child}
+                    onAdd={handleAddNode}
+                    onEditComplete={handleEditComplete}
+                    onDelete={handleDeleteNode}
+                    depth={depth + 1}
                 />
             ))}
-            <div>
+            <div className='custom-tree-input-container'>
                 {isEditing && (
                     <input
+                        className='custom-tree-input'
                         autoFocus
                         value={tempName}
                         onChange={(e) => setTempName(e.target.value)}
@@ -206,17 +205,11 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
                             setIsEditing(false);
                             setTempName('')
                         }}
-                        // style={{ marginLeft: '20px' }}
                     />
                 )}
             </div>
             <div
-                style={{
-                    cursor: 'pointer',
-                    marginLeft: '20px',
-                    color: 'blue',
-                    fontStyle: 'italic',
-                }}
+                className='custom-tree-add-location'
                 onClick={() => {
                     handleAddNode(treeData);
                     setIsEditing(true);

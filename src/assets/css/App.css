@@ -126,6 +126,11 @@ h1 {
     flex-direction: column;
 }
 
+.invisible{
+    color: rgba(0, 0, 0, 0) !important;
+    cursor: default;
+}
+
 .margin-top-3rem {
     margin-top: 3rem;
 }
@@ -1532,7 +1537,7 @@ form .react-select__option--is-selected {
 /* ############### TREE ############### */
 /* #################################### */
 .custom-tree-node{
-    margin-left: 5rem;
+    /* margin-left: 5rem; */
     white-space: nowrap;
     display: flex;
     flex-direction: column;
@@ -1549,6 +1554,52 @@ form .react-select__option--is-selected {
     color: #0b101a;
     /* color: var(--color-theme) */
 }
+
+.custom-tree-add-location{
+    cursor: pointer;
+    color: blue;
+    text-align: left;
+    /* margin-left: 5rem; */
+}
+
+.custom-tree-children-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: flex-start;
+    margin-left: 3rem;
+}
+.custom-editable-tree-children-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: flex-start;
+    margin-left: 5rem;
+}
+
+
+.custom-tree-input-container{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: flex-start; */
+    align-items: flex-start;
+}
+
+.small-icon{
+    font-weight: 600;
+}
+
+.custom-tree{
+    width: 100%;
+    margin-left: 3rem;
+}
+
+.custom-editable-tree{
+    width: 100%;
+    margin-left: 4rem;
+}
+
+
 
 
 

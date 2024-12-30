@@ -36,8 +36,8 @@ const NewStorageRoomConfirmation = ({name, tagsList, locationTree}) => {
 
                 <div className='storage-room-data-group'> 
                     <label>{t('locations')}:</label>
-                    <CustomTree data={locationTree}/>
                 </div>
+                <CustomTree data={locationTree}/>
             </div>
         </div>
     )

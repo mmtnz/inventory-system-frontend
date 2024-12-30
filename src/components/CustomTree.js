@@ -8,17 +8,26 @@ const TreeNode = ({ node }) => {
 
   return (
     <div className={'custom-tree-node'}>
+      {node.name && (
+
+      
       <div
         style={{ cursor: 'pointer' }}
         onClick={() => setExpanded(!expanded)}
         className='custom-tree-node-name'
       >
-        {hasChildren && (expanded ?
+        {hasChildren ? (expanded ?
             <span className="material-symbols-outlined">expand_more</span> : 
-            <span className="material-symbols-outlined">chevron_right</span>)} {node.name}
+            <span className="material-symbols-outlined">chevron_right</span>
+        ):(
+          <span className="material-symbols-outlined invisible">chevron_right</span> //to force alignement
+        )} 
+        {node.name}
       </div>
+      )}
+
       {hasChildren && expanded && (
-        <div>
+        <div className='custom-tree-children-container'>
           {node.children.map((child, index) => (
             <TreeNode key={index} node={child} />
           ))}
@@ -30,7 +39,7 @@ const TreeNode = ({ node }) => {
 
 const CustomTree = ({data}) => {
   return (
-    <div>
+    <div className='custom-tree'>
         {data.children.map((child, index) => (
             <TreeNode key={index} node={child} />
         ))}

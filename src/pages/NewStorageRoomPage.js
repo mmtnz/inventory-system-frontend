@@ -21,7 +21,7 @@ const NewStorageRoomPage = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
 
-    const [name, setName] = useState(null);
+    const [name, setName] = useState('');
     const [tagsList, setTagsList] = useState([]);
     const [locationObj, setLocationObj] = useState({});
     const [locationTree, setLocationTree] = useState({name: 'root', children: []});
