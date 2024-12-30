@@ -149,7 +149,7 @@ function SignUpPage() {
                         <input
                             type={visible ? 'text' : 'password'}
                             name="password"
-                            autoComplete="password"
+                            // autoComplete="password"
                             placeholder={t('password')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

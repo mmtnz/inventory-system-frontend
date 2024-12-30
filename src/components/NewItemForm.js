@@ -11,6 +11,7 @@ import { ClipLoader } from 'react-spinners';
 import {messagesObj} from '../schemas/messages';
 
 import { useTranslation } from 'react-i18next';
+import ItemLocationForm from './ItemLocationForm';
 
 const NewItemForm = ({args}) => {
 
@@ -23,9 +24,7 @@ const NewItemForm = ({args}) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [otherNamesList, setOtherNamesList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [place, setPlace] = useState(null);
-    const [location, setLocation] = useState(null);
-    const [sublocation, setSublocation] = useState(null);
+    const [locationAll, setLocationAll] = useState(null);
     const [item, setItem] = useState({});
 
     const [isLent, setIsLent] = useState(false);
@@ -64,6 +63,10 @@ const NewItemForm = ({args}) => {
         );
     }, [i18n.language])
 
+    useEffect(() => {
+        changeState();
+    }, [locationAll])
+
     const handleSubmit = (e)  => {
         e.preventDefault();
         changeState();
@@ -90,7 +93,7 @@ const NewItemForm = ({args}) => {
             }      
         } catch (err) {
 
-            // await handleError(err, t('locale'), navigate);
+            await handleError(err, t('locale'), navigate);
         }
         navigate(`/storageRoom/${storageRoomId}`) 
     }
@@ -119,6 +122,7 @@ const NewItemForm = ({args}) => {
         setItem({...item,
             name: nameRef.current.value,
             description: descriptionRef.current.value,
+            location: locationAll
         })   
     };
 
@@ -141,26 +145,6 @@ const NewItemForm = ({args}) => {
         }
     }
 
-    const changePlace = (event) => {
-        setPlace(event);
-        setLocation(null);
-        setSublocation(null);
-        //just in case there are no locations
-        setItem({...item, location: event.value + "//"})
-    }
-
-    const changeLocation = (event) => {
-        setLocation(event);
-        setSublocation(null);
-        //Just in case there are no sublocations
-        setItem({...item, location: place.value + "/" + (event?.value || '') + "/"})
-    }
-
-    const changeSublocation = (event) => {
-        setSublocation(event);
-        setItem({...item, location: place.value + "/" + (event?.value || '') + "/" + (event?.value || '')})
-    }
-
     const changeLentName = (event) => {
         console.log(event.target.value)
         setIsLentName(event.target.value)
@@ -181,6 +165,7 @@ const NewItemForm = ({args}) => {
                 onSubmit={handleSubmit}
                 // onChange={changeState}
             >
+                {/* NAME */}
                 <div className="formGroup">
                     <label htmlFor="name">{t('name')}</label>
                     <input
@@ -192,11 +177,13 @@ const NewItemForm = ({args}) => {
                     {validator.message('name', item.name, 'required|alpha_num_space')}
                 </div>
 
+                {/* OTHER NAMES */}
                 <div className="formGroup">
                     <label htmlFor='otherNames'>{t('otherNames')}</label>
                     <TagsInput tagsList={otherNamesList} setTagsList={changeOtherNamesList}/>
                 </div>
 
+                {/* TAGS */}
                 {(tagsList && tagsList.length > 0) && (               
                     <div className="formGroup">
                         <label htmlFor='tags'>{t('tags')}</label>
@@ -211,9 +198,18 @@ const NewItemForm = ({args}) => {
                     </div>
                 )}
 
+                {/* LOCATION */}
                 <div className="formGroup">
                     <label htmlFor='location'>{t('location')}</label>
+                    <ItemLocationForm
+                        validator={validator}
+                        locationObj={locationObj}
+                        setLocation={setLocationAll}
+                    />
+                </div>
 
+                {/* <div className="formGroup">
+                    <label htmlFor='location'>{t('location')}</label>
                     <Select
                         options={placesList}
                         onChange={changePlace}
@@ -248,9 +244,9 @@ const NewItemForm = ({args}) => {
                         {validator.message('sublocation', sublocation, 'required')}
                         </>                   
                     }
-                    
-                </div>
+                </div> */}
 
+                {/* DESCRIPTION */}
                 <div className="formGroup">
                     <label htmlFor='description'>
                         {t('description')}
@@ -258,6 +254,7 @@ const NewItemForm = ({args}) => {
                     <textarea maxLength={300} ref={descriptionRef}/>
                 </div>
 
+                {/* FILE */}
                 <div className='formGroup'>
                     <label htmlFor='file0'>{t('image')}</label>
                     <input
@@ -270,7 +267,7 @@ const NewItemForm = ({args}) => {
                     />
                 </div>
 
-
+                {/* IS LENT */}
                 <div className='formGroup'>
                     <label htmlFor='isLent'>{t('isLent')}</label>
                     <div className='radio-buttons-container'>

@@ -15,6 +15,7 @@ import AuthContext from '../services/AuthContext';
 
 import { ClipLoader } from 'react-spinners';
 import createOptionList from '../utils/createOptionList';
+import filterTreeData from '../utils/filterTreeData';
 
 
 const NewStorageRoomPage = () => {
@@ -50,7 +51,7 @@ const NewStorageRoomPage = () => {
             name: name,
             config: {
                 tagsList: createOptionList(tagsList),
-                locationObj: locationObj
+                locationObj: filterTreeData(locationTree),
             }
         };
 

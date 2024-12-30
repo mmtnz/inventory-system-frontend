@@ -9,30 +9,31 @@ import { ClipLoader } from 'react-spinners';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
+import ItemLocationForm from './ItemLocationForm';
 
 const EditItemForm = ({args, itemArg}) => {
  
     const { storageRoomId, itemId} = useParams();
     const [item, setItem] = useState(itemArg);
+    
     const oldItem = itemArg;
     delete oldItem.dateLastEdited;
 
     const tagsList = args.tagsList;
     const locationObj = args.locationObj;
-    const placesList = locationObj != null ?  locationObj?.placesList : null;
-
-    const [place, setPlace] = useState(null);
-    const [location, setLocation] = useState(null);
-    const [sublocation, setSubLocation] = useState(null);
       
-    const nameRef = React.createRef();
-    const descriptionRef = React.createRef();
+    // const nameRef = React.createRef();
+    // const descriptionRef = React.createRef();
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
     const [selectedTags, setSelectedTags] = useState([]);
     const [otherNamesList, setOtherNamesList] = useState([]);
+    const [locationAll, setLocationAll] = useState(itemArg.location);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isFileChanged, setIsFileChanged] = useState(false);
     const [isDifferent, setIsDifferent] = useState(false);
     const [isLent, setIsLent] = useState(itemArg.isLent != null);
+    
     // const initialIsLent = itemArg.isLent != null;
 
     const [isLentName, setIsLentName] = useState('');
@@ -59,14 +60,13 @@ const EditItemForm = ({args, itemArg}) => {
         if (item.tagsList && item.tagsList.length > 0) {
             setSelectedTags(tagsList.filter(option => item.tagsList.includes(option.value)));
         }
+
+        setName(item.name || '');
+        setDescription(item.description || '');
                 
         setOtherNamesList(item.otherNamesList ? item.otherNamesList : []); // Just in case item has no otherNamesList as attribute
-
-        let [auxPlace, auxLoc, auxSubLoc] = item.location.split('/');
-
-        setPlace(placesList.find(option => auxPlace.includes(option.value)));
-        setLocation(locationObj?.placeObj[auxPlace]?.zonesList?.find(option => auxLoc.includes(option.value)));
-        setSubLocation(locationObj?.placeObj[auxPlace]?.selfsObj[auxLoc]?.find(option => auxSubLoc.includes(option.value)));
+        setLocationAll(item.location)
+       
         setLoading(false);
 
         if (isLent && item.isLent != null){
@@ -74,7 +74,16 @@ const EditItemForm = ({args, itemArg}) => {
             setIsLentName(auxLentName);
             setIsLentDate(auxLentDate);
         }
+    }, []);
 
+    // Check if location has changed
+    useEffect(() => {
+        if (item && locationAll) {
+           changeState();
+        }
+    }, [locationAll, name, description]);
+
+    useEffect(() => {
         setValidator(
             new SimpleReactValidator({
                 messages: {
@@ -83,8 +92,7 @@ const EditItemForm = ({args, itemArg}) => {
                 },
             })
         );
-
-    }, [item, tagsList, locationObj, placesList, i18n.language]);
+    }, [i18n.language]);
     
     const handleSubmit = (e)  => {
         e.preventDefault();
@@ -99,13 +107,18 @@ const EditItemForm = ({args, itemArg}) => {
     };
 
     const changeState = () => {
-        
+        console.log('entro')
         let auxItem = {
             ...item,
-            name: nameRef.current.value,
-            description: descriptionRef.current.value,
+            name: name,
+            description: description !== '' ? description : null,
+            location: locationAll,
+            otherNamesList: otherNamesList?.length > 0 ? otherNamesList : null,
+            // tagsList: ta
         }
-
+        auxItem = JSON.parse(JSON.stringify(auxItem, (key, value) => (value === null ? undefined : value)))
+        console.log(auxItem)
+        console.log(oldItem)
         setItem(auxItem)
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
     };
@@ -149,28 +162,6 @@ const EditItemForm = ({args, itemArg}) => {
     const changeOtherNamesList = (event) => {
         setOtherNamesList(event);
         let auxItem = {...item, otherNamesList: event};
-        setItem(auxItem);
-        setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
-    }
-
-    const changePlace = (e) => {
-        setPlace(e);
-        setLocation(null);
-        setSubLocation(null);
-         //just in case there are no locations
-         setItem({...item, location: e.value + "//"})
-    }
-
-    const changeLocation = (e) => {
-        setLocation(e);
-        setSubLocation(null);
-        //Just in case there are no sublocations
-        setItem({...item, location: place.value + "/" + (e?.value || '') + "/"})
-    }
-
-    const changeSublocation = (e) => {
-        setSubLocation(e);
-        let auxItem = {...item, location: place.value + "/" + location.value + "/" + e.value};
         setItem(auxItem);
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
     }
@@ -249,10 +240,11 @@ const EditItemForm = ({args, itemArg}) => {
                     <input
                         type="text"
                         name="name"
-                        defaultValue={item.name}
-                        ref={nameRef}
+                        // defaultValue={item.name}
+                        // ref={nameRef}
+                        value={name}
                         onBlur={() => validator.showMessageFor('name')}
-                        onChange={changeState}
+                        onChange={(e) => {setName(e.target.value)}}
                     />
                     {validator.message('name', item.name, 'required|alpha_num_space')}
                 </div>
@@ -279,8 +271,20 @@ const EditItemForm = ({args, itemArg}) => {
                     </div>
                 )}
 
+
                 {/* LOCATION */}
                 <div className="formGroup">
+                    <label htmlFor='location'>{t('location')}</label>
+                    <ItemLocationForm
+                        validator={validator}
+                        locationObj={locationObj}
+                        location={locationAll}
+                        setLocation={setLocationAll}
+                    />
+                </div>
+                
+                {/* LOCATION */}
+                {/* <div className="formGroup">
                     <label htmlFor='location'>{t('location')}</label>
                     <Select
                         options={placesList}
@@ -318,7 +322,7 @@ const EditItemForm = ({args, itemArg}) => {
                         </>                  
                     }
                                             
-                </div>
+                </div> */}
 
                 {/* DESCRIPTION */}
                 <div className="formGroup">
@@ -327,9 +331,10 @@ const EditItemForm = ({args, itemArg}) => {
                     </label>
                     <textarea
                         maxLength={300}
-                        ref={descriptionRef}
-                        defaultValue={item.description}
-                        onChange={changeState}
+                        // ref={descriptionRef}
+                        // defaultValue={item.description}
+                        value={description}
+                        onChange={(e) => {setDescription(e.target.value)}}
                     />
                 </div>
 

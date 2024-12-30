@@ -159,6 +159,10 @@ h1 {
     margin-bottom: 0;
 }
 
+.width-100 {
+    width:100%
+}
+
 
 .version-content {
     margin-left: 20px;

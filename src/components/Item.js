@@ -28,10 +28,8 @@ const Item = ({args}) => {
 
     const {storageRoomId, itemId} = useParams();    
     const [item, setItem] = useState({});
+    const [locationString, setLocationString] = useState(null);
 
-    const [place, setPlace] = useState(null);
-    const [location, setLocation] = useState(null);
-    const [sublocation, setSublocation] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -98,17 +96,13 @@ const Item = ({args}) => {
                 data = locationState.state?.item // Get item from state when clicking in item wrap
             } else {
                 data = await apiGetItem(storageRoomId, itemId);
-                console.log('cojo data')
-                console.log(data)
             }
+            console.log(data)
             
             setItem(data);
 
-            let [auxPlace, auxLoc, auxSubLoc] = data.location.split('/');
-            setPlace(locationObj.placesList.find(option => auxPlace.includes(option.value)));
-            setLocation(locationObj?.placeObj[auxPlace]?.zonesList?.find(option => auxLoc.includes(option.value)));
-            setSublocation(locationObj?.placeObj[auxPlace]?.selfsObj[auxLoc]?.find(option => auxSubLoc.includes(option.value)));
-
+            const auxList = data.location.split('/');
+            setLocationString(auxList.join(' / '))
             setIsLoaded(true);
         } catch (err) {
             console.log(err)
@@ -222,7 +216,7 @@ const Item = ({args}) => {
 
                         <div className="item-data-group">
                             <label>{t('location')}:</label>
-                            <p>{getLocationString(place.label, location?.label, sublocation?.label)}</p>  
+                            <p>{locationString}</p>  
                         </div>
                         
                         <div className="item-data-group">
