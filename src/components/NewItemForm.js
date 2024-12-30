@@ -222,10 +222,10 @@ const NewItemForm = ({args}) => {
                     />
                     {validator.message('place', place, 'required')}
 
-                    {(place && locationObj.placeObj[place.value]?.zonesList) && 
+                    {(place && locationObj?.placeObj[place.value]?.zonesList) && 
                         <>
                         <Select
-                            options={locationObj.placeObj[place.value].zonesList}
+                            options={locationObj?.placeObj[place.value]?.zonesList}
                             onChange={changeLocation}
                             value={location}
                             placeholder={t('select')}

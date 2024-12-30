@@ -9,12 +9,13 @@ const TagsInput = ({tagsList, setTagsList, isDisabled}) => {
     
     const addTag = (e) => {
         e.preventDefault();
-        setTagsList([...tagsList, tagRef.current.value])
-        tagRef.current.value = ''
+        if (!tagsList.some(tag => tag === tagRef.current.value) && tagRef.current.value != '' ){ // Prevent duplicates and empty
+            setTagsList([...tagsList, tagRef.current.value])
+            tagRef.current.value = ''
+        }
     };
 
     function removeTag(index){
-        console.log(index)
         setTagsList(tagsList.filter((label, i) => i !== index))
     }
 
