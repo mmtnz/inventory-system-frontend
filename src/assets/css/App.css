@@ -1532,7 +1532,7 @@ form .react-select__option--is-selected {
 /* ############### TREE ############### */
 /* #################################### */
 .custom-tree-node{
-    margin-left: 2rem;
+    margin-left: 5rem;
     white-space: nowrap;
     display: flex;
     flex-direction: column;
@@ -1542,12 +1542,15 @@ form .react-select__option--is-selected {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    gap: 1rem;
 }
 
 .custom-tree-node .material-symbols-outlined{
     color: #0b101a;
     /* color: var(--color-theme) */
 }
+
+
 
 /* #################################### */
 /* ######### RESPONSIVE ############### */

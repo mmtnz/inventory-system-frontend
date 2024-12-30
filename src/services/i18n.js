@@ -14,6 +14,7 @@ import enLogin from '../locales/en/login.json'
 import enItemWrap from '../locales/en/itemWrap.json'
 import enNewStorageRoom from '../locales/en/newStorageRoom.json'
 import enStorageRoom from '../locales/en/storageRoom.json'
+import enShared from '../locales/en/shared.json'
 
 
 import esHomePage from '../locales/es/homePage.json'
@@ -24,6 +25,7 @@ import esLogin from '../locales/es/login.json'
 import esItemWrap from '../locales/es/itemWrap.json'
 import esNewStorageRoom from '../locales/es/newStorageRoom.json'
 import esStorageRoom from '../locales/es/storageRoom.json'
+import esShared from '../locales/es/shared.json'
 
 
 // Initialize i18n
@@ -40,7 +42,8 @@ i18n
                 login: enLogin,
                 itemWrap: enItemWrap,
                 newStorageRoom: enNewStorageRoom,
-                storageRoom: enStorageRoom
+                storageRoom: enStorageRoom,
+                shared: enShared
             },
             es: {
                 homePage: esHomePage,
@@ -50,7 +53,8 @@ i18n
                 login: esLogin,
                 itemWrap: esItemWrap,
                 newStorageRoom: esNewStorageRoom,
-                storageRoom: esStorageRoom
+                storageRoom: esStorageRoom,
+                shared: esShared
             },
         },
         lng: 'en', // Default language

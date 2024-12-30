@@ -24,6 +24,8 @@ const NewStorageRoomPage = () => {
     const [name, setName] = useState(null);
     const [tagsList, setTagsList] = useState([]);
     const [locationObj, setLocationObj] = useState({});
+    const [locationTree, setLocationTree] = useState({name: 'root', children: []});
+
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -35,7 +37,7 @@ const NewStorageRoomPage = () => {
 
     const isNextButtonDisabled = () => {
         return (currentStep === 1 && (!name || name === '' )) ||
-        (currentStep === 3 && (!locationObj.placesList || locationObj.placesList?.length === 0))
+        (currentStep === 3 && (locationTree.children?.length === 0))
     }
 
     const handleSave = async () => {
@@ -79,11 +81,11 @@ const NewStorageRoomPage = () => {
                 )}
 
                 {currentStep === 3 && (
-                    <NewStorageRoomLocationsForm locationObj={locationObj} setLocationObj={setLocationObj}/>
+                    <NewStorageRoomLocationsForm locationTree={locationTree} setLocationTree={setLocationTree}/>
                 )}
 
                 {currentStep === 4 && (
-                    <NewStorageRoomConfirmation name={name} locationObj={locationObj} tagsList={tagsList}/>
+                    <NewStorageRoomConfirmation name={name} locationTree={locationTree} tagsList={tagsList}/>
                 )}
 
                 <div className="loader-clip-container">
@@ -98,8 +100,6 @@ const NewStorageRoomPage = () => {
                     isSaveButtonDisabled={isLoading}
                     handleSave={handleSave}
                 />
-
-
             </section>
         </div>
     )

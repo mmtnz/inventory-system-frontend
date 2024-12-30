@@ -5,12 +5,10 @@ import createLocationTree from '../utils/createLocationTree';
 import CustomTree from './CustomTree';
 
 
-const NewStorageRoomConfirmation = ({name, tagsList, locationObj}) => {
+const NewStorageRoomConfirmation = ({name, tagsList, locationTree}) => {
 
     const { t } = useTranslation('newStorageRoom'); // Load translations from the 'itemForm' namespace
     const transformedTagsList = createOptionList(tagsList);
-
-    const locationTree = createLocationTree(locationObj);
 
     return(
         <div className='storage-room-confirmation'>
