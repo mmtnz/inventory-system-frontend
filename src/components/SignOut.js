@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
-// import AuthContext from '../services/AuthContext';  // Assuming you have a context to manage user state
-// import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import AuthContext from '../services/AuthContext';  // Assuming you have a context to manage user state
 import userPool from '../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
 import { apiDeleteRefreshToken } from '../services/api';
-
 
 const SignOut = () => {
 
     const navigate = useNavigate();
     const { t } = useTranslation('login'); // Load translations from the 'login' namespace
+    const {setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
     
 
     const handleLogout = async () => {
@@ -38,6 +37,10 @@ const SignOut = () => {
 
             // Clear session storage
             sessionStorage.clear();
+            setStorageRoomsList(null);
+            setStorageRoomsAccessList(null);
+
+
 
         } catch (err) {
             console.log(err.response.status);
