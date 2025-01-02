@@ -160,6 +160,16 @@ export const apiGetInvitations = async (storageRoomId) => {
     }
 }
 
+// GET pending invitations to storage rooms
+export const apiGetStorageRoomInvitations = async () => {
+    try {
+        const response = await api.get(`/invitations`);
+        return response.data
+    } catch (error) {
+        throw error;
+    }
+}
+
 // POST
 export const apiSaveStorageRoom = async (storageRoom) => {
     try {
@@ -215,6 +225,30 @@ export const apiAddUsers = async (storageRoomId, invitationsObj) => {
             `storageRoom/${storageRoomId}/add-users`,
             {...invitationsObj}
         )
+    } catch (error) {
+        throw error;
+    }
+}
+
+// POST accept invitation
+export const apiAcceptInvitation = async (storageRoomId, invitationId) => {
+    try {
+        const result = await api.post(
+            `storageRoom/${storageRoomId}/invitation/${invitationId}/accept`,
+        )
+        return result.data
+    } catch (error) {
+        throw error;
+    }
+}
+
+// POST decline invitation
+export const apiDeclineInvitation = async (storageRoomId, invitationId) => {
+    try {
+        const result = await api.post(
+            `storageRoom/${storageRoomId}/invitation/${invitationId}/decline`,
+        )
+        return result.data
     } catch (error) {
         throw error;
     }

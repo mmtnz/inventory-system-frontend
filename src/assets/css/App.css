@@ -362,6 +362,10 @@ h1 {
     cursor: auto;   
 }
 
+.custom-button-small.delete{
+    background-color: var(--color-delete);
+}
+
 .custom-button-small:active {
     transform: scale(0.95); /* Shrink button slightly on click */
 }
@@ -396,6 +400,10 @@ h1 {
 
 .custom-button-icon:active {
     transform: scale(0.95); /* Shrink button slightly on click */
+}
+
+.custom-button-icon.delete{
+    background-color: var(--color-delete);
 }
 
 /* .search-button-container{
@@ -1171,10 +1179,16 @@ h1 {
 }
 
 .invitation-you-container {
-    background-color: #415a77;
+    background-color: #5a7ea7;
     border-radius: 15px;
     margin-right: 0.5rem;
     padding: 0.2rem 0.6rem 0.3rem 0.6rem;
+}
+
+.pending-container{
+    text-align: left;
+    width: 60%;
+    margin-left: 1rem
 }
 
 
@@ -1201,6 +1215,61 @@ h1 {
     overflow: hidden;         /* Hide overflow text */
     text-overflow: ellipsis;  /* Display ellipsis when text overflows */
 }
+
+.invitations-title-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.invitations-title-container .material-symbols-outlined{
+    color: black;
+}
+
+.invitations-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center; 
+}
+
+.invitation-card {
+    width: 40%;
+    background-color: #b5c8e1;
+    color: #101520;
+
+    /* color: var(--color-theme-font); */
+    border-radius: 3px;
+    font-size: 0.8rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* cursor: pointer; */
+    padding: 1rem 1rem 1rem 1rem;
+    gap: 1rem;
+}
+
+.pending-invitation-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.5rem;
+    color: white
+}
+
+.pending-invitation-button-container .material-symbols-outlined{
+    color:white;
+}
+
+
 
 /* ############################################### */
 /* LOGIN */
@@ -1846,6 +1915,16 @@ form .react-select__option--is-selected {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .pending-container{
+        text-align: left;
+        width: 90%;
+        margin-left: 1rem
+    }
+
+    .invitation-card{
+        width: 80%;
     }
 
 

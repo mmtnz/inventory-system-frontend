@@ -89,7 +89,8 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
                 storageRoomId: storageRoomId,
                 invitationId:  uuidv4(), // Create id so it has a reference to be edited
                 email: email,
-                permissionType: permissionType.value
+                permissionType: permissionType.value,
+                status: "pending"
             }
         ])
         setEmail(null);

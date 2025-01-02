@@ -1,30 +1,37 @@
 // src/pages/HomePage.js
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import AuthContext from '../services/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { apiGetStorageRoomsList } from '../services/api';
+import { apiGetStorageRoomsList, apiGetStorageRoomInvitations } from '../services/api';
 import handleError from '../services/handleError';
 import { ClipLoader } from 'react-spinners';
+import Invitations from '../components/Invitations';
 
 
 const HomePage = () => {
   
     const {storageRoomsList, setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [invitationsList, setInvitationsList] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFirstTime, setIsFirstTime] = useState(true);
+
+     // Ref to track first render
+     const isFirstRender = useRef(true);
   
     const navigate = useNavigate();
     const { t } = useTranslation('homePage'); // Load translations from the 'home' namespace
 
     useEffect(() => {
         // Get storage rooms info if necessary
+        setIsLoading(true);
         if (!storageRoomsList) {
-            setIsLoading(true);
             getStorageRoomsList();
         }
-        
+        getInvitationsList();
     }, []);
+
 
     // Get a list with all the storage rooms the user has access and another one with the permission
     const getStorageRoomsList = async () => {
@@ -32,10 +39,24 @@ const HomePage = () => {
             const response = await apiGetStorageRoomsList();
             setStorageRoomsList(response.storageRoomsList);
             setStorageRoomsAccessList(response.storageRoomsAccessList)
-            setIsLoading(false);
+            
         } catch (err) {
             await handleError(err, t('locale'), navigate);
         }
+    }
+
+    //Get pending invitations to storage rooms
+    const getInvitationsList = async () => {
+        try {
+            const response = await apiGetStorageRoomInvitations();
+            setInvitationsList(response);
+            console.log(response)
+        } catch (err) {
+            console.log(err)
+        }
+        setIsLoading(false);
+        isFirstRender.current = true;
+        
     }
 
     const goToNewStorageRoom = () => {
@@ -48,9 +69,17 @@ const HomePage = () => {
 
     if (isLoading) {
         return(
-            <div className="loader-clip-container">
-              <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-            </div>       
+            <div className='center'>
+            <section className='content'>
+            
+                <div className='storage-room-list'>
+                    <h2>{t('storageRoomsList')}</h2>
+                    <div className="loader-clip-container">
+                        <ClipLoader className="custom-spinner-clip" loading={isLoading} />
+                    </div>
+                </div>        
+            </section>
+        </div>   
         )
     }
 
@@ -60,6 +89,11 @@ const HomePage = () => {
             
                 <div className='storage-room-list'>
                     <h2>{t('storageRoomsList')}</h2>
+
+                    {(invitationsList && invitationsList.filter(inv => inv.status === 'pending').length > 0) &&
+                        // <h4>Invitations ({invitationsList.length})</h4>
+                        <Invitations invitationsList={invitationsList} setInvitationsList={setInvitationsList} getStorageRoomsList={getStorageRoomsList}/>
+                    }
 
                     {(storageRoomsList && storageRoomsList.length > 0) ? (
                         <div className='storage-room-list-container'>

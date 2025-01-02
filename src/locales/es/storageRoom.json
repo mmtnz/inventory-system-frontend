@@ -27,5 +27,6 @@
     "defaultMessage": "Este campo no es válido.",
     "emailMessage": "La direccion debe ser válida",
     "newEmailMessage": "Esta dirección ya esta en la lista",
-    "inviteAnotherUser": "Invitar a otro usuario..."
+    "inviteAnotherUser": "Invitar a otro usuario...",
+    "pending": "Pendientes"
 }

@@ -180,7 +180,7 @@ const StorageRoomAddUsersPage = () => {
 
                 
                 <div className='user-list-container'>
-                        {/* Already invited users */}
+                        
                         <UserInvitation
                             key={userEmail}
                             user={{email: userEmail, permissionType: 'admin'}}
@@ -189,7 +189,9 @@ const StorageRoomAddUsersPage = () => {
                             editInvitation={editInvitation}
                             type={'admin'}
                         />
-                        {invitationsList?.map(invitation => (
+                        {/* Already invited users and accepted*/}
+                        {/*{invitationsList?.map(invitation => ( */}
+                        {invitationsList?.filter(invitation => invitation.status === "accepted")?.map(invitation => (
                             <UserInvitation
                                 key={invitation.invitationId}
                                 user={invitation}
@@ -199,7 +201,19 @@ const StorageRoomAddUsersPage = () => {
                                 type={invitationsToEdit.find(inv => inv.id === invitation.id) ? 'new' : ''} // Change color if edited
                             />
                         ))}
-
+                        <div className='pending-container'>{t('pending')}:</div>
+                        {/* Already invited users and pending*/}
+                        {/* {invitationsList?.map(invitation => ( */}
+                        {invitationsList?.filter(invitation => invitation.status === "pending")?.map(invitation => (
+                            <UserInvitation
+                                key={invitation.invitationId}
+                                user={invitation}
+                                removeInvitation={removeInvitation}
+                                editInvitation={editInvitation}
+                                userEmail={userEmail}
+                                type={invitationsToEdit.find(inv => inv.id === invitation.id) ? 'new' : ''} // Change color if edited
+                            />
+                        ))}
                         {/* New invitations */}
                         {usersList?.map(user => (
                             <UserInvitation
