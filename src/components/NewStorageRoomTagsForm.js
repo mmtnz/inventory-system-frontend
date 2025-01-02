@@ -10,11 +10,12 @@ const NewStorageRoomTagsForm = ({tagsList, setTagsList}) => {
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const { t } = useTranslation('newStorageRoom'); // Load translations from the 'itemForm' namespace
  
-    const addTag = (event) => {
-        if (event.length > tagsList.length && event[event.length - 1].trim() !== ""){ // avoiding empty string or only blank spaces one
-            setTagsList(event)
-        }  
-    }
+    // const addTag = (event) => {
+    //     if (event.length > tagsList.length && event[event.length - 1].trim() !== ""){ // avoiding empty string or only blank spaces one
+    //         setTagsList(event)
+    //     }
+
+    // }
     return(
         <div>
             <form 
@@ -37,7 +38,7 @@ const NewStorageRoomTagsForm = ({tagsList, setTagsList}) => {
                             </span>
                         </div>
                     </div>
-                    <TagsInput tagsList={tagsList} setTagsList={addTag}/>
+                    <TagsInput tagsList={tagsList} setTagsList={setTagsList}/>
                 </div>
             </form>
 

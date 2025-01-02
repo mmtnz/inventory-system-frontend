@@ -9,7 +9,7 @@ const TagsInput = ({tagsList, setTagsList, isDisabled}) => {
     
     const addTag = (e) => {
         e.preventDefault();
-        if (!tagsList.some(tag => tag === tagRef.current.value) && tagRef.current.value != '' ){ // Prevent duplicates and empty
+        if (!tagsList.some(tag => tag === tagRef.current.value) && tagRef.current.value.trim() !== ""){ // Prevent duplicates and empty
             setTagsList([...tagsList, tagRef.current.value])
             tagRef.current.value = ''
         }
