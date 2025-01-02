@@ -46,7 +46,7 @@ const StorageRoomSettingsPage = () => {
                 await handleError({response: {status: 403}}, t('locale'), navigate);
             }
 
-            if (storageRoomPermission?.permissionType === 'admin'){
+            if (storageRoomPermission?.permissionType !== 'admin'){
                 Swal.fire(messagesObj[t('locale')].deleteStorageRoomNoPermission)
                     .then((result) => {
                         if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {

@@ -366,7 +366,7 @@ h1 {
     background-color: var(--color-delete);
 }
 
-.custom-button-small:active {
+.custom-button-small:not(:disabled):active {
     transform: scale(0.95); /* Shrink button slightly on click */
 }
 
@@ -398,7 +398,7 @@ h1 {
     cursor: auto;   
 }
 
-.custom-button-icon:active {
+.custom-button-icon:not(:disabled):active {
     transform: scale(0.95); /* Shrink button slightly on click */
 }
 

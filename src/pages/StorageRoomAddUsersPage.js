@@ -141,8 +141,13 @@ const StorageRoomAddUsersPage = () => {
 
     if (isLoading) {
         return (
-            <div className="loader-clip-container">
-                <ClipLoader className="custom-spinner-clip" loading={true} />
+            <div className='center'>
+                <section className='content'>
+                    <h1 className='margin-bottom-0'>{t('addUsers')}</h1>             
+                    <div className="loader-clip-container">
+                        <ClipLoader className="custom-spinner-clip" loading={true} />
+                    </div>
+                </section>
             </div>
         )
     }
