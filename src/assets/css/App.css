@@ -1690,7 +1690,7 @@ form .react-select__option--is-selected {
         margin-top: 25px;
     }
 
-    #item label, #item p, #item time{
+    #item label, #item p, #item time, .lent-data-info-container{
         font-size: 14px;
     }
 
