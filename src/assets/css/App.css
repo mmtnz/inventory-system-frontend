@@ -779,6 +779,8 @@ h1 {
     flex-direction: row;
     gap: 1rem;
     margin: 5rem 0 3rem 0;
+    width: 100%;
+    justify-content: center;
 }
 
 
@@ -1771,6 +1773,10 @@ form .react-select__option--is-selected {
     .item-data-group {
         flex-direction: column;
         gap: 0.2rem;
+    }
+
+    .item-button-container{
+        width: 70%
     }
 
 

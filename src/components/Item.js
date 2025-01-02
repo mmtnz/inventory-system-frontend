@@ -295,7 +295,7 @@ const Item = ({args}) => {
                         </span>
                         {t('editButton')}
                     </button>
-                    <button className='custom-button' onClick={handleDelete} disabled={isLoading || storageRoomPermission === 'read'}>
+                    <button className='custom-button delete' onClick={handleDelete} disabled={isLoading || storageRoomPermission === 'read'}>
                         <span className="material-symbols-outlined">
                             delete
                         </span>
