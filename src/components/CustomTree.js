@@ -17,10 +17,10 @@ const TreeNode = ({ node }) => {
         className='custom-tree-node-name'
       >
         {hasChildren ? (expanded ?
-            <span className="material-symbols-outlined">expand_more</span> : 
-            <span className="material-symbols-outlined">chevron_right</span>
+            <span className="material-symbols-outlined" translate="no" aria-hidden="true">expand_more</span> : 
+            <span className="material-symbols-outlined" translate="no" aria-hidden="true">chevron_right</span>
         ):(
-          <span className="material-symbols-outlined invisible">chevron_right</span> //to force alignement
+          <span className="material-symbols-outlined invisible" translate="no" aria-hidden="true">chevron_right</span> //to force alignement
         )} 
         {node.name}
       </div>

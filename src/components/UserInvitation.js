@@ -14,10 +14,10 @@ const UserInvitation = ({user, removeInvitation, editInvitation, isAdmin, type})
         ) : (
           <div className='invitation-button-container'>
               <div onClick={() => {editInvitation(user.invitationId)}}>
-                  <span className="material-symbols-outlined">edit</span>
+                  <span className="material-symbols-outlined" translate="no" aria-hidden="true">edit</span>
               </div>
               <div onClick={() => {removeInvitation(user.invitationId);}}>
-                  <span className="material-symbols-outlined">close</span>
+                  <span className="material-symbols-outlined" translate="no" aria-hidden="true">close</span>
               </div>
           </div>
         )}

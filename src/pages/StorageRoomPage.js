@@ -86,7 +86,7 @@ const StorageRoomPage = () => {
                 <div className='option-button-container'>
                     <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToSearch}>
                     {/* <button className="custom-button" onClick={goToSearch}> */}
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             search
                         </span>
                         {t('searchButton')}
@@ -97,7 +97,7 @@ const StorageRoomPage = () => {
                         onClick={goToNewItem}
                         disabled={permissionType === 'read'}
                     >
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             add
                         </span>
                         {t('newItemButton')}
@@ -108,7 +108,7 @@ const StorageRoomPage = () => {
                         onClick={goToSettings}
                         disabled={permissionType !== 'admin'}
                     >
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             settings
                         </span>
                         {t('settings')}

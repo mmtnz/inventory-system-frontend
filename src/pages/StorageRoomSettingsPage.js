@@ -121,21 +121,21 @@ const StorageRoomSettingsPage = () => {
                 
                 <div className='option-button-container'>
                     {/* <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} disabled={true}>
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             edit
                         </span>
                         {t('edit')}
                     </button> */}
             
                     <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToAddUser} >
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             person_add
                         </span>
                         {t('addUser')}
                     </button>
 
                     <button className={`custom-button ${i18n.language === 'es' ? "es" : ""} delete`} onClick={handleDelete}>
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             delete
                         </span>
                         {t('delete')}

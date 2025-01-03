@@ -114,7 +114,7 @@ const HomePage = () => {
 
                 <div className='option-button-container'>          
                     <button className="custom-button" onClick={goToNewStorageRoom}>
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             add
                         </span>
                         {t('newStorageRoom')}

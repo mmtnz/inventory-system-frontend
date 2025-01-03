@@ -154,7 +154,7 @@ const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
                             className='label-icon-container'
                             onClick={() => {setIsInfoOpen(true)}}
                         >
-                            <span className="material-symbols-outlined">
+                            <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                 help
                             </span>
                         </div>

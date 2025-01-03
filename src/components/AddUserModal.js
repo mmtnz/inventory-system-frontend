@@ -26,7 +26,10 @@ const AddUserModal = ({modalIsOpen, setModalIsOpen, usersList, setUsersList, use
             <div className="modal-header">
                 <h4 className="small-modal-title">{t('addUser')}</h4>
                 <div className="modal-close-button-container" onClick={closeModal}>
-                    <span className="material-symbols-outlined">close</span>
+                    <span
+                        className="material-symbols-outlined"
+                        translate="no" aria-hidden="true" // prevent problems with translators
+                    >close</span>
                 </div>
             </div>
             

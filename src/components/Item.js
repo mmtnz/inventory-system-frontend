@@ -244,7 +244,7 @@ const Item = ({args}) => {
                                         onClick={handleReturnLent}
                                         disabled={storageRoomPermission === 'read'}
                                     >
-                                        <span className="material-symbols-outlined">
+                                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                             assignment_return                                            
                                         </span>
                                         {t('isReturned')}
@@ -256,7 +256,7 @@ const Item = ({args}) => {
                                     onClick={() => setModalIsOpen(true)}
                                     disabled={!item.lentHistory}
                                 >
-                                    <span className="material-symbols-outlined">
+                                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                         history
                                     </span>
                                 </button>
@@ -289,13 +289,13 @@ const Item = ({args}) => {
 
                 <div className="item-button-container">
                     <button className='custom-button' onClick={goToEdit} disabled={isLoading || storageRoomPermission === 'read'}>
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             edit
                         </span>
                         {t('editButton')}
                     </button>
                     <button className='custom-button delete' onClick={handleDelete} disabled={isLoading || storageRoomPermission === 'read'}>
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             delete
                         </span>
                         {t('deleteButton')}

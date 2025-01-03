@@ -17,7 +17,7 @@ const CustomModal = ({modalIsOpen, setModalIsOpen, title, content}) => {
             <div className="modal-header">
                 <h2 className="modal-title">{title}</h2>
                 <div className="modal-close-button-container" onClick={() => setModalIsOpen(false)}>
-                    <span className="material-symbols-outlined">close</span>
+                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">close</span>
                 </div>
             </div>
             

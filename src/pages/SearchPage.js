@@ -212,13 +212,13 @@ const SearchPage = () => {
                         
                         <div className="paginating-container">
                             <button className="custom-button-icon" onClick={decreasePage} disabled={currentPage === 1}>
-                                <span className="material-symbols-outlined">
+                                <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                     arrow_back
                                 </span>
                             </button>
                             <p>{`${currentPage} / ${totalPages}`}</p>
                             <button className="custom-button-icon" onClick={increasePage} disabled={currentPage === totalPages}>
-                                <span className="material-symbols-outlined">
+                                <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                     arrow_forward
                                 </span>
                             </button>

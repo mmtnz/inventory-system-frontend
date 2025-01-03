@@ -34,10 +34,10 @@ const InvitationCard = ({invitation, acceptInvitation, declineInvitation}) => {
             <ClipLoader className="custom-spinner-clip" loading={isLoading} />
             <div className="pending-invitation-button-container">
                 <button className="custom-button-icon" onClick={handleAcceptInvitation} disabled={isLoading}>
-                    <span className="material-symbols-outlined">check</span>
+                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">check</span>
                 </button>
                 <button className="custom-button-icon delete" onClick={handleDeclineInvitation} disabled={isLoading}>
-                    <span className="material-symbols-outlined">close</span>
+                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">close</span>
                 </button>
             </div>
         </div>
@@ -83,9 +83,9 @@ const Invitations = ({invitationsList, setInvitationsList,  getStorageRoomsList}
             >
                 Invitations ({invitationsList.filter(inv => inv.status === 'pending').length})
                 {isWrapped ? (
-                    <span className="material-symbols-outlined">chevron_right</span>
+                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">chevron_right</span>
                 ): (
-                    <span className="material-symbols-outlined">expand_more</span>
+                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">expand_more</span>
                 )}            
             </div>
 

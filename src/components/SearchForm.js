@@ -97,7 +97,7 @@ const SearchForm = ({tagList}) => {
                     className="custom-button"
                     type="submit"
                 >
-                    <span className="material-symbols-outlined">
+                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                         search
                     </span>
                     {t('searchButton')}

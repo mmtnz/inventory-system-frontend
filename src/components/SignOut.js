@@ -49,7 +49,7 @@ const SignOut = () => {
 
     return (
         <div onClick={handleLogout} className='header-icon-container hover-container'>
-            <span className="material-symbols-outlined">
+            <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                 logout
             </span>
             <div className='hover-text'>

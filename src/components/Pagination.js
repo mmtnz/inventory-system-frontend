@@ -26,7 +26,7 @@ const Pagination = ({numSteps, currentStep, setCurrentStep, isNextButtonDisabled
                         disabled={currentStep === 1}
                         onClick={() => {setCurrentStep(currentStep - 1)}}
                     >
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             arrow_back
                         </span>
                         {t('back')}

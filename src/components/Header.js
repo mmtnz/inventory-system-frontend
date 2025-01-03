@@ -25,7 +25,11 @@ const Header = () => {
             {cognitoUser ? ( 
                 <>
                 <div className='header-icon-container'>
-                    <span className="material-symbols-outlined" onClick={goHome}>
+                    <span
+                        className="material-symbols-outlined"
+                        translate="no" aria-hidden="true" // prevent problems with translators
+                        onClick={goHome}
+                    >
                         home
                     </span>
                 </div>

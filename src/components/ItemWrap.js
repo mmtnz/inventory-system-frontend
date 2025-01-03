@@ -123,7 +123,7 @@ const ItemWrap = ({itemArg, removeItemFromList, permissionType}) => {
           <div className='item-wrap-buttons-container'>
             {item.isLent && 
               <button className='custom-button-small' onClick={handleReturnLent} disabled={isUpdating || permissionType === 'read'}>
-                  <span className="material-symbols-outlined">
+                  <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                     assignment_return                                            
                   </span>            
                 {t('return')}
@@ -131,7 +131,7 @@ const ItemWrap = ({itemArg, removeItemFromList, permissionType}) => {
             }
 
             <button className='custom-button-small' onClick={handleDelete} disabled={isUpdating || permissionType === 'read'}>
-              <span className="material-symbols-outlined">
+              <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                 delete
               </span>
               {t('delete')}

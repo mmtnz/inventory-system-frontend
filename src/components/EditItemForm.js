@@ -345,7 +345,7 @@ const EditItemForm = ({args, itemArg}) => {
 
                             {(item.imageUrl && item.imageUrl.thumbnail !== "") && (
                                 <div className='delete-button' onClick={removeImage}>
-                                    <span className="material-symbols-outlined">
+                                    <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                         close
                                     </span>
                                 </div>

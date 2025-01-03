@@ -106,7 +106,7 @@ function ConfirmEmailPage() {
                     <div className='text-icon-container'>
                         Send a new code
                         <div className="custom-button-icon" onClick={sendNewCode}>
-                            <span className="material-symbols-outlined">
+                            <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                                 sync
                             </span>
                         </div>

@@ -133,7 +133,10 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
                     className='custom-button margin-top-2rem margin-bottom-1rem'
                     disabled={!isEdited()}
                 >
-                    <span className="material-symbols-outlined">
+                    <span 
+                        className="material-symbols-outlined"
+                        translate="no" aria-hidden="true" // prevent problems with translators
+                    >
                         add
                     </span>
                     {t('add')}
