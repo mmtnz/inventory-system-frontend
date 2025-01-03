@@ -14,7 +14,6 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
     const [, forceUpdate] = useState();
     
     const { t, i18n } = useTranslation('storageRoom'); 
-    console.log(currentUserList)
     
     const [validator, setValidator] = useState(new SimpleReactValidator(
         {validators: {
@@ -45,7 +44,6 @@ const AddUserForm = ({usersList, setUsersList, userData, setUserData, closeModal
     ]
     
     useEffect(() => {
-        console.log(userData)
         if (userData) {
             setEmail(userData.email);
             setPermissionType(permissionTypeOptions.find(opt => opt.value === userData.permissionType))
