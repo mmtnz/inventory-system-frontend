@@ -65,9 +65,12 @@ const EditableTreeNode = ({ node, onAdd, onEditComplete, onDelete, depth}) => {
     const [tempName, setTempName] = useState(node.name || '');
 
     const handleKeyDown = (e) => {
+        console.log(node?.children?.some(child => child.name === tempName))
+        console.log(node?.children)
+        console.log(node)
         if (e.key === 'Enter') {
             e.preventDefault(); // Prevent the default behavior of the Enter key
-            if (tempName !== '' && !node?.children?.some(child => child.name === tempName)){
+            if (tempName !== ''){
                 onEditComplete(node, tempName);
                 setIsEditing(false);
             }
@@ -86,7 +89,12 @@ const EditableTreeNode = ({ node, onAdd, onEditComplete, onDelete, depth}) => {
                         onChange={(e) => setTempName(e.target.value)}
                         onKeyDown={handleKeyDown}
                         onBlur={() => {
+                            if (tempName !== ''){
+                                console.log('entro')
+                                onEditComplete(node, tempName);
+                            }
                             setIsEditing(false);
+
                         }}
                     />
                 </div>
@@ -132,18 +140,19 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
   
   // Function to Complete Editing Node
     const handleEditComplete = (node, newName) => {
-        const updateNodeName = (treeNode) => {
-            if (treeNode === node) {
+        const updateNodeName = (treeNode, parentNode) => {
+            //check if other child with same name
+            if (treeNode === node && !parentNode?.children.some(child => child.name === newName)) {
                 treeNode.name = newName;
                 treeNode.isEditing = false;
             } else if (treeNode.children) {
-                treeNode.children.forEach((child) => updateNodeName(child));
+                treeNode.children.forEach((child) => updateNodeName(child, treeNode));
             }
         };
 
         setTreeData((prevTree) => {
             const newTree = { ...prevTree };
-            updateNodeName(newTree);
+            updateNodeName(newTree, null);
             return newTree;
         });
     };
@@ -178,8 +187,15 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
             setIsEditing(false);
             setTempName('')
         }
-
     };
+
+    const handelEditCompleteRoot = () => {
+        if (tempName !== '' && !treeData.children.some(child => child.name === tempName)){
+            setTreeData({...treeData, children: [...treeData.children, {name: tempName, children: []}]})
+            setIsEditing(false);
+            setTempName('')
+        }
+    }
 
     return (
         <div className='custom-editable-tree'>
@@ -202,6 +218,9 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
                         onChange={(e) => setTempName(e.target.value)}
                         onKeyDown={handleKeyDown}
                         onBlur={() => {
+                            if ( tempName !== ""){
+                                handelEditCompleteRoot()
+                            }
                             setIsEditing(false);
                             setTempName('')
                         }}
@@ -211,7 +230,6 @@ const CustomEditableTree = ({ treeData, setTreeData }) => {
             <div
                 className='custom-tree-add-location'
                 onClick={() => {
-                    handleAddNode(treeData);
                     setIsEditing(true);
                 }}
             >
