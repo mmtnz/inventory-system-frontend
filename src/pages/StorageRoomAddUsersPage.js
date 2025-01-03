@@ -243,7 +243,7 @@ const StorageRoomAddUsersPage = () => {
                         onClick={handleInviteUsers}
                         disabled={usersList?.length <= 0 && invitationsToDelete?.length <= 0 && invitationsToEdit?.length <= 0}
                     >
-                        <span className="material-symbols-outlined">
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             person_add
                         </span>
                         {t('update')}
