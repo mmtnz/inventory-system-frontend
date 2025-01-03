@@ -12,5 +12,5 @@
     "next": "Siguiente",
     "back": "Atras",
     "tagsInfo": "Crea las etiquetas que quieras usar para clasificar los elementos.\\nEj: deportes, herramientas, musica...",
-    "placesInfo": "Crea los lugares donde pueden estar almacenados los elementos. Se pueden crear hasta tres subniveles:\\n(Lugar/Localización/Sublocalización).\\nEj: Garaje/Armario 1/Balda 2"
+    "placesInfo": "Crea los lugares donde pueden estar almacenados los elementos. Se pueden crear hasta tres subniveles diferentes:\\nGaraje/Armario 1/Balda 2"
 }

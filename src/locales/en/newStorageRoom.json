@@ -12,5 +12,5 @@
     "next": "Next",
     "back": "Back",
     "tagsInfo": "Create the tags you want to use to classify your items. Ex: sports, tools, music...",
-    "placesInfo": "Create the locations where the items can be stored. You can create up to three sub-levels:\\n(Place/Location/Sublocation).\\nEx: (Garage/Wardrobe 1/Self 3)"
+    "placesInfo": "Create the locations where the items can be stored. You can create up to three different sub-levels:\\n(Garage >Wardrobe 1 >Self 3)"
 }
