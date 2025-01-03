@@ -62,8 +62,6 @@ function LoginPage() {
     try {
      
       const result = await signIn(email, password);
-      console.log(result)
-      console.log(result.newPasswordRequired)
 
       if (result.newPasswordRequired) {
         setUser(result.cognitoUser)
@@ -78,12 +76,11 @@ function LoginPage() {
         // const userInfo = await apiGetUserInfo();
         // sessionStorage.setItem('storageRoomsList', JSON.stringify(userInfo.storageRoomsList))
         const storageRoomsList = await apiGetStorageRoomsList();
-        console.log(storageRoomsList)
+        // console.log(storageRoomsList)
         navigate('/home');
       }
     } catch (err) {
       if (err.code === 'NotAuthorizedException') {
-        console.error('Error signing in:', err);
         setError(t('incorrectEmailPassword'))
       } else if (err.code === "UserNotConfirmedException") {
         navigate(`/confirm-email?email=${email}`)

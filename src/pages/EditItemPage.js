@@ -13,7 +13,7 @@ import {messagesObj} from '../schemas/messages';
 
 const EditItemPage = () => {
 
-    const [args, setArgs] = useState({tagList: null, locationObj: null});
+    const [args, setArgs] = useState({tagsList: null, locationObj: null});
     const {storageRoomId, itemId} = useParams();
     const [item, setItem] = useState({});
     const [loading, setLoading] = useState(true);
@@ -87,7 +87,7 @@ const EditItemPage = () => {
         }
     }
 
-    if (loading) {
+    if (loading || JSON.stringify(item) === JSON.stringify({}) || !args.tagsList || !args.locationObj) {
         return(
             <div className="loader-clip-container">
                 <ClipLoader className="custom-spinner-clip" loading={true} />

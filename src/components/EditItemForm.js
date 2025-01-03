@@ -57,20 +57,20 @@ const EditItemForm = ({args, itemArg}) => {
     const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
-        if (item.tagsList && item.tagsList.length > 0) {
-            setSelectedTags(tagsList.filter(option => item.tagsList.includes(option.value)));
+        if (itemArg.tagsList && itemArg.tagsList.length > 0) {
+            setSelectedTags(args.tagsList?.filter(option => itemArg.tagsList.includes(option.value)));
         }
 
-        setName(item.name || '');
-        setDescription(item.description || '');
+        setName(itemArg.name || '');
+        setDescription(itemArg.description || '');
                 
-        setOtherNamesList(item.otherNamesList ? item.otherNamesList : []); // Just in case item has no otherNamesList as attribute
-        setLocationAll(item.location)
+        setOtherNamesList(itemArg.otherNamesList ? itemArg.otherNamesList : []); // Just in case item has no otherNamesList as attribute
+        setLocationAll(itemArg.location)
        
         setLoading(false);
 
-        if (isLent && item.isLent != null){
-            let [auxLentName, auxLentDate] = item.isLent.split('/');
+        if (isLent && itemArg.isLent != null){
+            let [auxLentName, auxLentDate] = itemArg.isLent.split('/');
             setIsLentName(auxLentName);
             setIsLentDate(auxLentDate);
         }
@@ -107,7 +107,6 @@ const EditItemForm = ({args, itemArg}) => {
     };
 
     const changeState = () => {
-        console.log('entro')
         let auxItem = {
             ...item,
             name: name,
@@ -117,8 +116,6 @@ const EditItemForm = ({args, itemArg}) => {
             // tagsList: ta
         }
         auxItem = JSON.parse(JSON.stringify(auxItem, (key, value) => (value === null ? undefined : value)))
-        console.log(auxItem)
-        console.log(oldItem)
         setItem(auxItem)
         setIsDifferent(!!(JSON.stringify(oldItem) !== JSON.stringify(auxItem)));
     };

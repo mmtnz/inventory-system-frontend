@@ -50,9 +50,10 @@ const HomePage = () => {
         try {
             const response = await apiGetStorageRoomInvitations();
             setInvitationsList(response);
-            console.log(response)
+            // console.log(response)
         } catch (err) {
-            console.log(err)
+            // console.log(err)
+            await handleError(err, t('locale'), navigate);
         }
         setIsLoading(false);
         isFirstRender.current = true;

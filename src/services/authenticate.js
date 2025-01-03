@@ -42,7 +42,6 @@ const signIn = async (email, password) => {
         resolve({ userAttributes, requiredAttributes, cognitoUser: user, newPasswordRequired: true });
       },
       onFailure: (err) => {
-        console.error('Error signing in:', err);
         reject(err); // Return the error on failure
       },
     });

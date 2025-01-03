@@ -49,10 +49,10 @@ const ItemLocationForm = ({ locationObj, location, setLocation, validator }) => 
         const locationNames = locationPath.split('/').filter(Boolean);
         const initializedLocations = [];
         let currentLevel = locationObj;
-        console.log(locationObj)
+        
         for (const name of locationNames) {
             const matchingChild = currentLevel?.children.find((child) => child.name === name);
-            console.log(matchingChild)
+            // console.log(matchingChild)
             if (matchingChild) {
                 initializedLocations.push(matchingChild);
                 currentLevel = matchingChild; // Move to the next level
@@ -60,7 +60,7 @@ const ItemLocationForm = ({ locationObj, location, setLocation, validator }) => 
                 break; // Stop if no match is found
             }
         }
-        console.log(initializedLocations)
+
         setLocations(initializedLocations);
     };
 

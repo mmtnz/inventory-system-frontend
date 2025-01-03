@@ -120,13 +120,12 @@ const StorageRoomSettingsPage = () => {
                 <h3>{storageRoom.name}</h3>
                 
                 <div className='option-button-container'>
-                    <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} disabled={true}>
-                    {/* <button className="custom-button" onClick={goToSearch}> */}
+                    {/* <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} disabled={true}>
                         <span className="material-symbols-outlined">
                             edit
                         </span>
                         {t('edit')}
-                    </button>
+                    </button> */}
             
                     <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToAddUser} >
                         <span className="material-symbols-outlined">

@@ -97,7 +97,6 @@ const Item = ({args}) => {
             } else {
                 data = await apiGetItem(storageRoomId, itemId);
             }
-            console.log(data)
             
             setItem(data);
 

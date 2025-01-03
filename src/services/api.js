@@ -27,7 +27,6 @@ api.interceptors.request.use(
         let accessToken = sessionStorage.getItem('accessToken');  // Get the access token from storage
 
         if (isTokenExpired(accessToken)) {
-            console.log('token expired')
             const newToken = await apiRefreshToken(); // If expired, refresh token (optional)
             sessionStorage.setItem('accessToken', newToken); // Store the new token
             accessToken = newToken
@@ -78,7 +77,7 @@ export const apiSendRefreshToken = async (refresToken) => {
             '/auth/token',
             refresToken
         );
-        console.log(result)
+        // console.log(result)
     } catch (error) {
         throw error;
     }
