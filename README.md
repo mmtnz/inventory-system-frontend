@@ -49,7 +49,8 @@ mechanisms.
 - **Storage**: Amazon S3 for scalable object storage.
 - **Database**: DynamoDB for NoSQL database solutions.
 
-![Schema](/src/assets/images/schema.png)
+![Schema](https://github.com/user-attachments/assets/554df2e3-ac4f-4007-8921-3a281891a093)
+
 
 <p align="right">(<a href="#tidymystorage">back to top</a>)</p>
 
