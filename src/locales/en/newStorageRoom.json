@@ -1,0 +1,16 @@
+{
+    "locale": "en",
+    "title": "New storage room",
+    "name": "Name",
+    "tags": "Tags",
+    "places": "Places",
+    "place": "Place",
+    "locations": "Locations",
+    "location": "Location",
+    "sublocations": "Sublocations",
+    "save": "Save",
+    "next": "Next",
+    "back": "Back",
+    "tagsInfo": "Create the tags you want to use to classify your items. Ex: sports, tools, music...",
+    "placesInfo": "Create the locations where the items can be stored. You can create up to three different sub-levels:\\n(Garage >Wardrobe 1 >Self 3)"
+}

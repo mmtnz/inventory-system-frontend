@@ -1,12 +1,11 @@
 // src/pages/HomePage.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import config from '../config';
 
 
 const Footer = () => {
   
   const { SW_VERSION } = config;
-  console.log(SW_VERSION)
 
   return (
     <div className='footer'>

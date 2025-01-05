@@ -1,52 +1,128 @@
 // src/pages/HomePage.js
-import React, { useEffect, useState } from 'react';
-import Footer from '../components/Footer';
-import SearchForm from '../components/SearchForm';
-import { Link, useNavigate } from 'react-router-dom';
-// import { getProducts } from '../services/api';
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import AuthContext from '../services/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { apiGetStorageRoomsList, apiGetStorageRoomInvitations } from '../services/api';
+import handleError from '../services/handleError';
+import { ClipLoader } from 'react-spinners';
+import Invitations from '../components/Invitations';
+
 
 const HomePage = () => {
-//   const [products, setProducts] = useState([]);
+  
+    const {storageRoomsList, setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
 
-//   useEffect(() => {
-//     async function fetchData() {
-//       const products = await getProducts();
-//       setProducts(products);
-//     }
-//     fetchData();
-//   }, []);
-  const navigate = useNavigate();
+    const [invitationsList, setInvitationsList] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFirstTime, setIsFirstTime] = useState(true);
 
-  const goToSearch = () => {
-    navigate('/search');
-  }
+     // Ref to track first render
+     const isFirstRender = useRef(true);
+  
+    const navigate = useNavigate();
+    const { t } = useTranslation('homePage'); // Load translations from the 'home' namespace
 
-  const goToNewItem = () => {
-    navigate('/new-item');
-  }
+    useEffect(() => {
+        // Get storage rooms info if necessary
+        setIsLoading(true);
+        if (!storageRoomsList) {
+            getStorageRoomsList();
+        }
+        getInvitationsList();
+    }, []);
 
-  return (
-    <div className='center'>
-      <section className='content'>
-        <h1>Organizador trastero</h1>
-        <div className='option-button-container'>
-          
-          <button className="home-button" onClick={goToSearch}>
-            {/* <Link to="/search">Buscar</Link> */}
-            <p>Buscar</p>
-          </button>
-          
-          <button className="home-button" onClick={goToNewItem}>
-            {/* <Link to="/new-item">Nuevo elemento</Link> */}
-            <p>Nuevo elemento</p>
-          </button>
-        </div>
+
+    // Get a list with all the storage rooms the user has access and another one with the permission
+    const getStorageRoomsList = async () => {
+        try {
+            const response = await apiGetStorageRoomsList();
+            setStorageRoomsList(response.storageRoomsList);
+            setStorageRoomsAccessList(response.storageRoomsAccessList)
+            
+        } catch (err) {
+            await handleError(err, t('locale'), navigate);
+        }
+    }
+
+    //Get pending invitations to storage rooms
+    const getInvitationsList = async () => {
+        try {
+            const response = await apiGetStorageRoomInvitations();
+            setInvitationsList(response);
+            // console.log(response)
+        } catch (err) {
+            // console.log(err)
+            await handleError(err, t('locale'), navigate);
+        }
+        setIsLoading(false);
+        isFirstRender.current = true;
         
-      </section>
-      {/* <SearchForm />
-      <Footer /> */}
-    </div>
-  );
+    }
+
+    const goToNewStorageRoom = () => {
+        navigate(`/storageRoom/new`);
+    }
+
+    const goToStorageRoom = (storageRoomId) => {
+        navigate(`/storageRoom/${storageRoomId}`);
+    }
+
+    if (isLoading) {
+        return(
+            <div className='center'>
+            <section className='content'>
+            
+                <div className='storage-room-list'>
+                    <h2>{t('storageRoomsList')}</h2>
+                    <div className="loader-clip-container">
+                        <ClipLoader className="custom-spinner-clip" loading={isLoading} />
+                    </div>
+                </div>        
+            </section>
+        </div>   
+        )
+    }
+
+    return (
+        <div className='center'>
+            <section className='content'>
+            
+                <div className='storage-room-list'>
+                    <h2>{t('storageRoomsList')}</h2>
+
+                    {(invitationsList && invitationsList.filter(inv => inv.status === 'pending').length > 0) &&
+                        // <h4>Invitations ({invitationsList.length})</h4>
+                        <Invitations invitationsList={invitationsList} setInvitationsList={setInvitationsList} getStorageRoomsList={getStorageRoomsList}/>
+                    }
+
+                    {(storageRoomsList && storageRoomsList.length > 0) ? (
+                        <div className='storage-room-list-container'>
+                            {storageRoomsList?.map(stRoom => (
+                                <div
+                                    key={stRoom.storageRoomId}
+                                    className='storage-room-card'
+                                    onClick={() => {goToStorageRoom(stRoom.storageRoomId)}}>
+                                        {stRoom.name}
+                                </div>
+                            ))}
+                        </div>
+                    ): (
+                        <div>{t('noStorageRooms')}</div>
+                    )}
+                </div>
+
+                <div className='option-button-container'>          
+                    <button className="custom-button" onClick={goToNewStorageRoom}>
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
+                            add
+                        </span>
+                        {t('newStorageRoom')}
+                    </button>
+                </div>        
+            </section>
+        </div>
+    );
 };
 
 export default HomePage;

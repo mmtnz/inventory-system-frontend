@@ -1,76 +1,104 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import AuthContext from '../services/AuthContext';
 import EditItemForm from '../components/EditItemForm';
-import { apiGetTagsList, apiGetTLoationsObj } from '../services/api';
 import { apiGetItem } from '../services/api';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { apiGetStorageRoomsList } from "../services/api";
+import { ClipLoader } from 'react-spinners';
+import handleError from '../services/handleError';
+import Swal from 'sweetalert2';
+import {messagesObj} from '../schemas/messages';
+
 
 const EditItemPage = () => {
 
-    const [args, setArgs] = useState({tagList: null, locationObj: null});
-    // const url = API_BASE_URL;
-    const itemId = useParams().id;
+    const [args, setArgs] = useState({tagsList: null, locationObj: null});
+    const {storageRoomId, itemId} = useParams();
     const [item, setItem] = useState({});
-    const [error, setError] = useState({});
     const [loading, setLoading] = useState(true);
+
+    const {storageRoomsList, setStorageRoomsList, storageRoomsAccessList, setStorageRoomsAccessList} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     useEffect(() => {
-        getArgs();
-        
-       
+        if (!storageRoomsList || !storageRoomsAccessList){
+            getStorageRoomData();        
+        } else {
+            const storRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            const storageRoomPermission = storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storRoom || !storageRoomPermission) {
+                handleError({response: {status: 404}}, t('locale'), navigate);
+            } else {
+                const storageRoom = storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+                setArgs(storageRoom?.config);           
+            }
+            
+        }
+        getItemData();
     }, [])
 
-    const getData = ()  => {
-        getArgs();
-        getItem();
-        setLoading(false);
-    }
-    
-    // Get options from the DB
-    const getArgs = async () => {
-        let tagList = await apiGetTagsList();
-        let locationObj = await apiGetTLoationsObj();
-        let aux = {
-            tagList: tagList,
-            locationObj: locationObj
-        };
-        setArgs(aux);
-        getItem();
-        // setLoading(false);
-    }
-
-    const getItem = async () => {
+    // Get storage room info
+    const getStorageRoomData = async () => {
         try {
-            const data = await apiGetItem(itemId);
-            setItem(data);
-            setError(null);
+            const response = await apiGetStorageRoomsList();
+            setStorageRoomsList(response.storageRoomsList);
+            setStorageRoomsAccessList(response.storageRoomsAccessList);
+            const storageRoom = response.storageRoomsList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            const storageRoomPermission = response.storageRoomsAccessList.find(storRoom => storRoom.storageRoomId === storageRoomId);
+            if (!storageRoom || !storageRoomPermission){
+                await handleError({response: {status: 403}}, t('locale'), navigate);
+            }
+            if (storageRoomPermission?.permissionType === 'read'){
+                Swal.fire(messagesObj[t('locale')].readOnlyPermission)
+                    .then((result) => {
+                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.close) {
+                            navigate(`/storageRoom/${storageRoomId}`);
+                        }
+                    }
+                );
+            }
+            setArgs(storageRoom?.config);
 
-            // setSelectedTags(data.tagList);
-            // console.log(data)
-            // if (tagList) {
-            //     setInitialTags(tagList.filter(option => data.tagsList.includes(option.value)))
-            // }
-            setLoading(false);
-            
         } catch (err) {
-            setItem({})
-            console.log(err)
-            setError('Error cargando elemento')
+            await handleError(err, t('locale'), navigate);
         }
     }
 
-    if (loading) {
+    const getItemData = () => {
+        // Check if item is passed as state from Item page
+        if (location.state?.item) {
+            setItem(location.state?.item);
+        } else {
+            getItem();
+        }
+        setLoading(false);
+    }
+
+    // GET item info from backend
+    const getItem = async () => {
+        try {
+            const data = await apiGetItem(storageRoomId, itemId);
+            setItem(data);           
+        } catch (err) {
+            await handleError(err, t('locale'), navigate);
+        }
+    }
+
+    if (loading || JSON.stringify(item) === JSON.stringify({}) || !args.tagsList || !args.locationObj) {
         return(
-            <div>
-                <h2>Cargando...</h2>
+            <div className="loader-clip-container">
+                <ClipLoader className="custom-spinner-clip" loading={true} />
             </div>
         )
-        
     }
 
     return(
         <div className='center'>
             <section className='content'>
-                <h1>Editar elemento</h1>
+                <h1>{t('titleEdit')}</h1>
                 <EditItemForm args={args} itemArg={item}/>
             </section>
         </div>

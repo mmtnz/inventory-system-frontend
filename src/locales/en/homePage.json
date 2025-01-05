@@ -1,0 +1,12 @@
+{
+    "title": "Storage Room",
+    "searchButton": "Search",
+    "newItemButton": "New item",
+    "locale": "en",
+    "select": "Select storage room...",
+    "newStorageRoom": "New storage room",
+    "storageRoomsList": "Your storage rooms",
+    "settings": "Settings",
+    "noStorageRooms": "You have no storage rooms",
+    "invitations": "Invitations"
+}

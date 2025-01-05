@@ -1,24 +1,29 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
-const TagsInput = ({tagList, setTagList}) => {
 
+const TagsInput = ({tagsList, setTagsList, isDisabled}) => {
+    // console.log(tagsList)
     const tagRef = React.createRef();
+    const { t } = useTranslation('itemForm'); // Load translations from the 'itemForm' namespace
     
     const addTag = (e) => {
         e.preventDefault();
-        setTagList([...tagList, tagRef.current.value])
-        tagRef.current.value = ''
+        if (!tagsList.some(tag => tag === tagRef.current.value) && tagRef.current.value.trim() !== ""){ // Prevent duplicates and empty
+            setTagsList([...tagsList, tagRef.current.value])
+            tagRef.current.value = ''
+        }
     };
 
     function removeTag(index){
-        setTagList(tagList.filter((el, i) => i !== index))
+        setTagsList(tagsList.filter((label, i) => i !== index))
     }
 
     return(
         <div className="tags-input-container">
-            {tagList.length > 0 && 
+            {(tagsList && tagsList.length > 0) && 
                 <div className="tags-container">
-                    {tagList.map((tag, index) => (
+                    {tagsList.map((tag, index) => (
                         <div className="tag-item" key={index}>
                             <span className='tag'>{tag}</span>
                             {/* <span className="close" onClick={() => removeTag(index)}>&times;</span> */}
@@ -40,8 +45,13 @@ const TagsInput = ({tagList, setTagList}) => {
 
             <input type="text" ref={tagRef}/>
             
-            <div className="button-container">
-                <button onClick={addTag}>Agregar</button>
+            <div className="tag-button-container">
+                <button onClick={addTag} className="custom-button-small" disabled={isDisabled}>
+                    <span className="material-symbols-outlined">
+                        add
+                    </span>
+                    {t('add')}
+                </button>
             </div>
           
         </div>

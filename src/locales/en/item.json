@@ -1,0 +1,17 @@
+{
+    "error": "Error loading item",
+    "otherNames": "Other names",
+    "tags": "Tags",
+    "location": "Location",
+    "description": "Description",
+    "lent": "Lent",
+    "modalTitle": "History",
+    "lastModification": "Last modification",
+    "creationDate": "Creation",
+    "editButton": "Edit",
+    "deleteButton": "Delete",
+    "isReturned": "Return",
+    "to": " to",
+    "locale": "en"
+
+}

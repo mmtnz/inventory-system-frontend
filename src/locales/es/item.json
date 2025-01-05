@@ -1,0 +1,16 @@
+{
+    "error": "Error cargando elemento",
+    "otherNames": "Otros nombres",
+    "tags": "Tags",
+    "location": "Ubicación",
+    "description": "Descripción",
+    "lent": "Prestado",
+    "modalTitle": "Historial",
+    "lastModification": "Última modificación",
+    "creationDate": "Creación",
+    "editButton": "Editar",
+    "deleteButton": "Eliminar",
+    "isReturned": "Devolver",
+    "to": " a",
+    "locale": "es"
+}
