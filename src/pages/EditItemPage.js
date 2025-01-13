@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AuthContext from '../services/AuthContext';
-import EditItemForm from '../components/EditItemForm';
+import EditItemForm from '../components/itemForm/EditItemForm';
 import { apiGetItem } from '../services/api';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

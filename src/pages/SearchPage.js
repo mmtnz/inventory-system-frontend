@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useParams, useNavigate } from "react-router-dom";
 import AuthContext from '../services/AuthContext';
-import SearchForm from '../components/SearchForm';
+import SearchForm from '../components/search/SearchForm';
 import { apiSearchItems, apiGetStorageRoomsList } from "../services/api";
-import ItemWrap from "../components/ItemWrap"
+import ItemWrap from "../components/item/ItemWrap"
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
 import handleError from "../services/handleError";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AuthContext from '../services/AuthContext';
-import Item from '../components/Item';
+import Item from '../components/item/Item';
 import { apiGetStorageRoomsList } from "../services/api";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

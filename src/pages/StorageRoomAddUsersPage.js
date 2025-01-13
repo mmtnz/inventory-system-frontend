@@ -8,8 +8,8 @@ import { ClipLoader } from 'react-spinners';
 import { apiAddUsers, apiGetInvitations, apiGetStorageRoomsList } from '../services/api';
 import Swal from "sweetalert2";
 import {messagesObj} from "../schemas/messages";
-import UserInvitation from '../components/UserInvitation';
-import AddUserModal from '../components/AddUserModal';
+import UserInvitation from '../components/invitation/UserInvitation';
+import AddUserModal from '../components/invitation/AddUserModal';
 
 const StorageRoomAddUsersPage = () => {
   

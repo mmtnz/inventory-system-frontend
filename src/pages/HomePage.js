@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { apiGetStorageRoomsList, apiGetStorageRoomInvitations } from '../services/api';
 import handleError from '../services/handleError';
 import { ClipLoader } from 'react-spinners';
-import Invitations from '../components/Invitations';
+import Invitations from '../components/invitation/Invitations';
 
 
 const HomePage = () => {

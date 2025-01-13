@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AuthContext from '../services/AuthContext';
-import NewItemForm from '../components/NewItemForm';
+import NewItemForm from '../components/itemForm/NewItemForm';
 import { useTranslation } from 'react-i18next';
 import { apiGetStorageRoomsList } from "../services/api";
 import { useParams, useNavigate } from 'react-router-dom';
