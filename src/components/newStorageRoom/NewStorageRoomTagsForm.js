@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import TagsInput from './TagsInput';
-import InfoModal from './InfoModal';
+import TagsInput from '../TagsInput';
+import InfoModal from '../InfoModal';
 
 
 

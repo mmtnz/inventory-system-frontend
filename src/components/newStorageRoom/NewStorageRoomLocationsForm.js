@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import TagsInput from './TagsInput';
+import TagsInput from '../TagsInput';
 import { useTranslation } from 'react-i18next';
-import createOptionList from '../utils/createOptionList';
-import InfoModal from './InfoModal';
-import CustomEditableTree from './tree/CustomEditableTree';
+import createOptionList from '../../utils/createOptionList';
+import InfoModal from '../InfoModal';
+import CustomEditableTree from '../tree/CustomEditableTree';
 
 const NewStorageRoomLocationsForm = ({locationTree, setLocationTree}) => {
 
