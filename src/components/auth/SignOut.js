@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../services/AuthContext';  // Assuming you have a context to manage user state
-import userPool from '../services/cognitoConfig'; // Your Cognito configuration
+import AuthContext from '../../services/AuthContext';  // Assuming you have a context to manage user state
+import userPool from '../../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
-import { apiDeleteRefreshToken } from '../services/api';
+import { apiDeleteRefreshToken } from '../../services/api';
 
 const SignOut = () => {
 

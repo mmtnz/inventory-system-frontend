@@ -4,11 +4,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import {messagesObj} from '../schemas/messages';
 
-import NewStorageRoomNameForm from '../components/NewStorageRoomNameForm';
-import NewStorageRoomTagsForm from '../components/NewStorageRoomTagsForm';
-import NewStorageRoomLocationsForm from '../components/NewStorageRoomLocationsForm';
-import NewStorageRoomConfirmation from '../components/NewStorageRoomConfirmation';
-import Pagination from '../components/Pagination';
+import NewStorageRoomNameForm from '../components/newStorageRoom/NewStorageRoomNameForm';
+import NewStorageRoomTagsForm from '../components/newStorageRoom/NewStorageRoomTagsForm';
+import NewStorageRoomLocationsForm from '../components/newStorageRoom/NewStorageRoomLocationsForm';
+import NewStorageRoomConfirmation from '../components/newStorageRoom/NewStorageRoomConfirmation';
+import Pagination from '../components/utils/Pagination';
 import { apiSaveStorageRoom } from '../services/api';
 import handleError from '../services/handleError';
 import AuthContext from '../services/AuthContext';

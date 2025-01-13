@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import createOptionList from '../utils/createOptionList';
-import createLocationTree from '../utils/createLocationTree';
-import CustomTree from './CustomTree';
+import createOptionList from '../../utils/createOptionList';
+import createLocationTree from '../../utils/createLocationTree';
+import CustomTree from '../tree/CustomTree';
 
 
 const NewStorageRoomConfirmation = ({name, tagsList, locationTree}) => {

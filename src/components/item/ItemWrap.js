@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultImage from '../assets/images/default.png';
-import { apiReturnLent, apiDeleteItem } from "../services/api";
-import handleError from '../services/handleError';
+import { apiReturnLent, apiDeleteItem } from "../../services/api";
+import handleError from '../../services/handleError';
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import {messagesObj} from "../schemas/messages";
+import {messagesObj} from "../../schemas/messages";
 import { ClipLoader } from 'react-spinners';
 
 import { useTranslation } from 'react-i18next';

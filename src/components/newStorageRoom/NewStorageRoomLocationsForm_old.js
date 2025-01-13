@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import TagsInput from './TagsInput';
+import TagsInput from '../utils/TagsInput';
 import { useTranslation } from 'react-i18next';
-import createOptionList from '../utils/createOptionList';
-import InfoModal from './InfoModal';
+import createOptionList from '../../utils/createOptionList';
+import InfoModal from '../utils/InfoModal';
 
 const NewStorageRoomLocationsForm = ({locationObj, setLocationObj}) => {
     

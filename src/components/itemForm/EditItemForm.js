@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { apiEditItem, apiUploadImage } from '../services/api';
-import {messagesObj} from '../schemas/messages';
-import handleError from '../services/handleError';
-import TagsInput from './TagsInput';
+import { apiEditItem, apiUploadImage } from '../../services/api';
+import {messagesObj} from '../../schemas/messages';
+import handleError from '../../services/handleError';
+import TagsInput from '../utils/TagsInput';
 import { ClipLoader } from 'react-spinners';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
