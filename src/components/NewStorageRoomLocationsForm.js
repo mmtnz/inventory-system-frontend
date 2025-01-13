@@ -6,7 +6,7 @@ import TagsInput from './TagsInput';
 import { useTranslation } from 'react-i18next';
 import createOptionList from '../utils/createOptionList';
 import InfoModal from './InfoModal';
-import CustomEditableTree from './CustomEditableTree';
+import CustomEditableTree from './tree/CustomEditableTree';
 
 const NewStorageRoomLocationsForm = ({locationTree, setLocationTree}) => {
 
