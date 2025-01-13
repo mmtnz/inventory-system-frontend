@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import AuthContext from "../services/AuthContext";
-import userPool from '../services/cognitoConfig'; // Your Cognito configuration
+import AuthContext from "../../services/AuthContext";
+import userPool from '../../services/cognitoConfig'; // Your Cognito configuration
 // import {jwtDecode} from "jwt-decode";
 
 const PrivateRoute = ({ element: Element, ...rest }) => {
