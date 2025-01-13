@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useTranslation } from 'react-i18next';
-import { apiAcceptInvitation, apiDeclineInvitation } from "../services/api";
+import { apiAcceptInvitation, apiDeclineInvitation } from "../../services/api";
 import { ClipLoader } from 'react-spinners'
 
 const InvitationCard = ({invitation, acceptInvitation, declineInvitation}) => {
