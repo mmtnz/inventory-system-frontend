@@ -5,10 +5,10 @@ import ItemPage from "./pages/ItemPage";
 import HomePage from "./pages/HomePage";
 import NewItemPage from "./pages/NewItemPage";
 import EditItemPage from "./pages/EditItemPage";
-import Header from './components/Header';
-import Footer from "./components/Footer";
+import Header from './components/utils/Header';
+import Footer from "./components/utils/Footer";
 import LoginPage from "./pages/LoginPage";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/auth/PrivateRoute";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import { AuthProvider } from './services/AuthContext'; // Import the AuthProvider
 import NewStorageRoomPage from "./pages/NewStorageRoomPage";
