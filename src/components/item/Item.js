@@ -16,7 +16,7 @@ import { apiGetStorageRoomsList } from "../../services/api";
 // import { BarLoader } from 'react-spinners';
 
 import Modal from 'react-modal';
-import CustomModal from "../CustomModal";
+import CustomModal from "../utils/CustomModal";
 Modal.setAppElement('#root');  // Required for accessibility
 
 

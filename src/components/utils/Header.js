@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate } from 'react-router-dom';
-import SignOut from './SignOut';
-import userPool from '../services/cognitoConfig'; // Your Cognito configuration
+import SignOut from '../SignOut';
+import userPool from '../../services/cognitoConfig'; // Your Cognito configuration
 import { useTranslation } from 'react-i18next';
 
 const Header = () => {
