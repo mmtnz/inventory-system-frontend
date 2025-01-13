@@ -18,6 +18,7 @@ import StorageRoomAddUsersPage from "./pages/StorageRoomAddUsersPage";
 import SignUpPage from "./pages/SignUpPage";
 import ConfirmEmailPage from "./pages/ConfirmEmailPage";
 import RecoverPasswordPage from "./pages/RecoverPasswordPage";
+import StorageRoomEditPage from "./pages/StorageRoomEditPage";
 
 
 const Router = () => {
@@ -40,6 +41,7 @@ const Router = () => {
                             <Route exact path ="/storageRoom/:storageRoomId" element={<PrivateRoute element={StorageRoomPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/settings" element={<PrivateRoute element={StorageRoomSettingsPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/add-users" element={<PrivateRoute element={StorageRoomAddUsersPage} />} />
+                            <Route exact path ="/storageRoom/:storageRoomId/edit" element={<PrivateRoute element={StorageRoomEditPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/item/:itemId" element={<PrivateRoute element={ItemPage} />} />
                             <Route path= "/storageRoom/:storageRoomId/search" element={<PrivateRoute element={SearchPage} />} />
                             <Route path= "/storageRoom/:storageRoomId/new-item" element={<PrivateRoute element={NewItemPage} />} />

@@ -104,6 +104,10 @@ const StorageRoomSettingsPage = () => {
         navigate(`/storageRoom/${storageRoomId}/add-users`);
     }
 
+    const goToEdit = () => {
+        navigate(`/storageRoom/${storageRoomId}/edit`);
+    }
+
     if (isLoading) {
         return (
             <div className="loader-clip-container">
@@ -119,13 +123,13 @@ const StorageRoomSettingsPage = () => {
                 <h1 className='margin-bottom-0'>{t('settings')}</h1>
                 <h3>{storageRoom.name}</h3>
                 
-                <div className='option-button-container'>
-                    {/* <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} disabled={true}>
+                <div className='option-button-container' >
+                    <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToEdit}>
                         <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             edit
                         </span>
                         {t('edit')}
-                    </button> */}
+                    </button>
             
                     <button className={`custom-button ${i18n.language === 'es' ? "es" : ""}`} onClick={goToAddUser} >
                         <span className="material-symbols-outlined" translate="no" aria-hidden="true">
