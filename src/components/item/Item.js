@@ -1,22 +1,22 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams, useLocation} from "react-router-dom";
-import AuthContext from '../services/AuthContext';
-import { apiDeleteItem, apiGetItem, apiReturnLent } from "../services/api";
-import handleError from "../services/handleError";
+import AuthContext from '../../services/AuthContext';
+import { apiDeleteItem, apiGetItem, apiReturnLent } from "../../services/api";
+import handleError from "../../services/handleError";
 import defaultImage from "../assets/images/default.png"
 import Swal from 'sweetalert2';
-import {messagesObj} from "../schemas/messages";
+import {messagesObj} from "../../schemas/messages";
 import Moment from 'react-moment';
 import 'moment/locale/es'; // Import Spanish locale
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
-import {getLocationString} from '../utils/getLocationString'
-import { apiGetStorageRoomsList } from "../services/api";
+import {getLocationString} from '../../utils/getLocationString'
+import { apiGetStorageRoomsList } from "../../services/api";
 // import { BarLoader } from 'react-spinners';
 
 import Modal from 'react-modal';
-import CustomModal from "./CustomModal";
+import CustomModal from "../CustomModal";
 Modal.setAppElement('#root');  // Required for accessibility
 
 
