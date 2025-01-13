@@ -173,11 +173,12 @@ export const apiGetStorageRoomInvitations = async () => {
 export const apiSaveStorageRoom = async (storageRoom) => {
     try {
         const response = await api.post(`/storageRoom/new`, storageRoom);
-
+        return response.data;
     } catch (error) {
         throw error;
     }
 }
+
 
 export const apiGetUserInfo = async () => {
     try {
@@ -291,6 +292,17 @@ export const apiReturnLent = async(storageRoomId, item, returnedDate) => {
         console.log(itemAux)
         const response = await api.put(`/storageRoom/${storageRoomId}/item/${itemAux.itemId}`, itemAux)
         return response.data
+    } catch (error) {
+        throw error;
+    }
+}
+
+// PUT
+export const apiEditStorageRoom = async (storageRoomId, storageRoom) => {
+    try {
+        const response = await api.put(`/storageRoom/${storageRoomId}/edit`, storageRoom);
+        console.log(response)
+        return response.data;
     } catch (error) {
         throw error;
     }

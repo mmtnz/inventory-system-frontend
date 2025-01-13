@@ -56,12 +56,12 @@ const NewStorageRoomPage = () => {
         };
 
         try {
-            await apiSaveStorageRoom(storageRoom);
+            const newStorageRoom = await apiSaveStorageRoom(storageRoom);
             Swal.fire(messagesObj[t('locale')].storageRoomCreated);
             // Force to query again storage rooms so the new one appears
             setStorageRoomsList(null);
             setStorageRoomsAccessList(null);
-            navigate('/home')
+            navigate(`/storageRoom/${newStorageRoom.storageRoomId}`)
         } catch (err) {
             await handleError(err, t('locale'), navigate);
         }

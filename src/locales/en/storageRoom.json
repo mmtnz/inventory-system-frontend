@@ -28,6 +28,7 @@
     "emailMessage": "The email address must be valid",
     "newEmailMessage": "This email is already in the list",
     "inviteAnotherUser": "Invite Another User...",
-    "pending": "Pending"
+    "pending": "Pending",
+    "titleEdit": "Edit storage room"
 
 }
