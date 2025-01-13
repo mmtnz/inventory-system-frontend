@@ -143,7 +143,7 @@ function LoginPage() {
 
               <div className='login-options-container'>
                 <p className='login-link' onClick={() => {navigate('/sign-up')}}>{t('createAccount')}</p>
-                <p className='login-link' onClick={() => {navigate('/forotten-password')}}>{t('forgotMyPassword')}</p>
+                <p className='login-link' onClick={() => {navigate('/recover-password')}}>{t('forgotMyPassword')}</p>
               </div>
             </form>
 
