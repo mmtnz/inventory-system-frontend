@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation} from "react-router-dom";
 import AuthContext from '../../services/AuthContext';
 import { apiDeleteItem, apiGetItem, apiReturnLent } from "../../services/api";
 import handleError from "../../services/handleError";
-import defaultImage from "../assets/images/default.png"
+import defaultImage from "../../assets/images/default.png"
 import Swal from 'sweetalert2';
 import {messagesObj} from "../../schemas/messages";
 import Moment from 'react-moment';

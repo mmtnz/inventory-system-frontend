@@ -9,6 +9,7 @@ import { ClipLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 import {messagesObj} from '../schemas/messages';
 import {forgotPassword, updatePassword} from '../services/recoverPassword';
+import { changeLanguage } from 'i18next';
 
 const RecoverPasswordPage = () => {
 
@@ -105,6 +106,10 @@ const RecoverPasswordPage = () => {
     const togglePassword = () => {
         setVisible(!visible);
     }
+
+    const isButtonDisabled = () => {
+        return verificationCode === '' || newPassword === '' || confirmPassword === ''
+    }
     
     return (
         <div id="search-page" className="center">
@@ -152,6 +157,7 @@ const RecoverPasswordPage = () => {
                                 value={verificationCode}
                                 onChange={(e) => setVerificationCode(e.target.value)}
                             />
+                            {validator.message('verificationCode', verificationCode, 'required')}
                         </div>
                         <div className='formGroup'>
                             <label htmlFor="new-password">{t('newPassword')}</label>
@@ -185,7 +191,7 @@ const RecoverPasswordPage = () => {
                             {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${newPassword}`)}
                         </div>
                         <div className='button-container'>
-                            <button type="submit" className='custom-button' disabled={isLoading}>
+                            <button type="submit" className='custom-button' disabled={isLoading || isButtonDisabled()}>
                                 {t('Create password')}
                             </button>
                         </div>
