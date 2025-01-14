@@ -1,7 +1,7 @@
 // src/components/Item.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import defaultImage from '../assets/images/default.png';
+import defaultImage from '../../assets/images/default.png';
 import { apiReturnLent, apiDeleteItem } from "../../services/api";
 import handleError from '../../services/handleError';
 import Moment from 'react-moment';
