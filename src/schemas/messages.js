@@ -87,13 +87,13 @@ export const messagesObj = {
         },
         deleteStorageRoomConfirmation: {
             title: "¿Estás seguro?",
-            text: "Una vez eliminado no podrá ser !",
+            text: "Una vez eliminado no podrá ser recuperado!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#e32e36',
             cancelButtonColor: '#1b263b',
-            confirmButtonText: "Delete",
-            cancelButtonText: "Cancel"
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
         },
         deleteStorageRoomNoPermission: {
             title: 'Error',
