@@ -31,6 +31,8 @@
     --color-button-edit-color: #0d1b2a;
     --color-button-delete-background: #778da9;
     --color-button-delete-color: #0d1b2a;
+
+    --header-height: 70px;
 }
 
 /* @media (prefers-color-scheme: dark) {} */
@@ -97,7 +99,7 @@ h1 {
 
 #header {
     background: var(--color-theme);
-    height: 70px;
+    height: var(--header-height);
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -184,6 +186,7 @@ h1 {
     justify-content: center;
     padding-left: 0.8rem;
     padding-right: 0.8rem;
+    color: white
 }
 
 .header-icon-group-container{
@@ -196,6 +199,8 @@ h1 {
 
 .header-icon-container select{
     cursor: pointer;
+    margin-top: 0.3rem;
+    /* font-size: 1rem; */
 }
 
 .header-icon-container-language{
@@ -210,6 +215,44 @@ h1 {
 
 .header-icon-container-language select{
     cursor: pointer;
+}
+
+.header-name{
+    color: white;
+    margin-right: 1rem;
+}
+
+.header-menu-dropdown{
+
+    position: absolute;
+    top: var(--header-height);
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* padding: 10px; */
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.3rem; */
+
+}
+
+.header-menu-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 1rem;
+    padding: 0.6rem 1rem 0.6rem 0.5rem;
+}
+.header-menu-item .material-symbols-outlined{
+    color: var(--color-theme-dark)
+}
+
+.header-menu-item:active {
+    background-color: var(--color-theme);
+    color: white;
 }
 
 .option-button-container {
@@ -816,7 +859,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     margin-top: 3rem;
 }
 

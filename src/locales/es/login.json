@@ -9,6 +9,7 @@
     "newPassword": "Nueva contraseña",
     "confirmPassword": "Confirmar contraseña",
     "signOut": "Cerrar sesión",
+    "signUp": "Registrarse",
     "requiredMessage": "Este campo es obligatorio.",
     "emailInvalid": "Debe ser una dirección de correo válida.",
     "incorrectEmailPassword": "Email o contraseña incorrectos",
@@ -25,5 +26,6 @@
     "codeLimitExceeded": "Has excedido el número de intentos, inténtalo más tarde",
     "recoverPassword": "Recuperar contraseña",
     "sendPetition": "Enviar peticion",
-    "codeWillBeSent": "Un código de verificación será enviado a tu dirección de email"
+    "codeWillBeSent": "Un código de verificación será enviado a tu dirección de email",
+    "profile": "Perfil"
 }

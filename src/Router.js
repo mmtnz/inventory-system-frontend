@@ -19,6 +19,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ConfirmEmailPage from "./pages/ConfirmEmailPage";
 import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import StorageRoomEditPage from "./pages/StorageRoomEditPage";
+import WelcomePage from "./pages/WelcomePage";
 
 
 const Router = () => {
@@ -31,6 +32,7 @@ const Router = () => {
                     <Header/>
                     <div className='body-content'>
                         <Routes>
+                            <Route path="/welcome" element={<WelcomePage/>}/>
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/sign-up" element={<SignUpPage/>}/>
                             <Route path="/confirm-email" element={<ConfirmEmailPage/>}/>

@@ -8,7 +8,8 @@
     "createPassword": "Create password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm password",
-    "signOut": "Sign out",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
     "requiredMessage": "This field is required.",
     "emailInvalid": "The email must be a valid email address.",
     "incorrectEmailPassword": "Incorrect email or password",
@@ -25,5 +26,6 @@
     "codeLimitExceeded": "Max number of attempts reached, try it later",
     "recoverPassword": "Recover password",
     "sendPetition": "Send petition",
-    "codeWillBeSent": "A verification code will be sent to our email address"
+    "codeWillBeSent": "A verification code will be sent to our email address",
+    "profile": "Profile"
 }
