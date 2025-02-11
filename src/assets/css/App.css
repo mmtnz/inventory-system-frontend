@@ -200,6 +200,7 @@ h1 {
 .header-icon-container select{
     cursor: pointer;
     margin-top: 0.3rem;
+    margin-right: 0.3rem;
     /* font-size: 1rem; */
 }
 
@@ -220,6 +221,12 @@ h1 {
 .header-name{
     color: white;
     margin-right: 1rem;
+}
+
+.header-option{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: white;
 }
 
 .header-menu-dropdown{

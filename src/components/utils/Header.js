@@ -5,6 +5,7 @@ import userPool from '../../services/cognitoConfig'; // Your Cognito configurati
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from "react-responsive";
 import MobileHeaderMenu from './MobileHeaderMenu';
+import WideHeaderMenu from './WideHeaderMenu';
 
 const Header = () => {
 
@@ -12,10 +13,10 @@ const Header = () => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const navigate = useNavigate();
-    const { i18n } = useTranslation();
+    
     const isMobile = useMediaQuery({ maxWidth: 900 });
     const [isMenuOpened, setIsMenuOpened] = useState(false);
-    const { t } = useTranslation('login'); 
+    const { t, i18n } = useTranslation('login'); 
     
     const goHome = () => {
         navigate('/home');      
@@ -76,27 +77,37 @@ const Header = () => {
             </>
             
             {isMobile ? (
-                <MobileHeaderMenu cognitoUser={cognitoUser} name={name} lastName={lastName}/>
+                <MobileHeaderMenu
+                    handleChangeLanguage={handleChangeLanguage}
+                    cognitoUser={cognitoUser}
+                    name={name} 
+                    lastName={lastName}
+                />
             ) : (
-                <div className='header-icon-container-language'>
-                    <button className='custom-button'>
-                        Sign up
-                    </button>
-                    <button className='custom-button'>
-                        Log in
-                    </button>
+                <WideHeaderMenu
+                    handleChangeLanguage={handleChangeLanguage}
+                    cognitoUser={cognitoUser}
+                    name={name} 
+                    lastName={lastName}
+                />
+                // <div className='header-icon-container-language'>
+                //     <button className='custom-button'>
+                //         Sign up
+                //     </button>
+                //     <button className='custom-button'>
+                //         Log in
+                //     </button>
                     
-                    <select
-                        id="language-select"
-                        onChange={handleChangeLanguage}
-                        value={i18n.language}
-                    >
-                        <option value="en">EN</option>
-                        <option value="es">ES</option>
-                    </select>
-                </div>
-            )}
-            
+                //     <select
+                //         id="language-select"
+                //         onChange={handleChangeLanguage}
+                //         value={i18n.language}
+                //     >
+                //         <option value="en">EN</option>
+                //         <option value="es">ES</option>
+                //     </select>
+                // </div>
+            )} 
         </div>
 
 

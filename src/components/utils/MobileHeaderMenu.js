@@ -1,15 +1,35 @@
-import React, {useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useRef} from 'react';
 import { useTranslation } from 'react-i18next';
 import { apiDeleteRefreshToken } from '../../services/api';
 import AuthContext from '../../services/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const MobileHeaderMenu = ({cognitoUser, name, lastName}) => {
+const MobileHeaderMenu = ({handleChangeLanguage, cognitoUser, name, lastName}) => {
 
     const [isMenuOpened, setIsMenuOpened] = useState(false);
     const {setStorageRoomsList, setStorageRoomsAccessList} = useContext(AuthContext);
-    const { t } = useTranslation('login');
+    const { t, i18n } = useTranslation('login');
+
+    const menuRef = useRef(null); // Reference to menu container
+    
     const navigate = useNavigate();
+
+    // Close the menu if clicking outside
+        useEffect(() => {
+            function handleClickOutside(event) {
+                if (menuRef.current && !menuRef.current.contains(event.target)) {
+                    setIsMenuOpened(false);
+                }
+            }
+    
+            if (isMenuOpened) {
+                document.addEventListener("mousedown", handleClickOutside);
+            }
+    
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [isMenuOpened]);
 
     const handleLogOut = async () => {
         try {
@@ -49,12 +69,21 @@ const MobileHeaderMenu = ({cognitoUser, name, lastName}) => {
     return (
         <>
         <div className="header-icon-container" onClick={() => {setIsMenuOpened(!isMenuOpened)}}>
+            <select
+                id="language-select"
+                onChange={handleChangeLanguage}
+                value={i18n.language}
+            >
+                <option value="en">EN</option>
+                <option value="es">ES</option>
+            </select>
+            
             <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                 menu
             </span>
         </div>
         {isMenuOpened && (
-            <div className='header-menu-dropdown'>
+            <div className='header-menu-dropdown' ref={menuRef}>
                 {cognitoUser ? (
                     <>
                     <div className='header-menu-item'>
