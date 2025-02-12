@@ -36,14 +36,14 @@ function SignUpPage() {
             new SimpleReactValidator({
                 validators: {
                     passwordMatch: {  // Custom validator for matching passwords
-                        message: 'Passwords do not match.',
+                        message: t('passwordNotMatchMsg'),
                         rule: (val, params, validator) => {
                             return val === params[0]; // params[0] is newPassword passed in the validation rule
                         },
                         required: true,
                     },
                     passwordStrength: {
-                        message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+                        message: t('unvalidPasswordMsg'),
                         rule: (val) => {
                             // Ensure at least: one lowercase letter, one uppercase leater, one number and one special character
                             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`+=-])/;
@@ -178,14 +178,24 @@ function SignUpPage() {
                 
                     <div className="button-container">
                         <button className="custom-button" type="submit" disabled={isLoading}>
-                            {t('createAccount')}
+                            {!isLoading ? (
+                                <>{t('createAccount')}</>
+                            ) : (
+                                <div className="custom-button-spinner-container">
+                                    <ClipLoader
+                                        className="custom-button-spinner"
+                                        loading={true}
+                                        color="white"
+                                    />
+                                </div>
+                            )}
                         </button>
                     </div>
                 </form>
 
-                <div className="loader-clip-container">
+                {/* <div className="loader-clip-container">
                     <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-                </div>        
+                </div>         */}
                 
             </section>
         </div>

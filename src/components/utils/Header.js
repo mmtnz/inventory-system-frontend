@@ -15,7 +15,6 @@ const Header = () => {
     const navigate = useNavigate();
     
     const isMobile = useMediaQuery({ maxWidth: 900 });
-    const [isMenuOpened, setIsMenuOpened] = useState(false);
     const { t, i18n } = useTranslation('login'); 
     
     const goHome = () => {

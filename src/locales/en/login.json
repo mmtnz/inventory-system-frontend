@@ -14,6 +14,8 @@
     "emailInvalid": "The email must be a valid email address.",
     "incorrectEmailPassword": "Incorrect email or password",
     "createAccount": "Create account",
+    "passwordNotMatchMsg": "Passwords do not match.",
+    "unvalidPasswordMsg": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
     "name": "Name",
     "lastName": "Last name",
     "userAlreadyExistsError": "This email is already registered",

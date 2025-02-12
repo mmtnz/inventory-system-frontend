@@ -34,6 +34,14 @@ const WideHeaderMenu = ({handleChangeLanguage, cognitoUser, name, lastName}) => 
         navigate('/profile')
     }
 
+    const goToSignUp = () => {
+        navigate('/sign-up')
+    }
+
+    const goToLogIn = () => {
+        navigate('/login')
+    }
+
     return(
         <>
         
@@ -41,14 +49,13 @@ const WideHeaderMenu = ({handleChangeLanguage, cognitoUser, name, lastName}) => 
             
             {!cognitoUser ? (
                 <>
-                <div className="header-option">
+                <div className="header-option" onClick={goToSignUp}>
                     {t('signUp')}
                 </div>
-                <div className="header-option">
+                <div className="header-option" onClick={goToLogIn}>
                     {t('login')}
                 </div>
                 </>
-                
             ):(
                 <>  
                     <SignOut/>

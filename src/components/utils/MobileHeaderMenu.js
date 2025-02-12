@@ -54,6 +54,7 @@ const MobileHeaderMenu = ({handleChangeLanguage, cognitoUser, name, lastName}) =
 
     const goToProfile = () => {
         setIsMenuOpened(false);
+        navigate('/profile');
     }
 
     const goToLogin = () => {

@@ -14,6 +14,8 @@
     "emailInvalid": "Debe ser una dirección de correo válida.",
     "incorrectEmailPassword": "Email o contraseña incorrectos",
     "createAccount": "Crear cuenta",
+    "passwordNotMatchMsg": "Las contraseñas no coinciden",
+    "unvalidPasswordMsg": "La contraseña debe contener al menos una mayúscula, una minúscula, un número y un símbolo",
     "name": "Nombre",
     "lastName": "Apellido(s)",
     "userAlreadyExistsError": "Este email ya está registrado",
