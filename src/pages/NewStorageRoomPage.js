@@ -88,10 +88,10 @@ const NewStorageRoomPage = () => {
                 {currentStep === 4 && (
                     <NewStorageRoomConfirmation name={name} locationTree={locationTree} tagsList={tagsList}/>
                 )}
-
+{/* 
                 <div className="loader-clip-container">
                     <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-                </div>
+                </div> */}
                  
                 <Pagination
                     numSteps={4}
@@ -100,6 +100,8 @@ const NewStorageRoomPage = () => {
                     isNextButtonDisabled={isNextButtonDisabled()}
                     isSaveButtonDisabled={isLoading}
                     handleSave={handleSave}
+                    isSaving={isLoading}
+                    
                 />
             </section>
         </div>
