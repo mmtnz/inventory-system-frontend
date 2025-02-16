@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
 import {getLocationString} from '../../utils/getLocationString'
 import { apiGetStorageRoomsList } from "../../services/api";
-// import { BarLoader } from 'react-spinners';
 
 import Modal from 'react-modal';
 import CustomModal from "../utils/CustomModal";
@@ -24,14 +23,14 @@ Modal.setAppElement('#root');  // Required for accessibility
 const Item = ({args}) => {
     
     const tagsList = args.tagsList;
-    const locationObj = args.locationObj;
 
     const {storageRoomId, itemId} = useParams();    
     const [item, setItem] = useState({});
     const [locationString, setLocationString] = useState(null);
 
-    const [isLoaded, setIsLoaded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isReturning, setIsReturning] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [storageRoomPermission, setStorageRoomPermission] = useState(null); 
 
@@ -102,7 +101,7 @@ const Item = ({args}) => {
 
             const auxList = data.location.split('/');
             setLocationString(auxList.join(' / '))
-            setIsLoaded(true);
+            setIsLoading(true);
         } catch (err) {
             console.log(err)
             await handleError(err, t('locale'), navigate);
@@ -114,7 +113,7 @@ const Item = ({args}) => {
         Swal.fire(messagesObj[t('locale')].deleteItemConfirmation
             ).then((result) => {
                 if (result.isConfirmed) {
-                    setIsLoading(true);
+                    setIsDeleting(false);
                     deleteItem();      
                 }
             }
@@ -125,7 +124,7 @@ const Item = ({args}) => {
     const deleteItem = async () => {
         try {
             await apiDeleteItem(storageRoomId, itemId);
-            setIsLoading(false);
+            setIsDeleting(false);
             Swal.fire(messagesObj[t('locale')].deleteItemSuccess);
             navigate(storageRoomId ?  `/storageRoom/${storageRoomId}` : '/home') 
         } catch (err) {
@@ -135,13 +134,13 @@ const Item = ({args}) => {
 
     const handleReturnLent = async () => {
         try {
-            setIsLoading(true);
+            setIsReturning(true);
             let utcDate = new Date().toISOString().split('T')[0];
             let itemSaved = await apiReturnLent(storageRoomId, item, utcDate); 
             console.log(itemSaved)
             console.log(item)
             Swal.fire(messagesObj[t('locale')].editItemSuccess)
-            setIsLoading(false);
+            setIsReturning(false);
             setItem({...item, isLent: null, lentHistory: itemSaved.lentHistory})
             // Navigate so it is also stored in location state just in case reload
             navigate(`/storageRoom/${item.storageRoomId}/item/${item.itemId}`, {state: {...item, isLent: null, lentHistory: itemSaved.lentHistory}});
@@ -157,7 +156,7 @@ const Item = ({args}) => {
         
     }
 
-    if (!isLoaded) {
+    if (!isLoading) {
         return (
             <div className="loader-clip-container">
                 <ClipLoader className="custom-spinner-clip" loading={true} />
@@ -242,12 +241,23 @@ const Item = ({args}) => {
                                     <button
                                         className='custom-button-small'
                                         onClick={handleReturnLent}
-                                        disabled={storageRoomPermission === 'read'}
+                                        disabled={storageRoomPermission === 'read' || isDeleting || isReturning}
                                     >
-                                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
-                                            assignment_return                                            
-                                        </span>
-                                        {t('isReturned')}
+    
+                                        {!isReturning ? (
+                                            <><span className="material-symbols-outlined" translate="no" aria-hidden="true">
+                                                assignment_return                                            
+                                            </span>
+                                            {t('isReturned')}</>
+                                        ) : (
+                                            <div className="custom-button-spinner-container">
+                                                <ClipLoader
+                                                    className="custom-button-spinner"
+                                                    loading={true}
+                                                    color="white"
+                                                />
+                                            </div>
+                                        )}
                                     </button>
                                 )}
 
@@ -288,23 +298,32 @@ const Item = ({args}) => {
                 </div>
 
                 <div className="item-button-container">
-                    <button className='custom-button' onClick={goToEdit} disabled={isLoading || storageRoomPermission === 'read'}>
+                    <button className='custom-button' onClick={goToEdit} disabled={storageRoomPermission === 'read' || isDeleting || isReturning}>
                         <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             edit
                         </span>
                         {t('editButton')}
                     </button>
-                    <button className='custom-button delete' onClick={handleDelete} disabled={isLoading || storageRoomPermission === 'read'}>
-                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
-                            delete
-                        </span>
-                        {t('deleteButton')}
+                    <button
+                        className='custom-button delete'
+                        onClick={handleDelete}
+                        disabled={storageRoomPermission === 'read' || isDeleting || isReturning}>
+                        {!isDeleting ? (
+                            <><span className="material-symbols-outlined" translate="no" aria-hidden="true">
+                                delete
+                            </span>
+                            {t('deleteButton')}</>
+                        ) : (
+                            <div className="custom-button-spinner-container">
+                                <ClipLoader
+                                    className="custom-button-spinner"
+                                    loading={true}
+                                    color="white"
+                                />
+                            </div>
+                        )}
                     </button>
                     {/* <button className='retrun-button' onClick={handleReturnLent}>{"return"}</button> */}
-                </div>
-
-                <div className="loader-clip-container-small">
-                    <ClipLoader className="custom-spinner-clip" loading={isLoading} />
                 </div>
             </div>
         </div>
