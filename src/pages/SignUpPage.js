@@ -189,11 +189,11 @@ function SignUpPage() {
                     <TermsModal
                         modalIsOpen={isModalOpen}
                         setModalIsOpen={setIsModalOpen}
-                        title={"Términos y condiciones"}
+                        title={t("termsAndConditions")}
                     />
                 
                     <div className="button-container">
-                        <button className="custom-button" type="submit" disabled={isLoading}>
+                        <button className="custom-button" type="submit" disabled={isLoading || !isAccepted}>
                             {!isLoading ? (
                                 <>{t('createAccount')}</>
                             ) : (

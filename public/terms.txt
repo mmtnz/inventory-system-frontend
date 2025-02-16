@@ -1,5 +1,5 @@
-# TERMS AND CONDITIONS OF USE
-Last updated: 19/02/2025
+## TERMS AND CONDITIONS OF USE
+Last updated: 16/02/2025
 
 ## 1. Introduction
 Welcome to **tidymystorage**! These Terms and Conditions govern your use of our web application, which helps you organize, track, and manage items in your storage room.
@@ -58,7 +58,7 @@ For any questions regarding these Terms, you can contact us at:
 
 ---
 
-# PRIVACY POLICY
+## PRIVACY POLICY
 Last updated: 16/02/2025
 
 Your privacy is important to us. This Privacy Policy explains how we collect, use, store, and protect your information when you use our web application to organize and manage storage items.

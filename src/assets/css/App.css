@@ -1964,6 +1964,10 @@ form .react-select__option--is-selected {
     .item-container {
         width: 100%;
     }
+
+    .terms-modal{
+        width: 90vw;
+    }
 }
 
 
@@ -2249,6 +2253,11 @@ form .react-select__option--is-selected {
 
     .welcome-buttons-container{
         flex-direction: column;
+    }
+
+    .terms-container{
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
     }
 
 

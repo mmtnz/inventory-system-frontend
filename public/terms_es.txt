@@ -1,0 +1,132 @@
+## TÉRMINOS Y CONDICIONES DE USO
+Última actualización: 16/02/2025
+
+## 1. Introducción
+Bienvenido a **tidymystorage**. Estos Términos y Condiciones regulan el uso de nuestra aplicación web, que le ayuda a organizar, rastrear y gestionar los artículos en su espacio de almacenamiento.
+
+Al acceder o utilizar nuestro servicio, usted acepta cumplir con estos Términos. Si no está de acuerdo con alguna parte de estos Términos, por favor no utilice el servicio.
+
+## 2. Descripción del Servicio
+**tidymystorage** es una herramienta digital diseñada para ayudar a los usuarios a:
+
+- Listar y categorizar sus artículos almacenados.
+- Rastrear el inventario y encontrar los artículos rápidamente.
+
+Este servicio no proporciona soluciones de almacenamiento físico ni garantiza la seguridad de los artículos almacenados.
+
+## 3. Responsabilidades del Usuario
+Al utilizar **tidymystorage**, usted acepta:
+
+✅ Usar la aplicación solo para la gestión de almacenamiento personal o empresarial.  
+✅ No participar en actividades fraudulentas o ilegales a través de nuestra plataforma.  
+
+🚫 No está permitido:
+
+- Subir contenido ofensivo.
+- Usar la aplicación para almacenar artículos ilegales, peligrosos o restringidos.
+- Compartir sus credenciales de inicio de sesión con usuarios no autorizados.
+
+Nos reservamos el derecho de suspender o cancelar cuentas que violen estos términos.
+
+## 4. Privacidad y Seguridad de los Datos
+Nos tomamos la seguridad de los datos en serio e implementamos medidas estándar de la industria para proteger su información.
+
+🔹 **Recopilación de Datos Personales**: Recopilamos solo los datos necesarios para la gestión de cuentas y la funcionalidad de la aplicación.  
+🔹 **Uso de los Datos**: Sus datos se utilizan exclusivamente para mejorar su experiencia y no serán vendidos a terceros.  
+🔹 **Eliminación de Cuenta**: Puede solicitar la eliminación de su cuenta y datos en cualquier momento.  
+
+Para más detalles, consulte nuestra **Política de Privacidad**.
+
+## 5. Exclusión de Responsabilidad
+🚫 **tidymystorage** no se hace responsable de:
+
+- Cualquier pérdida, daño o robo de artículos físicos almacenados basados en los registros de la aplicación.
+- Errores, pérdida de datos o gestión incorrecta causada por la entrada incorrecta de datos por parte del usuario.
+- Fallos en servicios de terceros que puedan afectar la funcionalidad de la aplicación.
+
+Nuestra plataforma se proporciona "tal cual", sin garantías de exactitud o fiabilidad.
+
+## 6. Modificaciones a estos Términos
+Podemos actualizar estos Términos periódicamente. Los cambios significativos serán notificados por correo electrónico o mediante notificaciones en la aplicación.
+
+Al continuar usando la aplicación después de una actualización, usted acepta los nuevos Términos.
+
+## 7. Contacto
+Para cualquier consulta sobre estos Términos, puede contactarnos en:  
+📩 **tidymystorage@gmail.com**  
+
+---
+
+## POLÍTICA DE PRIVACIDAD
+Última actualización: 16/02/2025
+
+Su privacidad es importante para nosotros. Esta Política de Privacidad explica cómo recopilamos, usamos, almacenamos y protegemos su información cuando utiliza nuestra aplicación web para organizar y gestionar artículos de almacenamiento.
+
+Al utilizar **tidymystorage**, usted da su consentimiento para la recopilación, procesamiento y almacenamiento de sus datos según lo descrito en esta política.
+
+## 1. Información que Recopilamos
+Recopilamos únicamente la información necesaria para proporcionar y mejorar nuestros servicios.
+
+### Información que Usted Proporciona:
+
+✅ **Información de la Cuenta**: Nombre, dirección de correo electrónico, contraseña y otros detalles de inicio de sesión.  
+✅ **Datos de Almacenamiento**: Detalles sobre los artículos que organiza en la aplicación (nombre del artículo, ubicación, descripción).  
+
+## 2. Cómo Usamos su Información
+Usamos los datos recopilados para:
+
+✅ Proporcionar, operar y mantener nuestra aplicación web.  
+✅ Mejorar la funcionalidad de la aplicación y la experiencia del usuario.  
+✅ Enviar actualizaciones, notificaciones y mensajes de atención al cliente.  
+✅ Garantizar la seguridad de los datos y la prevención de fraudes.  
+
+No vendemos, alquilamos ni comerciamos sus datos personales con terceros.
+
+## 3. Cómo Almacenamos y Protegemos sus Datos
+Sus datos se almacenan en una base de datos segura basada en la nube con cifrado para proteger contra accesos no autorizados.
+
+### Medidas de Seguridad
+- **Cifrado**: Los datos están cifrados en reposo y en tránsito utilizando protocolos de seguridad estándar de la industria.  
+- **Control de Acceso**: Solo el personal autorizado puede acceder a los datos de los usuarios.  
+
+🚨 Aunque tomamos todas las precauciones razonables, ningún sistema es 100% seguro. Se recomienda que los usuarios protejan sus cuentas con contraseñas seguras.
+
+## 4. Retención y Eliminación de Datos
+Mantenemos los datos del usuario mientras la cuenta permanezca activa.
+
+- Los usuarios pueden eliminar sus datos en cualquier momento a través de la aplicación o solicitando la eliminación por correo electrónico.  
+- Si elimina su cuenta, sus datos serán eliminados de nuestros sistemas dentro de un plazo de 15 días, salvo que la legislación requiera su retención.  
+- Los registros de uso y datos analíticos pueden ser retenidos para mejorar la seguridad y el rendimiento del sistema.  
+
+📌 Para solicitar la eliminación de sus datos, contáctenos en: **tidymystorage@gmail.com**  
+
+## 5. Servicios de Terceros
+Utilizamos servicios de terceros confiables para mejorar la funcionalidad de nuestra aplicación, incluyendo:
+
+✅ **Almacenamiento en la nube y base de datos** (alojado en infraestructura AWS)  
+✅ **Análisis de datos** (AWS CloudWatch)  
+
+Estos proveedores siguen sus propias políticas de privacidad y procesan sus datos solo cuando es necesario para la prestación del servicio.
+
+## 6. Cookies y Tecnologías de Seguimiento
+Utilizamos cookies y tecnologías similares para:
+
+- Recordar sesiones de inicio de sesión.
+
+Los usuarios pueden gestionar las cookies en la configuración del navegador. Deshabilitar las cookies puede afectar la funcionalidad de la aplicación.
+
+## 7. Sus Derechos y Opciones
+### Usted tiene derecho a:
+
+✅ Acceder a los datos personales que almacenamos sobre usted.  
+✅ Solicitar correcciones en caso de información inexacta o incompleta.  
+✅ Solicitar la eliminación de su cuenta y datos personales.  
+
+📌 Para ejercer estos derechos, envíenos un correo electrónico a: **tidymystorage@gmail.com**  
+
+## 8. Cambios en esta Política de Privacidad
+Podemos actualizar esta Política de Privacidad periódicamente. Los cambios significativos serán notificados por correo electrónico o mediante notificaciones en la aplicación.
+
+## 9. Contacto
+Para cualquier consulta relacionada con la privacidad, puede contactarnos en:  
+📩 **tidymystorage@gmail.com**  
