@@ -66,7 +66,7 @@ body {
     margin: 0px;
     padding: 0px;
     /* FUENTES */
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue';
+    font-family: 'Segoe UI', Roboto, Helvetica Neue;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -moz-osx-font-smoothing: antialiased;
@@ -117,6 +117,51 @@ h1 {
     align-items: center;
     /* padding-left: 10px; */
 }
+
+/* ############################################### */
+/* WELCOME */
+/* ############################################### */
+/* #region welcome */
+.welcome-icon{
+    height: 40vh;
+    width: auto;
+    margin-top: 2.5rem;
+}
+
+.welcome-title{
+    font-size: 3em;
+    /* font-family: "Libre Baskerville"; */
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -1.28px;
+    color: var(--color-theme);
+    text-align: center;
+}
+
+.welcome-slogan{
+    font-size: 1.5em;
+    font-family: 'Helvetica Neue', Roboto, "Noto Sans", "Lato", "Open sans", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    /* letter-spacing: -0.72px; */
+    color: rgb(34, 36, 73);
+    text-align: center;
+    margin-top: 0.8rem;
+}
+
+.welcome-buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 6rem;
+}
+
+/* #endregion*/
+
 
 .content {
     min-height: 75vh;
@@ -1457,7 +1502,10 @@ h1 {
     row-gap: 1.5rem;
 }
 
-.custom-form .material-symbols-outlined{
+.icon-black{
+    cursor: pointer;
+}
+.icon-black .material-symbols-outlined{
     color: black;
 }
 
@@ -1865,6 +1913,19 @@ form .react-select__option--is-selected {
         width: 80%;
     }
 
+    .welcome-icon{
+        height: 30vh;
+    }
+
+    /* .welcome-title{
+        font-size: 3em;
+    } */
+
+    .welcome-buttons-container{
+        margin-top: 4rem;
+    }
+    
+
     
 
 /*
@@ -2093,6 +2154,23 @@ form .react-select__option--is-selected {
         padding-left: 0.7rem;
     }
 
+    /*WELCOME*/
+    .welcome-icon{
+        height: 30vh;
+    }
+
+    .welcome-title{
+        font-size: 2.5em;
+    }
+
+    .welcome-slogan{
+        font-size: 1.3em;
+    }
+
+    .welcome-buttons-container{
+        flex-direction: column;
+    }
+
 
 /*
     .search-form, .new-form{
@@ -2112,6 +2190,14 @@ form .react-select__option--is-selected {
 
     .custom-button.es{
         /* min-width: 62%; */
+    }
+
+    .welcome-title{
+        font-size: 2.2em;
+    }
+
+    .welcome-slogan{
+        font-size: 1.2em;
     }
 }
 

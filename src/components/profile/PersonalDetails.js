@@ -139,13 +139,13 @@ const PersonalDetails = ({cognitoUser}) => {
             <div className="width-100 flex-row-between">
                 <h3>{t('personalDetails')}</h3>
                 {isDetailsDisabled ? (
-                    <div style={{cursor: "pointer"}} onClick={() => {setIsDetailsDisabled(false)}}>
+                    <div className={"icon-black"} onClick={() => {setIsDetailsDisabled(false)}}>
                     <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                         edit 
                     </span>
                 </div>
                 ):(
-                    <div style={{cursor: "pointer"}} onClick={() => {setIsDetailsDisabled(true)}}>
+                    <div className={"icon-black"} onClick={() => {setIsDetailsDisabled(true)}}>
                         <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                             close 
                         </span>

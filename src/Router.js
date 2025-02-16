@@ -33,13 +33,13 @@ const Router = () => {
                     <Header/>
                     <div className='body-content'>
                         <Routes>
+                            <Route exact path="/" element={<WelcomePage/>}/>
                             <Route path="/welcome" element={<WelcomePage/>}/>
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/sign-up" element={<SignUpPage/>}/>
                             <Route path="/confirm-email" element={<ConfirmEmailPage/>}/>
                             <Route path="/recover-password" element={<RecoverPasswordPage/>}/>
                             <Route exact path="/change-password" element={<ChangePasswordPage/>} />
-                            <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route path ="/home" element={<PrivateRoute element={HomePage} />} />
                             <Route path ="/profile" element={<PrivateRoute element={ProfilePage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId" element={<PrivateRoute element={StorageRoomPage} />} />

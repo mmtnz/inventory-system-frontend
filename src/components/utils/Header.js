@@ -18,7 +18,10 @@ const Header = () => {
     const { t, i18n } = useTranslation('login'); 
     
     const goHome = () => {
-        navigate('/home');      
+        if (cognitoUser) {
+            navigate('/home');
+        }
+        navigate('/');      
     }
 
     useEffect(() => {

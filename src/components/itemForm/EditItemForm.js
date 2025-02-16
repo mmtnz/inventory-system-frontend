@@ -399,16 +399,20 @@ const EditItemForm = ({args, itemArg}) => {
                 <div className='formGroup'>
                     <div className='button-container'>
                         <button className='custom-button' type='submit' disabled={(!isDifferent && !isFileChanged) || itemSaving}>
-                            {t('save')}
+                            {!itemSaving ? (
+                                <>{t('save')}</>
+                            ) : (
+                                <div className="custom-button-spinner-container">
+                                    <ClipLoader
+                                        className="custom-button-spinner"
+                                        loading={true}
+                                        color="white"
+                                    />
+                                </div>
+                            )}
                         </button>
                     </div>
                 </div>
-
-                <div className="loader-clip-container-small">
-                    <ClipLoader className="custom-spinner-clip" loading={itemSaving} />
-                </div>
-                
-
             </form>
             
             
