@@ -1,0 +1,134 @@
+# TERMS AND CONDITIONS OF USE
+Last updated: 19/02/2025
+
+## 1. Introduction
+Welcome to **tidymystorage**! These Terms and Conditions govern your use of our web application, which helps you organize, track, and manage items in your storage room.
+
+By accessing or using our service, you agree to comply with these Terms. If you do not agree with any part of these Terms, please do not use the service.
+
+## 2. Description of the Service
+**tidymystorage** is a digital tool designed to help users:
+
+- List and categorize their stored items.
+- Track inventory and find stored items quickly.
+
+This service does not provide physical storage solutions or guarantee the safety of stored items.
+
+## 3. User Responsibilities
+By using **tidymystorage**, you agree to:
+
+✅ Use the app only for personal or business storage management purposes.  
+✅ Not engage in fraudulent or illegal activities using our platform.  
+
+🚫 You may not:
+
+- Upload ffensive content.
+- Use the app to store illegal, hazardous, or restricted items.
+- Share your login credentials with unauthorized users.
+We reserve the right to suspend or terminate accounts that violate these terms.
+
+## 4. Data Privacy & Security
+We take data security seriously and implement industry-standard measures to protect your information.
+
+🔹 Personal Data Collection: We collect only the necessary data for account management and app functionality.
+🔹 Data Usage: Your data is used solely to improve your experience and will not be sold to third parties.
+🔹 Account Deletion: You can request to delete your account and data at any time.
+
+For full details, please review our **Privacy Policy**.
+
+
+## 5. Liability Disclaimer
+🚫 **tidymystorage** is not responsible for:
+
+Any loss, damage, or theft of physical items stored based on app records.
+Errors, data loss, or mismanagement caused by incorrect user input.
+Third-party service failures that may impact app functionality.
+Our platform is provided "as is", without warranties of accuracy or reliability.
+
+
+## 6. Modifications to These Terms
+We may update these Terms periodically. Significant changes will be notified via email or in-app notifications.
+
+By continuing to use the app after updates, you agree to the new Terms.
+
+## 7. Contact Us
+For any questions regarding these Terms, you can contact us at:
+📩 tidymystorage@gmail.com
+
+
+---
+
+# PRIVACY POLICY
+Last updated: 16/02/2025
+
+Your privacy is important to us. This Privacy Policy explains how we collect, use, store, and protect your information when you use our web application to organize and manage storage items.
+
+By using **tidymystorage**, you consent to the collection, processing, and storage of your data as described in this policy.
+
+## 1. Information We Collect
+We collect only the information necessary to provide and improve our services.
+
+### Information You Provide:
+
+✅ Account Information: Name, email address, password, and other login details.  
+✅ Storage Data: Details about the items you organize in the app (e.g., item name, location, description).  
+
+## 2. How We Use Your Information
+We use the collected data to:
+
+✅ Provide, operate, and maintain our web app.  
+✅ Improve app functionality and user experience.  
+✅ Send updates, notifications, and customer support messages.  
+✅ Ensure data security and fraud prevention.  
+
+We do not sell, rent, or trade your personal data with third parties.
+
+
+## 3. How We Store and Secure Your Data
+Your data is stored in a secure, cloud-based database with encryption to protect against unauthorized access.
+
+### Security Measures
+- Encryption: Data is encrypted at rest and in transit using industry-standard security protocols.
+- Access Control: Only authorized personnel can access user data.
+
+🚨 While we take all reasonable precautions, no system is 100% secure. Users should take measures to protect their accounts (e.g., strong passwords).
+
+## 4. Data Retention & Deletion
+We retain user data as long as the account remains active.
+
+Users can delete their data at any time via the app or by requesting deletion via email.
+If you delete your account, your data will be removed from our systems within 15 days, unless retention is required by law.
+Usage logs and analytics data may be retained for internal security and operational improvements.
+📌 To request data deletion, contact us at: tidymystorage@gmail.com
+
+
+## 5. Third-Party Services
+We use trusted third-party services to enhance functionality, including:
+
+✅ Cloud Storage & Database (Hosted on AWS infrastructure)  
+✅ Analytics (AWS CloudWatch)  
+
+These providers adhere to their own privacy policies and only process your data as required for service delivery.
+
+## 6. Cookies & Tracking Technologies
+We use cookies and similar technologies to:
+
+- Remember login sessions
+
+Users can manage cookies in their browser settings. Disabling cookies may affect app functionality.
+
+## 7. Your Rights & Choices
+### You have the right to:
+
+✅ Access the personal data we store about you.  
+✅ Request Correction of inaccurate or incomplete data.  
+✅ Request Deletion of your account and data.  
+
+📌 To exercise your rights, email us at: tidymystorage@gmail.com
+
+
+## 8. Changes to This Privacy Policy
+We may update this Privacy Policy from time to time. Significant changes will be notified via email or in-app notifications.
+
+## 9. Contact Us
+For any privacy-related questions or requests, contact us: tidymystorage@gmail.com

@@ -163,6 +163,8 @@ h1 {
 /* #endregion*/
 
 
+
+
 .content {
     min-height: 75vh;
     display: flex;
@@ -1083,6 +1085,12 @@ h1 {
     /* border: 1px solid #ccc; */
 }
 
+.custom-item-modal.terms{
+    width: 60vw;
+    height: 80vh;
+    overflow-y: auto;
+}
+
 .modal-header {
     background-color: #0d1b2a;
     color: white;
@@ -1122,6 +1130,9 @@ h1 {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
+    /* height: 50vh; */
+    /* padding-top: 5rem; */
 }
 
 .modal-content {
@@ -1474,6 +1485,75 @@ h1 {
     padding: 0;
     margin: 0;
 }
+
+/* ####################################################### */
+/* TERMS */
+/* ####################################################### */
+/* #region terms */
+.terms-container{
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-bottom: 1.5rem;
+    /* height: 100%; */
+    overflow-y: auto;
+}
+
+.text-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.terms-text{
+    margin-top: 1rem;
+    border: 1px solid #ccc;
+    /* border: "1px solid #ccc"; */
+    padding: 1rem 2rem 1rem 2rem ;
+    /* padding-left: 2rem; */
+    border-radius: 5px;
+    overflow-y: auto;
+    text-align: left;
+    /* height: 400px */
+}
+
+.terms-acception-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;   
+}
+
+
+.terms-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding-bottom: 20px;
+    border-radius: 4px;
+    /* width: auto; */
+    width: 50vw;
+    height: 80vh;
+    text-align: center;
+    /* border: 1px solid #ccc; */
+}
+
+.terms-modal-content-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 70vh;
+    overflow-y: auto;
+}
+
+/* #endregion*/
 
 /* .password-container {
     position: relative;
@@ -2187,10 +2267,10 @@ form .react-select__option--is-selected {
         min-width: 55%;
         padding: 0.5rem 0.7rem 0.5rem 0.7rem;
     }
-
+/* 
     .custom-button.es{
-        /* min-width: 62%; */
-    }
+        min-width: 62%;
+    } */
 
     .welcome-title{
         font-size: 2.2em;

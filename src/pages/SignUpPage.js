@@ -4,6 +4,7 @@ import {signUp} from '../services/createAccount';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
+import TermsModal from '../components/auth/TermsModal';
 
 function SignUpPage() {
 
@@ -16,6 +17,8 @@ function SignUpPage() {
     const [error, setError] = useState(null);
     const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isAccepted, setIsAccepted] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { t, i18n } = useTranslation('login'); // Load translations from the 'login' namespace
 
@@ -175,6 +178,19 @@ function SignUpPage() {
 
                         {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${password}`)}
                     </div>
+
+                    <div className='terms-acception-container'>
+                            <input type="checkbox" onChange={() => {setIsAccepted(!isAccepted);}}/>
+                            <div>{t('termsAndConditions1')}&nbsp;</div>
+                        </div>
+                    <div className='login-link' onClick={() => setIsModalOpen(true)}>
+                        {t('termsAndConditions2')}
+                    </div>
+                    <TermsModal
+                        modalIsOpen={isModalOpen}
+                        setModalIsOpen={setIsModalOpen}
+                        title={"Términos y condiciones"}
+                    />
                 
                     <div className="button-container">
                         <button className="custom-button" type="submit" disabled={isLoading}>
