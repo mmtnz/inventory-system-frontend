@@ -1,10 +1,20 @@
 import React from "react";
 import logo from "../assets/images/icon.png";
 import { useTranslation } from 'react-i18next';
+import {useNavigate } from 'react-router-dom';
 
 
 const WelcomePage = () => {
     const { t } = useTranslation('login'); // Load translations from the 'login' namespace
+    const navigate = useNavigate();
+
+    const goToSignUp = () => {
+        navigate('/sign-up')
+    }
+    const goToLogIn = () => {
+        navigate('/login')
+    }
+
     return(
         <div className='center'>
             <section className='content'>
@@ -21,10 +31,10 @@ const WelcomePage = () => {
                 </div>
 
                 <div className="welcome-buttons-container">
-                    <button className="custom-button">
+                    <button className="custom-button" onClick={goToSignUp}>
                         {t("signUp")}
                     </button>
-                    <button className="custom-button">
+                    <button className="custom-button" onClick={goToLogIn}>
                         {t("login")}
                     </button>
                 </div>
