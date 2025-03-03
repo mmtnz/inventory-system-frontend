@@ -111,10 +111,13 @@ h1 {
     width: 100%;
     height: var(--footer-height);
     color: var(--color-theme-font);
-    margin-top: 40px;
+    /* margin-top: 40px; */
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    font-size: 0.9rem;
     /* padding-left: 10px; */
 }
 
@@ -122,6 +125,15 @@ h1 {
 /* WELCOME */
 /* ############################################### */
 /* #region welcome */
+.content.main{
+    min-height: calc(100vh - var(--header-height));
+    max-height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 
+
+
 .welcome-icon{
     height: 40vh;
     width: auto;
@@ -137,6 +149,18 @@ h1 {
     letter-spacing: -1.28px;
     color: var(--color-theme);
     text-align: center;
+}
+
+.welcome-subtitle{
+    font-size: 2.5em;
+    /* font-family: "Libre Baskerville"; */
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -1.28px;
+    color: var(--color-theme);
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
 .welcome-slogan{
@@ -157,8 +181,81 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    margin-top: 6rem;
+    margin-top: 3rem;
 }
+
+.section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-form-container{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #deedeb;
+    border: 2px solid var(--color-theme);
+    border-bottom: 0;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    align-items: center;
+    width: 80%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.contact-form .custom-button{
+    margin-top: 2rem;
+}
+
+/* input {
+    border-radius: 3px;
+    width: 100%;
+    height: 2.3rem;
+    padding-left: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    background-color: var(--color-input);
+    border: 0;
+    color: #c8bed1;
+
+} */
+
+.contact-form textarea {
+    border-radius: 3px;
+    resize: none;
+    width: 100%;
+    max-width: 100%;
+    height: 8rem;
+    min-height: 8rem;
+    padding: 0.5rem;
+
+    /* font-size: 0.85rem; */
+    /* font-weight: 500; */
+    /* border: 0; */
+}
+
+.custom-button.submit{
+    margin-top: 1rem;
+    min-width: 6rem;
+    border: 0;
+    background-color: #502e6e;
+    /* background-color: var(--color-input); */
+}
+
+.custom-button.submit:hover{
+    background-color: #7b44b4;
+}
+
+
 
 /* #endregion*/
 
@@ -170,6 +267,7 @@ h1 {
     display: flex;
     flex-direction: column;
 }
+
 
 .text-container{
     display: flex;
@@ -272,10 +370,6 @@ h1 {
     justify-content: space-between;
 }
 
-.version-content {
-    margin-left: 20px;
-}
-
 .header-title-container {
     flex-grow: 1;
     color: white;
@@ -374,6 +468,35 @@ h1 {
     align-items: center;
     gap: 1rem;
     margin-top: 3rem;
+    
+}
+
+.button-link-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 3rem; */
+    height: 100%;
+    flex-grow: 1;
+}
+
+.button-link{
+    color: var(--color-theme);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px solid var(--color-theme);
+    border-radius: 5px;
+    /* max-width: 10rem; */
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+}
+
+.button-link .material-symbols-outlined{
+    color: var(--color-theme);
 }
 
 .home-button {

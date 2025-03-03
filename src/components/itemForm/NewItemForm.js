@@ -251,7 +251,7 @@ const NewItemForm = ({args}) => {
                     <label htmlFor='description'>
                         {t('description')}
                     </label>
-                    <textarea maxLength={300} ref={descriptionRef}/>
+                    <textarea maxLength={300} ref={descriptionRef} onChange={changeState}/>
                 </div>
 
                 {/* FILE */}

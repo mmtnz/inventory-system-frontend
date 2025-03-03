@@ -2,6 +2,8 @@ import React from "react";
 import logo from "../assets/images/icon.png";
 import { useTranslation } from 'react-i18next';
 import {useNavigate } from 'react-router-dom';
+import {Link} from 'react-scroll';
+import Contact from "../components/sections/Contact";
 
 
 const WelcomePage = () => {
@@ -17,7 +19,7 @@ const WelcomePage = () => {
 
     return(
         <div className='center'>
-            <section className='content'>
+            <section className='content main'>
                 <div>
                     <img src={logo} alt="Logo" className="welcome-icon"/>
                 </div>
@@ -38,8 +40,29 @@ const WelcomePage = () => {
                         {t("login")}
                     </button>
                 </div>
+                
+                <div className="button-link-container">
+                    <Link to="about" smooth={true} duration={500} className="button-link">
+                        Know more
+                        <span className="material-symbols-outlined" translate="no" aria-hidden="true">
+                            arrow_downward
+                        </span>
+                    </Link>
+                </div>
+                </section>
 
-            </section>
+                <section id="about" className="section">
+                    <h2 className="welcome-subtitle">About</h2>
+                    <div>descripcion</div>
+                </section>
+
+                <section id="contact" className="section">
+                    <h2 className="welcome-subtitle">Contact</h2>
+                    <Contact/>
+                </section>
+
+
+           
         </div>
     )
 };
