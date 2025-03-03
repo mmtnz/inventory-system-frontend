@@ -47,21 +47,12 @@ const ProfilePage = () => {
           });
         };
     
-    // if (isLoading) {
-    //     return(
-    //         <div className='center'>
-    //         <section className='content'>
-            
-    //             <div className='storage-room-list'>
-    //                 <h2>{t('storageRoomsList')}</h2>
-    //                 <div className="loader-clip-container">
-    //                     <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-    //                 </div>
-    //             </div>        
-    //         </section>
-    //     </div>   
-    //     )
-    // }
+    const changeSelection = (selection) => {
+        setMenuSelection(selection);
+        if (isMobile){
+            setIsCollapsed(true);
+        }
+    }
 
     return (
         <div className='center'>
@@ -76,7 +67,7 @@ const ProfilePage = () => {
                 {!(isMobile && isCollapsed) && (
                     <div
                         className={`side-bar-menu-item ${menuSelection === "personalDetails" ? "selected"  :""}`}
-                        onClick={() => {setMenuSelection('personalDetails')}}
+                        onClick={() => {changeSelection('personalDetails')}}
                     >   
                         
                             
@@ -91,7 +82,7 @@ const ProfilePage = () => {
                 {!(isMobile && isCollapsed) && (
                 <div
                     className={`side-bar-menu-item ${menuSelection === "changePassword" ? "selected"  :""}`}
-                    onClick={() => {setMenuSelection('changePassword')}}
+                    onClick={() => {changeSelection('changePassword')}}
                 >
                         <span className="material-symbols-outlined" translate="no" aria-hidden="true">
                         lock

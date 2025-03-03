@@ -20,8 +20,9 @@ const Header = () => {
     const goHome = () => {
         if (cognitoUser) {
             navigate('/home');
+        } else {
+            navigate('/');      
         }
-        navigate('/');      
     }
 
     useEffect(() => {
