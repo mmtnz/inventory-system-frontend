@@ -1,0 +1,37 @@
+{
+    "description": "## Welcome to Tidy Storage – Your Smart Storage Companion!\n\nTidymystorage is your ultimate solution for organizing and managing your belongings effortlessly. Whether you're storing household items, office supplies, or warehouse inventory, our intuitive app helps you keep everything in order with ease.\n\n#### What You Can Do with Tidy Storage?\n\n-  Create storage rooms.\n- Access to your storage rooms.\n- Invite other users to join you storage room.\n- Add items.\n- **Quick Search & Access**: Find what you need in seconds.\n- **Visual Organization**: Upload photos and descriptions to easily recognize stored items.\n- **Seamless Management:** Add, edit, or move items between storage locations effortlessly.",
+    "imagesList": [
+        {
+            "title": "Create Storage Rooms",
+            "img": "/images/new-storage-room.PNG"
+        },
+        {
+            "title": "Access to your storage rooms",
+            "img": "/images/home.PNG"
+        },
+        {
+            "title": "Invite users",
+            "img": "/images/invite.PNG"
+        },
+        {
+            "title": "Add items",
+            "img": "/images/new-item.PNG"
+        },
+        {
+            "title": "Filter and Search",
+            "img": "/images/search.PNG"
+        },
+        {
+            "title": "Access to Item Info",
+            "img": "/images/item.PNG"
+        },
+        {
+            "title": "Access to settings",
+            "img": "/images/settings.PNG"
+        },
+        {
+            "title": "Edit your profile",
+            "img": "/images/profile.PNG"
+        }
+    ]
+}

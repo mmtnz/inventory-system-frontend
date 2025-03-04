@@ -125,6 +125,14 @@ h1 {
 /* WELCOME */
 /* ############################################### */
 /* #region welcome */
+
+.center.main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .content.main{
     min-height: calc(100vh - var(--header-height));
     max-height: calc(100vh - var(--header-height));
@@ -189,6 +197,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 80%;
 }
 
 .contact-form-container{
@@ -256,6 +265,144 @@ h1 {
 }
 
 
+.about {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.about-text-container{
+    text-align: left;
+    width: 35%;
+}
+
+.about-img-container{
+    display: relative;
+    /* justify-content: flex-end; */
+    width: 50%;
+    max-height: 70vh;
+    overflow: hidden; /* Prevents unwanted extra space */
+}
+
+.slick-slider {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+.slick-slide {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.slick-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
+  
+.slick-prev,
+.slick-next {
+  z-index: 10 !important;
+  width: 40px;
+  height: 40px;
+}
+
+
+
+.slick-prev::before,
+.slick-next::before {
+    color: var(--color-theme) !important;
+    opacity: 0.2;
+}
+
+.slick-prev {
+  left: 10px !important;
+}
+
+.slick-next {
+  right: 10px !important;
+}
+
+.carousel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+
+.slick-dots {
+    bottom: 3rem !important; /* Adjust position */
+    display: block !important;
+}
+  
+.slick-dots li {
+    width: 10px !important;
+    height: 10px !important;
+}
+  
+.slick-dots li button:before {
+    font-size: 10px !important; /* Make dots bigger */
+    color: var(--color-theme) !important; /* Change dot color */
+}
+
+  
+
+
+
+
+  
+
+.carousel .slide img {
+    height: auto;  /* Adjust as needed */
+    max-width: 30rem;
+    width: 30rem;
+    object-fit: contain;
+    border: 2px solid var(--color-theme);
+}
+
+.carousel .slide .legend {
+    background-color: red !important;
+    width: 20% !important;
+}
+
+.carousel .slider-wrapper {
+    width: 100% !important;
+    padding: 0 !important; /* Remove unwanted padding */
+}
+
+.carousel .slide {
+    display: flex;
+    justify-content: center; /* Center image */
+    align-items: center;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.carousel .slide.selected {
+    display: flex;
+    justify-content: center; /* Center image */
+    align-items: center;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.carousel {
+    max-width: 100% !important;
+    margin: 0 auto;
+    overflow: hidden; /* Prevents unwanted spacing */
+}
+
+li.slide.selected {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 10rem !important;
+}
+  
+  
 
 /* #endregion*/
 

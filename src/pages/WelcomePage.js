@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {useNavigate } from 'react-router-dom';
 import {Link} from 'react-scroll';
 import Contact from "../components/sections/Contact";
+import About from "../components/sections/About";
 
 
 const WelcomePage = () => {
@@ -18,7 +19,7 @@ const WelcomePage = () => {
     }
 
     return(
-        <div className='center'>
+        <div className='center main'>
             <section className='content main'>
                 <div>
                     <img src={logo} alt="Logo" className="welcome-icon"/>
@@ -53,7 +54,7 @@ const WelcomePage = () => {
 
                 <section id="about" className="section">
                     <h2 className="welcome-subtitle">About</h2>
-                    <div>descripcion</div>
+                    <About/>
                 </section>
 
                 <section id="contact" className="section">
