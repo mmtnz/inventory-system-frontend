@@ -2499,9 +2499,9 @@ form .react-select__option--is-selected {
         font-size: 1.3em;
     }
 
-    .welcome-buttons-container{
-        flex-direction: column;
-    }
+    /* .welcome-buttons-container{
+        flex-direction: row;
+    } */
 
     .terms-container{
         padding-right: 0.5rem;
