@@ -1,0 +1,38 @@
+{
+    "description": "## ¡Bienvenido a Tidy Storage – Tu Compañero de Almacenamiento Inteligente!\n\nTidymystorage es la solución definitiva para organizar y gestionar tus pertenencias sin esfuerzo. Ya sea que almacenes objetos del hogar, suministros de oficina o inventario de un almacén, nuestra intuitiva aplicación te ayuda a mantener todo en orden con facilidad.\n #### ¿Qué puedes hacer con Tidy Storage?\n\n- Crear salas de almacenamiento.\n - Acceder a tus salas de almacenamiento.\n - Invitar a otros usuarios a unirse a tu sala de almacenamiento.\n - Agregar artículos.\n - **Búsqueda rápida y acceso:** Encuentra lo que necesitas en segundos.\n - **Organización visual:** Sube fotos y descripciones para reconocer fácilmente los objetos almacenados.\n - **Gestión sin esfuerzo:** Agrega, edita o mueve artículos entre ubicaciones de almacenamiento de manera sencilla.",
+    "imagesList": [
+        {
+            "title": "Crea trasteros",
+            "img": "/images/new-storage-room.PNG"
+        },
+        {
+            "title": "Accede a tus trasteros",
+            "img": "/images/home.PNG"
+        },
+        {
+            "title": "Invita usuarios",
+            "img": "/images/invite.png"
+        },
+        {
+            "title": "Añade elementos",
+            "img": "/images/new-item.PNG"
+        },
+        {
+            "title": "Filtra y busca",
+            "img": "/images/search.PNG"
+        },
+        {
+            "title": "Accede a la informacion de los elementos",
+            "img": "/images/item.PNG"
+        },
+        {
+            "title": "Accede a ajustes",
+            "img": "/images/settings.PNG"
+        },
+        {
+            "title": "Edita tu perfil",
+            "img": "/images/profile.PNG"
+        }
+    ],
+    "contactText": "Contactanos a través de este formulario y responderemos lo antes posible."
+}

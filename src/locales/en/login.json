@@ -8,11 +8,14 @@
     "createPassword": "Create password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm password",
-    "signOut": "Sign out",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
     "requiredMessage": "This field is required.",
     "emailInvalid": "The email must be a valid email address.",
     "incorrectEmailPassword": "Incorrect email or password",
     "createAccount": "Create account",
+    "passwordNotMatchMsg": "Passwords do not match.",
+    "unvalidPasswordMsg": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
     "name": "Name",
     "lastName": "Last name",
     "userAlreadyExistsError": "This email is already registered",
@@ -25,5 +28,9 @@
     "codeLimitExceeded": "Max number of attempts reached, try it later",
     "recoverPassword": "Recover password",
     "sendPetition": "Send petition",
-    "codeWillBeSent": "A verification code will be sent to our email address"
+    "codeWillBeSent": "A verification code will be sent to our email address",
+    "profile": "Profile",
+    "termsAndConditions": "Terms and Conditions",
+    "termsAndConditions1": "I have read and accept the",
+    "termsAndConditions2": "Terms and Conditions and the Privacy Policy"
 }

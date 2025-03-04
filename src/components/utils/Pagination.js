@@ -1,8 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ClipLoader } from 'react-spinners';
 
-
-const Pagination = ({numSteps, currentStep, setCurrentStep, isNextButtonDisabled, isSaveButtonDisabled, handleSave}) => {
+const Pagination = ({
+    numSteps,
+    currentStep, setCurrentStep,
+    isNextButtonDisabled,
+    isSaveButtonDisabled,
+    handleSave,
+    isSaving
+}) => {
   
     const stepsList = Array.from({ length: numSteps }, (_, i) => i + 1);;
     const { t, i18n } = useTranslation('newStorageRoom'); // Load translations from the 'itemForm' namespace
@@ -61,13 +68,25 @@ const Pagination = ({numSteps, currentStep, setCurrentStep, isNextButtonDisabled
                         <button
                             className={`custom-button-small ${i18n.language === 'es' ? "es" : ""}`}
                             onClick={handleSave}
-                            disabled={isSaveButtonDisabled}
+                            disabled={isSaveButtonDisabled || isSaving}
                         >
+                        {!isSaving ? (
+                            <>
                             <span className="material-symbols-outlined">
                                 add
                             </span>
                             {t('save')}
-                        </button>
+                            </>
+                        ) : (
+                            <div className="custom-button-spinner-container">
+                                <ClipLoader
+                                    className="custom-button-spinner"
+                                    loading={true}
+                                    color="white"
+                                />
+                            </div>
+                        )}
+                    </button>
                     </div>
                 )}
                 

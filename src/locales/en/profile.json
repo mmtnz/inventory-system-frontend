@@ -1,0 +1,19 @@
+{
+    "profile": "Profile",
+    "personalDetails": "Personal details",
+    "name": "Name",
+    "lastName": "Last Name(s)",
+    "changePassword": "Change password",
+    "oldPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "required": "This field is required",
+    "alpaSpaceAccentsMsg": "It can olny contain letters",
+    "passwordNotMatchMsg": "Passwords do not match.",
+    "unvalidPasswordMsg": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+    "min8CharsMsg": "It has to contain at least 8 characters",
+    "update": "Update",
+    "showPassword": "Show password",
+    "wrongOldPasswordMsg": "The password is not correct"
+    
+}

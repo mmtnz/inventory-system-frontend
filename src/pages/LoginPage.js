@@ -137,8 +137,18 @@ function LoginPage() {
               
               <div className="button-container">
                 <button className="custom-button" type="submit" disabled={isLoading}>
-                  {t('login')}
-                </button>
+                  {!isLoading ? (
+                      <>{t('login')}</>
+                  ) : (
+                      <div className="custom-button-spinner-container">
+                          <ClipLoader
+                              className="custom-button-spinner"
+                              loading={true}
+                              color="white"
+                          />
+                      </div>
+                  )}
+              </button>
               </div>
 
               <div className='login-options-container'>
@@ -147,9 +157,9 @@ function LoginPage() {
               </div>
             </form>
 
-            <div className="loader-clip-container">
+            {/* <div className="loader-clip-container">
               <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-            </div>        
+            </div>         */}
             
         </section>
     </div>

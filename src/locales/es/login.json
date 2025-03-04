@@ -9,10 +9,13 @@
     "newPassword": "Nueva contraseña",
     "confirmPassword": "Confirmar contraseña",
     "signOut": "Cerrar sesión",
+    "signUp": "Registrarse",
     "requiredMessage": "Este campo es obligatorio.",
     "emailInvalid": "Debe ser una dirección de correo válida.",
     "incorrectEmailPassword": "Email o contraseña incorrectos",
     "createAccount": "Crear cuenta",
+    "passwordNotMatchMsg": "Las contraseñas no coinciden",
+    "unvalidPasswordMsg": "La contraseña debe contener al menos una mayúscula, una minúscula, un número y un símbolo",
     "name": "Nombre",
     "lastName": "Apellido(s)",
     "userAlreadyExistsError": "Este email ya está registrado",
@@ -25,5 +28,9 @@
     "codeLimitExceeded": "Has excedido el número de intentos, inténtalo más tarde",
     "recoverPassword": "Recuperar contraseña",
     "sendPetition": "Enviar peticion",
-    "codeWillBeSent": "Un código de verificación será enviado a tu dirección de email"
+    "codeWillBeSent": "Un código de verificación será enviado a tu dirección de email",
+    "profile": "Perfil",
+    "termsAndConditions": "Términos y Condiciones",
+    "termsAndConditions1": "He leído y acepto los",
+    "termsAndConditions2": "Términos y Condiciones y la Política de Privacidad"
 }

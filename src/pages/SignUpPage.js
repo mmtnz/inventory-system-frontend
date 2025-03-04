@@ -4,6 +4,7 @@ import {signUp} from '../services/createAccount';
 import SimpleReactValidator from 'simple-react-validator';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
+import TermsModal from '../components/auth/TermsModal';
 
 function SignUpPage() {
 
@@ -16,6 +17,8 @@ function SignUpPage() {
     const [error, setError] = useState(null);
     const [visible, setVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isAccepted, setIsAccepted] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { t, i18n } = useTranslation('login'); // Load translations from the 'login' namespace
 
@@ -36,14 +39,14 @@ function SignUpPage() {
             new SimpleReactValidator({
                 validators: {
                     passwordMatch: {  // Custom validator for matching passwords
-                        message: 'Passwords do not match.',
+                        message: t('passwordNotMatchMsg'),
                         rule: (val, params, validator) => {
                             return val === params[0]; // params[0] is newPassword passed in the validation rule
                         },
                         required: true,
                     },
                     passwordStrength: {
-                        message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+                        message: t('unvalidPasswordMsg'),
                         rule: (val) => {
                             // Ensure at least: one lowercase letter, one uppercase leater, one number and one special character
                             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\^$*.[\]{}()?"!@#%&/\\,><':;|_~`+=-])/;
@@ -175,17 +178,40 @@ function SignUpPage() {
 
                         {validator.message('confirmPassword', confirmPassword, `required|passwordMatch:${password}`)}
                     </div>
+
+                    <div className='terms-acception-container'>
+                            <input type="checkbox" onChange={() => {setIsAccepted(!isAccepted);}}/>
+                            <div>{t('termsAndConditions1')}&nbsp;</div>
+                        </div>
+                    <div className='login-link' onClick={() => setIsModalOpen(true)}>
+                        {t('termsAndConditions2')}
+                    </div>
+                    <TermsModal
+                        modalIsOpen={isModalOpen}
+                        setModalIsOpen={setIsModalOpen}
+                        title={t("termsAndConditions")}
+                    />
                 
                     <div className="button-container">
-                        <button className="custom-button" type="submit" disabled={isLoading}>
-                            {t('createAccount')}
+                        <button className="custom-button" type="submit" disabled={isLoading || !isAccepted}>
+                            {!isLoading ? (
+                                <>{t('createAccount')}</>
+                            ) : (
+                                <div className="custom-button-spinner-container">
+                                    <ClipLoader
+                                        className="custom-button-spinner"
+                                        loading={true}
+                                        color="white"
+                                    />
+                                </div>
+                            )}
                         </button>
                     </div>
                 </form>
 
-                <div className="loader-clip-container">
+                {/* <div className="loader-clip-container">
                     <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-                </div>        
+                </div>         */}
                 
             </section>
         </div>

@@ -251,7 +251,7 @@ const NewItemForm = ({args}) => {
                     <label htmlFor='description'>
                         {t('description')}
                     </label>
-                    <textarea maxLength={300} ref={descriptionRef}/>
+                    <textarea maxLength={300} ref={descriptionRef} onChange={changeState}/>
                 </div>
 
                 {/* FILE */}
@@ -306,15 +306,28 @@ const NewItemForm = ({args}) => {
 
                 <div className='formGroup'>
                     <div className='button-container'>
-                        <button className='custom-button' type='submit' disabled={isLoading}>
+                        {/* <button className='custom-button' type='submit' disabled={isLoading}>
                             {t('save')}
+                        </button> */}
+                        <button className="custom-button" type="submit" disabled={isLoading}>
+                            {!isLoading ? (
+                                <>{t('save')}</>
+                            ) : (
+                                <div className="custom-button-spinner-container">
+                                    <ClipLoader
+                                        className="custom-button-spinner"
+                                        loading={true}
+                                        color="white"
+                                    />
+                                </div>
+                            )}
                         </button>
                     </div>
                 </div>
 
-                <div className="loader-clip-container-small">
+                {/* <div className="loader-clip-container-small">
                     <ClipLoader className="custom-spinner-clip" loading={isLoading} />
-                </div>
+                </div> */}
                 
 
             </form>

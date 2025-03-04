@@ -19,6 +19,9 @@ import SignUpPage from "./pages/SignUpPage";
 import ConfirmEmailPage from "./pages/ConfirmEmailPage";
 import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import StorageRoomEditPage from "./pages/StorageRoomEditPage";
+import WelcomePage from "./pages/WelcomePage";
+import ProfilePage from "./pages/ProfilePage";
+import Arrow2Top from "./components/sections/Arrow2Top";
 
 
 const Router = () => {
@@ -31,13 +34,15 @@ const Router = () => {
                     <Header/>
                     <div className='body-content'>
                         <Routes>
+                            <Route exact path="/" element={<WelcomePage/>}/>
+                            <Route path="/welcome" element={<WelcomePage/>}/>
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/sign-up" element={<SignUpPage/>}/>
                             <Route path="/confirm-email" element={<ConfirmEmailPage/>}/>
                             <Route path="/recover-password" element={<RecoverPasswordPage/>}/>
                             <Route exact path="/change-password" element={<ChangePasswordPage/>} />
-                            <Route exact path="/" element={<PrivateRoute element={HomePage} />} />
                             <Route path ="/home" element={<PrivateRoute element={HomePage} />} />
+                            <Route path ="/profile" element={<PrivateRoute element={ProfilePage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId" element={<PrivateRoute element={StorageRoomPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/settings" element={<PrivateRoute element={StorageRoomSettingsPage} />} />
                             <Route exact path ="/storageRoom/:storageRoomId/add-users" element={<PrivateRoute element={StorageRoomAddUsersPage} />} />
@@ -54,6 +59,7 @@ const Router = () => {
                             } />
                         </Routes>
                     </div>
+                    <Arrow2Top/>
                     <Footer/>
                 </div>
             </BrowserRouter>

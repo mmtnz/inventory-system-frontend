@@ -1,0 +1,18 @@
+{
+    "profile": "Perfil",
+    "personalDetails": "Detalles personales",
+    "name": "Nombre",
+    "lastName": "Apellido(s)",
+    "changePassword": "Cambiar contraseña",
+    "oldPassword": "Contraseña actual",
+    "newPassword": "Contraseña nueva",
+    "confirmPassword": "Confirmar contraseña",
+    "required": "Este campo es obligatorio",
+    "alpaSpaceAccentsMsg": "Solo puede contener letras",
+    "passwordNotMatchMsg": "Las contraseñas no coinciden",
+    "unvalidPasswordMsg": "La contraseña debe contener al menos una mayúscula, una minúscula, un número y un símbolo",
+    "min8CharsMsg": "Tiene que contener al menos 8 caracteres",
+    "update": "Actualizar",
+    "showPassword": "Mostrar contraseña",
+    "wrongOldPasswordMsg": "La contraseña no es correcta"
+}

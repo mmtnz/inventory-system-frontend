@@ -9,7 +9,8 @@ const Footer = () => {
 
   return (
     <div className='footer'>
-      <div className='version-content'>{SW_VERSION}</div>      
+        <div className='version-content'>{SW_VERSION}</div>
+        <div>&copy; tidymystorage.com</div>   
     </div>
   );
 };
