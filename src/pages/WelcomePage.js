@@ -5,6 +5,7 @@ import {useNavigate } from 'react-router-dom';
 import {Link} from 'react-scroll';
 import Contact from "../components/sections/Contact";
 import About from "../components/sections/About";
+import Arrow2Top from "../components/sections/Arrow2Top";
 
 
 const WelcomePage = () => {
@@ -20,7 +21,7 @@ const WelcomePage = () => {
 
     return(
         <div className='center main'>
-            <section className='content main'>
+            <section id="welcome" className='content main'>
                 <div>
                     <img src={logo} alt="Logo" className="welcome-icon"/>
                 </div>
@@ -61,6 +62,8 @@ const WelcomePage = () => {
                     <h2 className="welcome-subtitle">Contact</h2>
                     <Contact/>
                 </section>
+
+                {/* <Arrow2Top/> */}
 
 
            

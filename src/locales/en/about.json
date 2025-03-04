@@ -33,5 +33,6 @@
             "title": "Edit your profile",
             "img": "/images/profile.PNG"
         }
-    ]
+    ],
+    "contactText": "Contact us through this form and we will come back as soon as posible."
 }

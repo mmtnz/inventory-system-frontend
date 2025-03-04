@@ -3,10 +3,8 @@ import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import Swal from 'sweetalert2';
 import { ClipLoader } from 'react-spinners';
+import { useTranslation } from 'react-i18next';
 
-const ContactForm = () => {
-
-}
 
 const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
 const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
@@ -18,6 +16,8 @@ const Contact = () => {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const { t } = useTranslation('about');
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -63,24 +63,9 @@ const Contact = () => {
     };
 
     return (
-        <>
+        <>   
+                <div className="contact-text">{t('contactText')}</div>   
 
-            
-
-                
-
-                {/* <div className="contact-text">{personalInfo.contactText}</div>
-
-                <div className="contact-social-container">
-                    {Object.values(personalInfo.socialLogos).map(social => (
-                        <div className="social-logo-container">
-                            <a href={social.link} title={social.link} target="_blank" rel="noopener noreferrer">
-                                <img className="contact-social-logo" src={social.logo}/>
-                            </a>
-                        </div>
-                    ))}
-                </div> */}
-                
                 <div className="contact-form-container">
                     <form className="contact-form" onSubmit={handleSubmit}>
                         <div className="formGroup">

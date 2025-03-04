@@ -21,6 +21,7 @@ import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import StorageRoomEditPage from "./pages/StorageRoomEditPage";
 import WelcomePage from "./pages/WelcomePage";
 import ProfilePage from "./pages/ProfilePage";
+import Arrow2Top from "./components/sections/Arrow2Top";
 
 
 const Router = () => {
@@ -58,6 +59,7 @@ const Router = () => {
                             } />
                         </Routes>
                     </div>
+                    <Arrow2Top/>
                     <Footer/>
                 </div>
             </BrowserRouter>

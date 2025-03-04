@@ -200,13 +200,30 @@ h1 {
     width: 80%;
 }
 
+.arrow-to-top {
+    position: fixed;
+    bottom: 3rem;
+    right: 2rem;
+    z-index: 50;
+    
+}
+
+.arrow-to-top .material-symbols-outlined{
+    color: var(--color-theme);
+    font-weight: 500;
+}   
+
+.contact-text {
+    margin-bottom: 2rem;
+}
+
 .contact-form-container{
     width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #deedeb;
+    background-color: #e0eceb;
     border: 2px solid var(--color-theme);
     border-bottom: 0;
     border-radius: 1rem 1rem 0 0;
@@ -271,6 +288,7 @@ h1 {
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
+    margin-bottom: 2rem;
 }
 
 .about-text-container{
@@ -282,7 +300,7 @@ h1 {
     display: relative;
     /* justify-content: flex-end; */
     width: 50%;
-    max-height: 70vh;
+    /* max-height: 70vh; */
     overflow: hidden; /* Prevents unwanted extra space */
 }
 
@@ -348,61 +366,6 @@ h1 {
     font-size: 10px !important; /* Make dots bigger */
     color: var(--color-theme) !important; /* Change dot color */
 }
-
-  
-
-
-
-
-  
-
-.carousel .slide img {
-    height: auto;  /* Adjust as needed */
-    max-width: 30rem;
-    width: 30rem;
-    object-fit: contain;
-    border: 2px solid var(--color-theme);
-}
-
-.carousel .slide .legend {
-    background-color: red !important;
-    width: 20% !important;
-}
-
-.carousel .slider-wrapper {
-    width: 100% !important;
-    padding: 0 !important; /* Remove unwanted padding */
-}
-
-.carousel .slide {
-    display: flex;
-    justify-content: center; /* Center image */
-    align-items: center;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.carousel .slide.selected {
-    display: flex;
-    justify-content: center; /* Center image */
-    align-items: center;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.carousel {
-    max-width: 100% !important;
-    margin: 0 auto;
-    overflow: hidden; /* Prevents unwanted spacing */
-}
-
-li.slide.selected {
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 10rem !important;
-}
-  
-  
 
 /* #endregion*/
 
@@ -2278,6 +2241,21 @@ form .react-select__option--is-selected {
     .welcome-buttons-container{
         margin-top: 4rem;
     }
+
+    .about{
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2rem;
+    }
+
+
+    .about-text-container{
+        width: 100%;
+    }
+
+    .about-img-container{
+        width: 100%;
+    }
     
 
     
@@ -2528,6 +2506,14 @@ form .react-select__option--is-selected {
     .terms-container{
         padding-right: 0.5rem;
         padding-left: 0.5rem;
+    }
+
+    .contact-form-container{
+        width: 100%;
+    }
+
+    .arrow-to-top{
+        right: 1rem;
     }
 
 
